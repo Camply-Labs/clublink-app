@@ -13,7 +13,7 @@
 
 ## Melhorias
 
-- Pipeline para checagemn da aplicação e criação de releases automaticas
+- Testar Pipeline para checagemn da aplicação e criação de releases automaticas
 - Quadro de avisos geral
 - Agenda com importação do Google Agenda
 - Landing page publica para saber mais sobre o Clube
@@ -28,9 +28,6 @@
 
 # Reversionamento
 
-- Limpeza das environments
-- Versão primeira e latest v1.0.0-beta.1 (usar --orphan)
 - Limpar comentários do codigo
 - Code Review
 - CHANGELOG e README completos
-- Alterar footer e identidade Visual para Garras de Aguia apenas (Garras Connect será para o SaaS)
