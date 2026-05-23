@@ -190,7 +190,7 @@ jobs:
 
       # ── Build Angular de produção ─────────────────────────
       - name: Build Angular (produção)
-        run: ng build --base-href=/clublink-app/
+        run: npx ng build --configuration production --base-href=/clublink-app/
         env:
           NODE_OPTIONS: --max-old-space-size=4096
 
