@@ -99,7 +99,7 @@ const CURRENT_YEAR = new Date().getFullYear();
       <!-- ── Linha inferior ────────────────────────────────── -->
       <div class="footer-bottom">
         <span>
-          Copyright © {{ year }} Camply.
+          Copyright © {{ year }} Camply Labs.
           Todos os direitos reservados.
         </span>
         <span class="footer-version">v{{ version() }}</span>
