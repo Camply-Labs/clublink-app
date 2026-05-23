@@ -192,4 +192,4 @@ Nenhum componente, service de aplicação ou guard precisa ser alterado.
 
 ---
 
-*Clube de Desbravadores ClubLink App* 🦅
+*Camply -> ClubLink App* 🦅
