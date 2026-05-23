@@ -1,0 +1,116 @@
+@use '../../../styles/variables' as v;
+
+.apont-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.apont-card {
+  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
+  border: 1px solid rgba(v.$gold, 0.15);
+  border-radius: v.$radius;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  transition: v.$transition;
+
+  &:hover {
+    border-color: rgba(v.$gold, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .desb-name   { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: v.$snow; }
+
+  .desb-unit {
+    font-size: 0.72rem;
+    color: v.$gold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: rgba(v.$gold, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    border: 1px solid rgba(v.$gold, 0.25);
+  }
+
+  .desb-points       { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; color: v.$gold-light; }
+  .desb-points-label { font-size: 0.68rem; color: v.$gray-mid; text-transform: uppercase; letter-spacing: 0.1em; margin-top: -6px; }
+
+  .desb-role-badge {
+    font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+  }
+}
+
+.apont-last { font-size: 0.68rem; color: v.$gray-mid; font-style: italic; }
+
+// Perfil dentro do modal
+.apont-modal-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+
+  .profile-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: v.$snow;
+  }
+
+  .profile-unit {
+    font-size: 0.72rem;
+    color: v.$gold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .profile-pts {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    margin-top: 4px;
+
+    &-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: v.$gold-light;
+    }
+
+    &-label { font-size: 0.7rem; color: v.$gray-mid; }
+  }
+}
+
+.modal-warning {
+  background: rgba(v.$danger, 0.08);
+  border: 1px solid rgba(v.$danger, 0.25);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: #fc8181;
+}
+
+@media (max-width: 768px) {
+  .apont-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+
+// ── Preview / hint de resultado ───────────────────────────────
+.field-hint {
+  font-size: 0.72rem;
+  color: var(--gray-mid);
+  margin-top: 0.35rem;
+  line-height: 1.4;
+}
+
+.field-hint-warn {
+  color: #fc8181;
+  font-weight: 600;
+}

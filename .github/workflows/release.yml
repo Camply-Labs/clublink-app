@@ -1,0 +1,224 @@
+# ============================================================
+#  ClubLink App — CI/CD Pipeline
+#
+#  Disparo: SOMENTE criação de tag ANOTADA (git tag -a v2.14.0 -m "...")
+#           Tags leves (git tag v2.14.0) NÃO disparam este workflow.
+#
+#  Jobs:
+#    1. security   → auditoria de dependências npm
+#    2. release    → cria GitHub Release com notas do CHANGELOG.md
+#    3. deploy     → build Angular + deploy no GitHub Pages
+# ============================================================
+
+name: Release & Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'   # ex: v2.14.0, v3.0.0-rc.1
+
+# Permissões mínimas necessárias por job
+permissions:
+  contents: write        # criar releases e fazer push no gh-pages
+  pages: write           # necessário para GitHub Pages via actions
+  id-token: write        # OIDC para Pages (quando usando environment)
+
+# Cancela runs anteriores da mesma tag se por algum motivo rodarem em paralelo
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+# ── Variáveis globais ────────────────────────────────────────
+env:
+  NODE_VERSION: '20'
+
+jobs:
+
+  # ══════════════════════════════════════════════════════════
+  #  JOB 1 — SEGURANÇA
+  #  Verifica se a tag é ANOTADA antes de prosseguir.
+  #  Audita dependências npm em busca de vulnerabilidades.
+  # ══════════════════════════════════════════════════════════
+  security:
+    name: 🔒 Checagem de Segurança
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Fetch tags explicitly
+        run: git fetch --tags --force
+
+      - name: Verify annotated tag
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+
+          echo "Verificando tag: $TAG_NAME"
+
+          TAG_TYPE=$(git for-each-ref "refs/tags/$TAG_NAME" --format='%(objecttype)')
+
+          echo "Tipo encontrado: $TAG_TYPE"
+
+          if [ "$TAG_TYPE" != "tag" ]; then
+            echo "❌ A tag '$TAG_NAME' NÃO é anotada."
+            exit 1
+          fi
+
+          echo "✅ Tag anotada confirmada."
+
+  # ══════════════════════════════════════════════════════════
+  #  JOB 2 — RELEASE
+  #  Extrai as notas da versão atual do CHANGELOG.md e cria
+  #  a GitHub Release com esse conteúdo.
+  # ══════════════════════════════════════════════════════════
+  release:
+    name: 📦 Criar GitHub Release
+    runs-on: ubuntu-latest
+    needs: security   # só roda se a checagem de segurança passar
+
+    outputs:
+      release_id: ${{ steps.create_release.outputs.id }}
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── Extrai notas da versão do CHANGELOG.md ────────────
+      # Captura tudo entre o cabeçalho da versão atual e o próximo "## ["
+      # Suporta tanto "## [2.14.0]" quanto "## [2.14.0] — 2025"
+      - name: Extrair notas da versão do CHANGELOG.md
+        id: changelog
+        run: |
+          TAG="${{ github.ref_name }}"
+          # Remove o "v" do prefixo para buscar no CHANGELOG (ex: v2.14.0 → 2.14.0)
+          VERSION="${TAG#v}"
+          echo "Extraindo notas para versão: $VERSION"
+
+          # Extrai o bloco da versão — do cabeçalho até o próximo "## [" ou fim do arquivo
+          NOTES=$(awk \
+            "/^## \[${VERSION}\]/{found=1; next} found && /^## \[/{exit} found{print}" \
+            CHANGELOG.md)
+
+          if [ -z "$NOTES" ]; then
+            echo "⚠️  Versão $VERSION não encontrada no CHANGELOG.md."
+            echo "   A release será criada sem notas de versão."
+            NOTES="Notas de versão não encontradas para $VERSION. Consulte o CHANGELOG.md."
+          fi
+
+          # Salva em arquivo para evitar problemas com caracteres especiais
+          echo "$NOTES" > /tmp/release_notes.md
+          echo "notes_file=/tmp/release_notes.md" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "--- Notas extraídas ---"
+          cat /tmp/release_notes.md
+
+      # ── Cria a GitHub Release ─────────────────────────────
+      - name: Criar GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name:   ${{ github.ref_name }}
+          name:       "🦅 ClubLink App ${{ github.ref_name }}"
+          body_path:  ${{ steps.changelog.outputs.notes_file }}
+          draft:      false
+          prerelease: ${{ contains(github.ref_name, '-rc') || contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  # ══════════════════════════════════════════════════════════
+  #  JOB 3 — BUILD & DEPLOY (GitHub Pages)
+  #  Build de produção do Angular e deploy no gh-pages.
+  # ══════════════════════════════════════════════════════════
+  deploy:
+    name: 🚀 Build & Deploy GitHub Pages
+    runs-on: ubuntu-latest
+    needs: release   # só roda após a release ser criada com sucesso
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci --prefer-offline
+
+      # ── Injetar variáveis de ambiente do Firebase ─────────
+      # Os secrets devem ser configurados em:
+      # GitHub → Settings → Secrets and variables → Actions
+      #
+      # Secrets necessários:
+      #   FIREBASE_API_KEY
+      #   FIREBASE_AUTH_DOMAIN
+      #   FIREBASE_PROJECT_ID
+      #   FIREBASE_STORAGE_BUCKET
+      #   FIREBASE_MESSAGING_SENDER_ID
+      #   FIREBASE_APP_ID
+      - name: Gerar environment.ts de produção
+        run: |
+          TAG="${{ github.ref_name }}"
+          # Remove o "v" do prefixo para buscar no CHANGELOG (ex: v2.14.0 → 2.14.0)
+          VERSION="${TAG#v}"
+          cat > src/environments/environment.prod.ts << EOF
+          export const environment = {
+            production: true,
+            version: '${VERSION}',
+            firebase: {
+              apiKey:            '${{ secrets.FIREBASE_API_KEY }}',
+              authDomain:        '${{ secrets.FIREBASE_AUTH_DOMAIN }}',
+              projectId:         '${{ secrets.FIREBASE_PROJECT_ID }}',
+              storageBucket:     '${{ secrets.FIREBASE_STORAGE_BUCKET }}',
+              messagingSenderId: '${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}',
+              appId:             '${{ secrets.FIREBASE_APP_ID }}',
+            },
+          };
+          EOF
+          echo "✅ environment.prod.ts gerado."
+
+      # ── Build Angular de produção ─────────────────────────
+      - name: Build Angular (produção)
+        run: npx ng build --configuration production --base-href=/clublink-app/
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # ── Deploy no GitHub Pages via angular-cli-ghpages ────
+      - name: Deploy no GitHub Pages
+        id: deploy
+        run: npx angular-cli-ghpages --dir=dist/clublink-app/browser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Resumo da release no log do workflow ──────────────
+      - name: Resumo do deploy
+        run: |
+          echo "## 🦅 Deploy concluído!" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Campo | Valor |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Versão** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Disparado por** | @${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **URL** | https://${{ github.repository_owner }}.github.io/clublink-app/ |" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,37 @@
+<svg width="100%" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" role="img" style="background: transparent;">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Pathfinder Logo</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Logo Pathfinder com triângulos concêntricos, escudo central e estrela</desc>
+  <defs>
+    <linearGradient id="gold1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#e2c060"/>
+    </linearGradient>
+    <linearGradient id="gold2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4b355"/>
+      <stop offset="100%" stop-color="#eacc70"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Triângulo externo grande -->
+  <polygon points="250,30 468,420 32,420" fill="none" stroke="url(#gold1)" stroke-width="9" stroke-linejoin="round" filter="url(#glow)" style="fill:none;color:rgb(255, 255, 255);stroke-width:9px;stroke-linecap:butt;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Triângulo interno -->
+  <polygon points="250,100 400,380 100,380" fill="none" stroke="url(#gold2)" stroke-width="5" opacity="0.65" stroke-linejoin="round" style="fill:none;color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:round;opacity:0.65;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Escudo central -->
+  <path d="M250,155 L305,215 L250,355 L195,215 Z" fill="url(#gold1)" opacity="0.95" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.95;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Estrela no topo -->
+  <polygon points="250,38 261,72 296,72 268,93 279,127 250,106 221,127 232,93 204,72 239,72" fill="#c9a84c" filter="url(#glow)" style="fill:rgb(201, 168, 76);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Cruz sobre o escudo -->
+  <line x1="250" y1="185" x2="250" y2="300" stroke="#0a1628" stroke-width="7" stroke-linecap="round" style="fill:rgb(0, 0, 0);stroke:rgb(10, 22, 40);color:rgb(255, 255, 255);stroke-width:7px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="215" y1="235" x2="285" y2="235" stroke="#0a1628" stroke-width="7" stroke-linecap="round" style="fill:rgb(0, 0, 0);stroke:rgb(10, 22, 40);color:rgb(255, 255, 255);stroke-width:7px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</svg>

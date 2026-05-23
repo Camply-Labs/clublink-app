@@ -1,0 +1,54 @@
+// ============================================================
+//  CLUBLINK APP — Mixins SCSS
+// ============================================================
+@use 'variables' as v;
+
+// Card com gradiente padrão
+@mixin navy-card($hover: true) {
+  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.6));
+  border: 1px solid rgba(v.$gold, 0.15);
+  border-radius: v.$radius;
+  box-shadow: v.$shadow-md;
+  transition: v.$transition;
+
+  @if $hover {
+    &:hover { border-color: rgba(v.$gold, 0.35); }
+  }
+}
+
+// Texto com efeito shimmer dourado
+@mixin gold-shimmer {
+  background: linear-gradient(90deg, v.$gold 0%, v.$gold-pale 40%, v.$gold 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+// Fonte display (Cinzel)
+@mixin font-display($size: 1rem, $weight: 700) {
+  font-family: 'Cinzel', serif;
+  font-size: $size;
+  font-weight: $weight;
+  letter-spacing: 0.04em;
+}
+
+// Badge de role
+@mixin role-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+// Responsive breakpoint helper
+@mixin mobile {
+  @media (max-width: v.$bp-md) { @content; }
+}
+
+@mixin small-mobile {
+  @media (max-width: v.$bp-sm) { @content; }
+}

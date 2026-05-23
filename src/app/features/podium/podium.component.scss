@@ -1,0 +1,80 @@
+@use '../../../styles/variables' as v;
+
+.everest-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: v.$radius-lg;
+  background: linear-gradient(180deg, #1a3a6e 0%, #0d2548 40%, #081828 100%);
+  border: 1px solid rgba(v.$gold, 0.2);
+  padding: 1.5rem 1rem 0;
+  min-height: 520px;
+}
+
+.everest-title {
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  color: v.$gold;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 12px rgba(v.$gold, 0.5);
+}
+
+.everest-svg-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+// ── Ranking list ──────────────────────────────────────────────
+.climber-list {
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0 0.5rem 1rem;
+}
+
+.climber-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: v.$transition;
+
+  &:hover { background: rgba(v.$gold, 0.08); }
+}
+
+.climber-rank {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 1.1rem;
+  min-width: 32px;
+  text-align: center;
+}
+
+.rank-1     { color: #ffd700; }
+.rank-2     { color: #c0c0c0; }
+.rank-3     { color: #cd7f32; }
+.rank-other { color: v.$gray-mid; font-size: 0.9rem; }
+
+.climber-info  { flex: 1; min-width: 0; }
+
+.climber-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: v.$snow;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.climber-unit      { font-size: 0.7rem; color: v.$gray-mid; }
+.climber-points    { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.05rem; color: v.$gold-light; white-space: nowrap; }
+.climber-pts-label { font-size: 0.65rem; color: v.$gray-mid; text-align: right; }
+
+@media (max-width: 768px) {
+  .everest-container { min-height: 400px; }
+}

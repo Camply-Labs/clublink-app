@@ -1,0 +1,105 @@
+@use '../../../../styles/variables.scss' as v;
+
+.perm-editor {
+  margin-top: 0.5rem;
+}
+
+.perm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.perm-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: v.$gold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-select-all {
+  background: transparent;
+  border: 1px solid rgba(v.$gold, 0.4);
+  color: v.$gold;
+  font-size: 0.68rem;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: v.$transition;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  &:hover { background: rgba(v.$gold, 0.12); }
+}
+
+.perm-admin-badge {
+  background: rgba(v.$gold, 0.1);
+  border: 1px solid rgba(v.$gold, 0.35);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.82rem;
+  color: v.$gold-light;
+  font-weight: 600;
+}
+
+.perm-group {
+  margin-bottom: 0.75rem;
+}
+
+.perm-group-name {
+  font-size: 0.68rem;
+  color: v.$gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  padding-left: 0.1rem;
+}
+
+.perm-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.perm-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: v.$transition;
+  font-size: 0.75rem;
+  color: v.$gray-mid;
+  user-select: none;
+
+  input[type="checkbox"] { display: none; }
+
+  &:hover {
+    border-color: rgba(v.$gold, 0.4);
+    color: v.$snow;
+  }
+
+  &.checked {
+    background: rgba(v.$gold, 0.15);
+    border-color: rgba(v.$gold, 0.5);
+    color: v.$gold-light;
+  }
+}
+
+.perm-checkmark {
+  font-size: 0.65rem;
+  width: 12px;
+  text-align: center;
+  color: v.$gold;
+  font-weight: 900;
+}
+
+.perm-label { font-weight: 600; }
