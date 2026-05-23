@@ -198,6 +198,11 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=4096
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       # ── Deploy no GitHub Pages via angular-cli-ghpages ────
       - name: Deploy no GitHub Pages
         id: deploy
