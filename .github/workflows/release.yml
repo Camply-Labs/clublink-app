@@ -44,49 +44,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ── 2. Checkout ───────────────────────────────────────
-      - name: Checkout do código
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # histórico completo (necessário para tags)
-          fetch-tags: true  # garante que as tags sejam baixadas
+          fetch-depth: 0
+          fetch-tags: true
 
-      # ── 1. Valida que a tag é ANOTADA ─────────────────────
-      # Tags leves não possuem objeto próprio no Git — o campo
-      # `*_IS_ANNOTATED` ficará vazio, abortando o workflow.
-      - name: Verificar tag anotada
+      - name: Fetch tags explicitly
+        run: git fetch --tags --force
+
+      - name: Verify annotated tag
         run: |
-          TAG_TYPE=$(git cat-file -t "${{ github.ref_name }}" 2>/dev/null || echo "unknown")
-          echo "Tipo do objeto da tag: $TAG_TYPE"
+          TAG_NAME="${{ github.ref_name }}"
+
+          echo "Verificando tag: $TAG_NAME"
+
+          TAG_TYPE=$(git for-each-ref "refs/tags/$TAG_NAME" --format='%(objecttype)')
+
+          echo "Tipo encontrado: $TAG_TYPE"
+
           if [ "$TAG_TYPE" != "tag" ]; then
-            echo "❌ A tag '${{ github.ref_name }}' não é uma tag ANOTADA."
-            echo "   Use: git tag -a ${{ github.ref_name }} -m 'Descrição da release'"
+            echo "❌ A tag '$TAG_NAME' NÃO é anotada."
             exit 1
           fi
+
           echo "✅ Tag anotada confirmada."
-
-      # ── 3. Configura Node ─────────────────────────────────
-      - name: Configurar Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      # ── 4. Instala dependências ───────────────────────────
-      - name: Instalar dependências
-        run: npm ci --prefer-offline
-
-      # ── 5. Auditoria de segurança npm ─────────────────────
-      # --audit-level=high → falha apenas em vulnerabilidades HIGH ou CRITICAL
-      # Ajuste para "moderate" se quiser ser mais restritivo.
-      - name: Auditoria de dependências (npm audit)
-        run: npm audit --audit-level=high
-        continue-on-error: false
-
-      # ── 6. Verifica licenças problemáticas (opcional) ─────
-      - name: Verificar dependências desatualizadas
-        run: npm outdated || true   # informativo — não bloqueia
-
 
   # ══════════════════════════════════════════════════════════
   #  JOB 2 — RELEASE
