@@ -8,7 +8,6 @@
 
 # Environment files
 /src/environments/environment.prod.ts
-/src/environments/environment.production.ts
 /src/environments/environment.staging.ts
 /src/environments/environment.development.ts
 
