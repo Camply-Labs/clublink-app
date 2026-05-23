@@ -49,6 +49,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0   # histórico completo (necessário para tags)
+          fetch-tags: true  # garante que as tags sejam baixadas
 
       # ── 1. Valida que a tag é ANOTADA ─────────────────────
       # Tags leves não possuem objeto próprio no Git — o campo
