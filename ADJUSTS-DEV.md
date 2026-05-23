@@ -23,6 +23,7 @@
 - Facilitar para alterar cores e logo
 - Apontamentos por unidade, pro clube todo e pra pessoas selecionadas
 - Aba de Pontuações para cadastrar apontamentos padrão, que devem ser exibidos no modal
+- Ao realizar um apontamento, alterar localmente a pontuação para atualizar no frontend, sem recarregar a base de dados
 
 ---
 
