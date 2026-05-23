@@ -1,0 +1,196 @@
+@use '../../../styles/variables' as v;
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(v.$gold, 0.12) 0%, transparent 55%),
+    linear-gradient(135deg, v.$navy 0%, #0d1e38 100%);
+  padding: 1.5rem;
+}
+
+.login-card {
+  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
+  border: 1px solid rgba(v.$gold, 0.3);
+  border-radius: v.$radius-lg;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: v.$shadow-lg, 0 0 60px rgba(v.$gold, 0.08);
+  text-align: center;
+
+  app-clublink-logo { margin: 0 auto 1rem; display: block; }
+}
+
+.login-title {
+  font-size: 1.6rem;
+  color: v.$gold;
+  margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+  font-size: 0.8rem;
+  color: v.$gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+}
+
+.login-hint {
+  font-size: 0.72rem;
+  color: v.$gray-mid;
+  margin-top: 1.2rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .login-card { padding: 1.75rem 1.25rem; }
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  color: var(--gray-mid);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+}
+
+.btn-google {
+  background: #fff;
+  color: #3c4043;
+  border: 1px solid rgba(0,0,0,0.12);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 8px;
+
+  &:hover:not(:disabled) {
+    background: #f8f9fa;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transform: none;
+  }
+
+  &:disabled { opacity: 0.6; }
+}
+
+// ── "Esqueci minha senha" link ao lado do label ───────────────
+.forgot-link {
+  float: right;
+  background: none;
+  border: none;
+  color: rgba(201,168,76,0.7);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: 0.25s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover { color: var(--gold); }
+}
+
+// ── View: Esqueci minha senha ─────────────────────────────────
+.forgot-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.forgot-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,0.4));
+}
+
+.forgot-desc {
+  font-size: 0.83rem;
+  color: var(--gray-mid);
+  line-height: 1.6;
+}
+
+.reset-error-msg {
+  font-size: 0.78rem;
+  color: #fc8181;
+  background: rgba(229,62,62,0.08);
+  border: 1px solid rgba(229,62,62,0.25);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.btn-back-link {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--gray-mid);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.6rem 0;
+  margin-top: 0.5rem;
+  transition: 0.25s ease;
+  text-align: center;
+
+  &:hover { color: var(--snow); }
+}
+
+// ── Tela de sucesso (e-mail enviado) ──────────────────────────
+.reset-success {
+  text-align: center;
+  padding: 0.75rem 0;
+}
+
+.reset-success-icon {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 12px rgba(104,211,145,0.5));
+}
+
+.reset-success-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #68d391;
+  margin-bottom: 0.75rem;
+}
+
+.reset-success-body {
+  font-size: 0.85rem;
+  color: var(--gray-light);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+
+  strong { color: var(--snow); }
+}
+
+.reset-success-note {
+  font-size: 0.75rem;
+  color: var(--gray-mid);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  line-height: 1.6;
+
+  strong { color: var(--snow); }
+}

@@ -1,0 +1,135 @@
+// ============================================================
+//  CLUBLINK APP — Regras de Segurança do Cloud Firestore
+//
+//  Modelo de autorização:
+//    • desbravador  → leitura restrita (ranking, próprio histórico)
+//    • diretoria    → acesso conforme array `permissions[]`
+//    • diretoria + isAdmin: true → acesso irrestrito
+//
+//  Como aplicar:
+//    Firebase Console → Firestore Database → Regras → Publicar
+//    ou: firebase deploy --only firestore:rules
+// ============================================================
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ──────────────────────────────────────────────────────────
+    //  HELPERS
+    // ──────────────────────────────────────────────────────────
+
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function me() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isDirector() {
+      return isAuth() && me().role == 'diretoria';
+    }
+
+    function isAdmin() {
+      return isDirector() && me().isAdmin == true;
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    function hasPerm(perm) {
+      return isAuth()
+        && me().role == 'diretoria'
+        && (
+          me().isAdmin == true
+          || (me().get('permissions', []) is list
+              && perm in me().get('permissions', []))
+        );
+    }
+
+    function onlyAllowedFields(allowed) {
+      return request.resource.data.diff(resource.data)
+             .affectedKeys()
+             .hasOnly(allowed);
+    }
+
+    // ──────────────────────────────────────────────────────────
+    //  COLEÇÃO: app_config
+    //  Documento único: app_config/status
+    //  • Leitura: qualquer pessoa, mesmo sem login
+    //    (necessário para exibir a tela de bloqueio antes do auth)
+    //  • Escrita: apenas admins
+    // ──────────────────────────────────────────────────────────
+    match /app_config/{docId} {
+      allow read: if true;   // público — necessário para tela de status pré-login
+
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasAll(['status', 'since', 'updatedBy'])
+        && request.resource.data.status in ['production', 'maintenance', 'offline'];
+
+      allow delete: if false; // documento permanente, nunca deletado
+    }
+
+    // ──────────────────────────────────────────────────────────
+    //  COLEÇÃO: users
+    // ──────────────────────────────────────────────────────────
+    match /users/{uid} {
+
+      // Qualquer autenticado lê perfis (necessário para ranking e listener)
+      allow read: if isAuth();
+
+      // Criar: apenas diretoria com register.edit
+      allow create: if hasPerm('register.edit');
+
+      // Atualizar:
+      //   1. Próprio usuário → apenas campos pessoais seguros
+      //   2. Diretoria com members.edit → qualquer campo (exceto email)
+      allow update: if
+        (isOwner(uid)
+          && onlyAllowedFields([
+               'name', 'unit', 'position',
+               'photoUrl', 'googleUid',
+               'lastUpdate', 'lastUpdatedBy'
+             ])
+        )
+        || hasPerm('members.edit');
+
+      // Deletar: apenas members.delete
+      allow delete: if hasPerm('members.delete');
+
+      // ── Sub-coleção: history ──────────────────────────────
+      match /history/{entryId} {
+
+        // Próprio desbravador lê seu histórico
+        // Diretoria com appointments.view lê qualquer histórico
+        allow read: if isOwner(uid) || hasPerm('appointments.view');
+
+        // Criar apontamento: appointments.edit
+        // Valida campos obrigatórios e valores mínimos
+        allow create: if
+          hasPerm('appointments.edit')
+          && request.resource.data.keys().hasAll([
+               'type', 'finalPoints', 'updatedBy', 'timestamp'
+             ])
+          && request.resource.data.type in ['add', 'reset']
+          && request.resource.data.finalPoints >= 0;
+
+        // Histórico é imutável — sem update
+        allow update: if false;
+
+        // Só deletado em batch ao remover o membro
+        allow delete: if hasPerm('members.delete');
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────
+    //  REGRA CATCH-ALL — nega tudo que não foi mapeado acima
+    // ──────────────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,170 @@
+@use '../../../styles/variables' as v;
+
+.status-page {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: v.$navy;
+  overflow: hidden;
+
+  // Variantes de cor por status
+  &[data-status="maintenance"] {
+    --status-glow: rgba(246, 173, 85, 0.12);
+  }
+  &[data-status="offline"] {
+    --status-glow: rgba(252, 129, 129, 0.12);
+  }
+}
+
+// ── Orbs de fundo ─────────────────────────────────────────────
+.status-bg-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: orbFloat 8s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--status-glow, rgba(201,168,76,0.1));
+  top: -150px;
+  left: -100px;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--status-glow, rgba(201,168,76,0.08));
+  bottom: -100px;
+  right: -80px;
+  animation-delay: -4s;
+}
+
+@keyframes orbFloat {
+  from { transform: translate(0, 0) scale(1);    }
+  to   { transform: translate(30px, 20px) scale(1.1); }
+}
+
+// ── Card central ──────────────────────────────────────────────
+.status-card {
+  position: relative;
+  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
+  border: 1px solid rgba(v.$gold, 0.25);
+  border-radius: v.$radius-lg;
+  padding: 2.5rem 2rem;
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  box-shadow: v.$shadow-lg, 0 0 80px rgba(v.$gold, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+
+  app-clublink-logo { margin-bottom: 0.25rem; }
+}
+
+.status-icon {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 16px currentColor);
+  margin-bottom: 0.25rem;
+}
+
+.status-club-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: v.$gold;
+  margin: 0;
+}
+
+.status-label {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status-message {
+  font-size: 0.88rem;
+  color: v.$gray-light;
+  font-style: italic;
+  line-height: 1.6;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  width: 100%;
+  margin: 0.25rem 0;
+}
+
+.status-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(v.$gold, 0.25), transparent);
+  margin: 0.25rem 0;
+}
+
+// ── Metadados ─────────────────────────────────────────────────
+.status-meta {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.status-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+
+.status-meta-label {
+  font-size: 0.73rem;
+  color: v.$gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-meta-value {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: v.$snow;
+  text-align: right;
+}
+
+.status-footer-note {
+  font-size: 0.73rem;
+  color: v.$gray-mid;
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 480px) {
+  .status-card     { padding: 2rem 1.25rem; }
+  .status-club-name { font-size: 1.1rem; }
+}

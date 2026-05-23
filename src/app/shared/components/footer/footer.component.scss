@@ -1,0 +1,122 @@
+@use '../../../../styles/variables' as v;
+
+.app-footer {
+  background: linear-gradient(180deg, v.$navy-mid 0%, v.$navy 100%);
+  border-top: 2px solid rgba(v.$gold, 0.3);
+}
+
+// ── Linha superior ────────────────────────────────────────────
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem 2.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+// Identidade (logo + nome)
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-shrink: 0;
+}
+
+.footer-brand-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: v.$gold;
+  line-height: 1.2;
+}
+
+.footer-brand-sub {
+  font-size: 0.7rem;
+  color: v.$gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+// Seções (redes sociais, suporte)
+.footer-section { min-width: 160px; }
+
+.footer-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: v.$gold;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: v.$gray-mid;
+  transition: v.$transition;
+  text-decoration: none;
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: v.$transition;
+  }
+
+  &:hover {
+    color: v.$gold;
+    svg { opacity: 1; }
+  }
+}
+
+// ── Linha inferior ────────────────────────────────────────────
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  max-width: 1280px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+
+  font-size: 0.72rem;
+  color: v.$gray-mid;
+}
+
+.footer-version {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  color: rgba(v.$gold, 0.5);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .footer-bottom {
+    padding: 0.75rem 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+}

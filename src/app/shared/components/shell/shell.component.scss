@@ -1,0 +1,143 @@
+@use '../../../../styles/variables.scss' as v;
+
+// ── Navbar ────────────────────────────────────────────────────
+.navbar {
+  background: linear-gradient(90deg, v.$navy 0%, v.$navy-mid 100%);
+  border-bottom: 2px solid v.$gold;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  span {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: v.$gold;
+    line-height: 1.2;
+  }
+
+  small {
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    color: v.$gray-mid;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.nav-link {
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: v.$gray-light;
+  transition: v.$transition;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+
+  &:hover,
+  &.active {
+    color: v.$gold;
+    background: rgba(v.$gold, 0.12);
+  }
+}
+
+.nav-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: v.$gray-mid;
+}
+
+.nav-user-name { font-weight: 600; font-size: 0.8rem; color: v.$snow; }
+.nav-user-role { font-size: 0.68rem; color: v.$gold; }
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid v.$danger;
+  color: v.$danger;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: v.$transition;
+  text-transform: uppercase;
+  font-family: 'Raleway', sans-serif;
+
+  &:hover { background: v.$danger; color: white; }
+}
+
+// ── Hamburger (mobile) ────────────────────────────────────────
+.navbar-toggler {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+
+  span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: v.$gold;
+    margin: 5px 0;
+    transition: v.$transition;
+    border-radius: 2px;
+  }
+}
+
+.navbar-collapse {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .navbar-toggler { display: block; }
+
+  .navbar-collapse {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: v.$navy-mid;
+    border-bottom: 2px solid v.$gold;
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    box-shadow: v.$shadow-md;
+
+    &.open { display: flex; }
+  }
+
+  .navbar-nav    { flex-direction: column; width: 100%; }
+  .nav-link      { width: 100%; padding: 0.5rem 0.75rem; }
+  .nav-user-info { width: 100%; justify-content: space-between; }
+}

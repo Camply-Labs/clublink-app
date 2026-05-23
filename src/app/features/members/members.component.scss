@@ -1,0 +1,215 @@
+@use '../../../styles/variables' as v;
+
+.desb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.desb-card {
+  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
+  border: 1px solid rgba(v.$gold, 0.2);
+  border-radius: v.$radius;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  transition: v.$transition;
+
+  &:hover {
+    border-color: v.$gold;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(v.$gold, 0.2);
+  }
+}
+
+.desb-name   { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: v.$snow; }
+
+.desb-unit {
+  font-size: 0.72rem;
+  color: v.$gold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(v.$gold, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(v.$gold, 0.25);
+}
+
+.desb-points       { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; color: v.$gold-light; }
+.desb-points-label { font-size: 0.68rem; color: v.$gray-mid; text-transform: uppercase; letter-spacing: 0.1em; margin-top: -6px; }
+
+.desb-role-badge {
+  font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+}
+
+.badge-diretoria {
+  background: rgba(v.$gold, 0.2);
+  color: v.$gold;
+  border: 1px solid rgba(v.$gold, 0.4);
+}
+
+.desb-email        { font-size: 0.7rem; color: v.$gray-mid; margin-top: 2px; }
+.desb-card-actions { display: flex; gap: 0.4rem; margin-top: 0.3rem; }
+
+@media (max-width: 768px) {
+  .desb-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .desb-grid { grid-template-columns: 1fr 1fr; }
+}
+
+// ── Cargo ─────────────────────────────────────────────────────
+.desb-position {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: v.$snow;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+// ── Modal: Histórico de Pontos ────────────────────────────────
+
+.history-member-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  margin-bottom: 1.1rem;
+}
+
+.history-member-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: v.$snow;
+  line-height: 1.2;
+}
+
+.history-member-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: v.$gray-mid;
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.sep { opacity: 0.4; }
+
+.history-member-pts {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.history-pts-value {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: v.$gold-light;
+  line-height: 1;
+  display: block;
+}
+
+.history-pts-label {
+  font-size: 0.65rem;
+  color: v.$gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+// Lista de entradas
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 2px;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(v.$gold, 0.25) transparent;
+
+  &::-webkit-scrollbar       { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: rgba(v.$gold, 0.25); border-radius: 2px; }
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: v.$transition;
+
+  &:hover { background: rgba(255,255,255,0.06); }
+}
+
+// Ícone de tipo
+.history-type-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+
+  &.type-add   { background: rgba(56,161,105,0.15); }
+  &.type-sub   { background: rgba(229,62,62,0.12);  }
+  &.type-reset { background: rgba(v.$gold,0.1);     }
+}
+
+.history-item-info  { flex: 1; min-width: 0; }
+
+.history-item-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: v.$snow;
+}
+
+.history-item-date {
+  font-size: 0.7rem;
+  color: v.$gray-mid;
+  margin-top: 1px;
+}
+
+.history-item-desc {
+  font-size: 0.7rem;
+  color: v.$gray-mid;
+  font-style: italic;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.history-total {
+  font-size: 0.65rem;
+  color: v.$gray-mid;
+}
+
+.history-points-positive { font-family: 'Cinzel',serif; font-weight:900; font-size:0.9rem; color:#68d391; }
+.history-points-negative { font-family: 'Cinzel',serif; font-weight:900; font-size:0.9rem; color:#fc8181; }
+.history-points-reset    { font-family: 'Cinzel',serif; font-weight:900; font-size:0.9rem; color:v.$gold; }

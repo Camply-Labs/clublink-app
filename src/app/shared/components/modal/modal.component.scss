@@ -1,0 +1,67 @@
+@use '../../../../styles/variables' as v;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5,10,20,0.85);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  &.open { display: flex; }
+}
+
+.modal-box {
+  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
+  border: 1px solid rgba(v.$gold, 0.35);
+  border-radius: v.$radius-lg;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: v.$shadow-lg, 0 0 60px rgba(v.$gold, 0.1);
+  animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  color: v.$gold;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: v.$gray-mid;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: v.$transition;
+  line-height: 1;
+
+  &:hover { color: v.$danger; background: rgba(v.$danger, 0.1); }
+}
+
+::ng-deep .modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .modal-box { padding: 1.5rem; }
+}
