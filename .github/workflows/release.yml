@@ -44,6 +44,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ── 2. Checkout ───────────────────────────────────────
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # histórico completo (necessário para tags)
+
       # ── 1. Valida que a tag é ANOTADA ─────────────────────
       # Tags leves não possuem objeto próprio no Git — o campo
       # `*_IS_ANNOTATED` ficará vazio, abortando o workflow.
@@ -57,12 +63,6 @@ jobs:
             exit 1
           fi
           echo "✅ Tag anotada confirmada."
-
-      # ── 2. Checkout ───────────────────────────────────────
-      - name: Checkout do código
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # histórico completo (necessário para tags)
 
       # ── 3. Configura Node ─────────────────────────────────
       - name: Configurar Node.js ${{ env.NODE_VERSION }}
