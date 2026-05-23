@@ -5,11 +5,9 @@
 //  Projeto → Configurações → Seus apps → Web → firebaseConfig
 // ============================================================
 
-import { version } from "packageJson";
-
 export const environment = {
   production: false,
-  version: version,
+  version: '0.0.0',
   firebase: {
     apiKey:            'FIREBASE_API_KEY',
     authDomain:        'FIREBASE_AUTH_DOMAIN',

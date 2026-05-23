@@ -173,9 +173,13 @@ jobs:
       #   FIREBASE_APP_ID
       - name: Gerar environment.ts de produção
         run: |
+          TAG="${{ github.ref_name }}"
+          # Remove o "v" do prefixo para buscar no CHANGELOG (ex: v2.14.0 → 2.14.0)
+          VERSION="${TAG#v}"
           cat > src/environments/environment.prod.ts << EOF
           export const environment = {
             production: true,
+            version: '${VERSION}',
             firebase: {
               apiKey:            '${{ secrets.FIREBASE_API_KEY }}',
               authDomain:        '${{ secrets.FIREBASE_AUTH_DOMAIN }}',
