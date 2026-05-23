@@ -70,7 +70,7 @@ const CURRENT_YEAR = new Date().getFullYear();
           <div class="footer-links">
 
             <a class="footer-link"
-               href="https://wa.me/5511959955896?text=Suporte%20Garras%20Connect"
+               href="https://wa.me/5511959955896?text=Suporte%20ClubLink"
                target="_blank" rel="noopener"
                title="Suporte técnico via WhatsApp">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -81,7 +81,7 @@ const CURRENT_YEAR = new Date().getFullYear();
             </a>
 
             <a class="footer-link"
-               href="https://github.com/vek03/clublink-app"
+               href="https://github.com/Camply-Labs/clublink-app"
                target="_blank" rel="noopener"
                title="Repositório no GitHub">
               <!-- GitHub -->
