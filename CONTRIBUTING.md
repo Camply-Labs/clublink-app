@@ -112,7 +112,7 @@ PRs that do not follow the coding standards or that break existing functionality
 
 ```bash
 # 1. Clone your fork
-git clone https://github.com/YOUR_USERNAME/clublink.git
+git clone https://github.com/Camply-Labs/clublink-app.git
 cd clublink
 
 # 2. Install dependencies
@@ -120,10 +120,10 @@ npm install
 
 # 3. Configure Firebase
 # Copy the environment template and fill in your Firebase project credentials
-cp src/environments/environment.template.ts src/environments/environment.ts
+cp src/environments/environment.ts src/environments/environment.development.ts
 
 # 4. Start the development server
-ng serve
+npm run start
 ```
 
 > **Note:** You will need your own Firebase project for local development. Never commit real Firebase credentials to the repository.
@@ -144,14 +144,14 @@ ng serve
 
 ## Commit Message Guidelines
 
-Use the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+Use the [Conventional Commits](https://www.conventionalcommits.org/) specification with issue-number for identification:
 
 ```
-<type>(scope): <short description>
+<type>({issue-number}): <short description>
 
 [optional body]
 
-[optional footer, e.g., Closes #123]
+[optional footer, e.g., Closes #{issue-number}]
 ```
 
 **Types:**
@@ -169,22 +169,31 @@ Use the [Conventional Commits](https://www.conventionalcommits.org/) specificati
 **Example:**
 
 ```
-feat(members): add member status filter to list view
+feat(0001): add member status filter to list view
 
-Closes #87
+Closes #1
 ```
 
 ---
 
 ## Branch Naming
 
-| Pattern              | Purpose                        |
-|----------------------|--------------------------------|
-| `feat/short-name`    | New feature                    |
-| `fix/short-name`     | Bug fix                        |
-| `docs/short-name`    | Documentation update           |
-| `refactor/short-name`| Refactoring                    |
-| `chore/short-name`   | Tooling/dependency changes     |
+| Pattern                | Purpose                        |
+|------------------------|--------------------------------|
+| `feat/{issue-number}`    | New feature                    |
+| `fix/{issue-number}`     | Bug fix                        |
+| `docs/{issue-number}`    | Documentation update           |
+| `refactor/{issue-number}`| Refactoring                    |
+| `chore/{issue-number}`   | Tooling/dependency changes     |
+
+**Example:**
+
+```
+git switch -c feat/0001
+
+Issue #1
+```
+
 
 ---
 
