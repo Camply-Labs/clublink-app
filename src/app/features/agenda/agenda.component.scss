@@ -1,0 +1,350 @@
+@use '../../../styles/variables' as v;
+
+.fc {
+  --fc-page-bg-color: #{v.$gray-mid};
+}
+
+
+// ── Cabeçalho e ações ─────────────────────────────────────────
+.agenda-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+// ── Log de importações ────────────────────────────────────────
+.import-log-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.9rem;
+  background: rgba(v.$gold, 0.06);
+  border: 1px solid rgba(v.$gold, 0.2);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: v.$gold;
+  font-weight: 600;
+  transition: v.$transition;
+
+  &:hover { background: rgba(v.$gold, 0.1); }
+}
+
+.log-toggle { opacity: 0.7; font-size: 0.7rem; }
+
+.import-log-list {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.import-log-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  flex-wrap: wrap;
+
+  &:last-child { border-bottom: none; }
+}
+
+.log-file { font-size: 0.78rem; font-weight: 600; color: v.$snow; }
+.log-meta { font-size: 0.72rem; color: v.$gray-mid; flex: 1; }
+.log-hash {
+  font-family: monospace;
+  font-size: 0.68rem;
+  color: rgba(v.$gold, 0.6);
+  background: rgba(v.$gold, 0.06);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  cursor: help;
+}
+
+// ── Indicador de importação ───────────────────────────────────
+.importing-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  background: rgba(v.$gold, 0.08);
+  border: 1px solid rgba(v.$gold, 0.25);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  color: v.$gold-light;
+  font-weight: 600;
+}
+
+// ── Wrapper do calendário ─────────────────────────────────────
+.calendar-wrapper {
+  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
+  border: 1px solid rgba(v.$gold, 0.15);
+  border-radius: v.$radius;
+  padding: 1rem;
+  overflow: hidden;
+
+  // ── Sobrescreve estilos do FullCalendar ──────────────────
+  // Cabeçalho da toolbar
+  :host ::ng-deep .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  :host ::ng-deep .fc-toolbar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: v.$gold;
+  }
+
+  // Botões de navegação
+  :host ::ng-deep .fc-button {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    color: v.$snow !important;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: v.$transition;
+
+    &:hover {
+      background: rgba(v.$gold, 0.15) !important;
+      border-color: rgba(v.$gold, 0.4) !important;
+      color: v.$gold !important;
+    }
+
+    &.fc-button-active {
+      background: v.$gold !important;
+      border-color: v.$gold !important;
+      color: v.$navy !important;
+    }
+  }
+
+  // Grade do calendário
+  :host ::ng-deep .fc-daygrid-day,
+  :host ::ng-deep .fc-timegrid-slot {
+    background: transparent;
+  }
+
+  :host ::ng-deep .fc-daygrid-day:hover {
+    background: rgba(v.$gold, 0.04) !important;
+  }
+
+  :host ::ng-deep .fc-day-today {
+    background: rgba(v.$gold, 0.08) !important;
+  }
+
+  :host ::ng-deep .fc-col-header-cell {
+    background: rgba(255,255,255,0.03);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: v.$gold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-number,
+  :host ::ng-deep .fc-list-event-title {
+    color: v.$snow;
+    font-size: 0.82rem;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-number {
+    color: v.$gray-mid;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  :host ::ng-deep .fc-day-other .fc-daygrid-day-number {
+    color: rgba(v.$gray-mid, 0.4);
+  }
+
+  :host ::ng-deep .fc-event {
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+    padding: 1px 4px;
+    border: none !important;
+    transition: filter 0.15s ease;
+
+    &:hover { filter: brightness(1.15); }
+  }
+
+  :host ::ng-deep .fc-more-link {
+    color: v.$gold;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  :host ::ng-deep .fc-list-event:hover td {
+    background: rgba(v.$gold, 0.06) !important;
+  }
+
+  :host ::ng-deep .fc-list-day-cushion {
+    background: rgba(255,255,255,0.04) !important;
+    font-family: 'Cinzel', serif;
+    color: v.$gold;
+    font-size: 0.8rem;
+  }
+
+  :host ::ng-deep th, :host ::ng-deep td,
+  :host ::ng-deep .fc-scrollgrid {
+    border-color: rgba(255,255,255,0.06) !important;
+  }
+
+  :host ::ng-deep .fc-list-empty {
+    background: transparent;
+    color: v.$gray-mid;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  :host ::ng-deep .fc-now-indicator {
+    border-color: v.$gold;
+  }
+}
+
+// ── Visualização de evento ────────────────────────────────────
+.event-view {
+  display: flex;
+  gap: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-view-color {
+  width: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 60px;
+}
+
+.event-view-body { flex: 1; }
+
+.event-view-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: v.$snow;
+  margin-bottom: 0.4rem;
+}
+
+.event-private-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: v.$gold;
+  background: rgba(v.$gold, 0.1);
+  border: 1px solid rgba(v.$gold, 0.3);
+  border-radius: 20px;
+  padding: 0.1rem 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.event-view-dates {
+  font-size: 0.8rem;
+  color: v.$gray-mid;
+  margin-bottom: 0.5rem;
+}
+
+.event-view-desc {
+  font-size: 0.82rem;
+  color: v.$snow;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  white-space: pre-wrap;
+}
+
+.event-view-location {
+  font-size: 0.78rem;
+  color: v.$gray-mid;
+  margin-bottom: 0.5rem;
+}
+
+.event-view-source {
+  font-size: 0.7rem;
+  color: rgba(v.$gray-mid, 0.7);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+// ── Formulário do modal ───────────────────────────────────────
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.color-picker {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.color-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: v.$transition;
+
+  &:hover   { transform: scale(1.2); }
+  &.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+    transform: scale(1.15);
+  }
+}
+
+// Toggles (dia inteiro / privado)
+.all-day-toggle,
+.private-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.83rem;
+  color: v.$gray-mid;
+  transition: v.$transition;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+
+  input[type="checkbox"] { display: none; }
+  &:hover { color: v.$snow; border-color: rgba(255,255,255,0.1); }
+  &.active { color: v.$snow; border-color: rgba(v.$gold, 0.35); background: rgba(v.$gold, 0.06); }
+}
+
+.toggle-box {
+  width: 18px; height: 18px; border-radius: 4px;
+  border: 2px solid rgba(v.$gold, 0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; font-weight: 900; color: v.$gold; flex-shrink: 0;
+  transition: v.$transition;
+
+  .active & { background: v.$gold; color: v.$navy; }
+}
+
+.toggle-label { font-size: 0.83rem; font-weight: 700; color: v.$snow; }
+.toggle-hint  { font-size: 0.7rem; color: v.$gray-mid; margin-top: 1px; }
+
+// ── Responsivo ────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .agenda-actions { width: 100%; justify-content: flex-end; }
+  .form-row       { grid-template-columns: 1fr; }
+
+  :host ::ng-deep .fc-toolbar { flex-direction: column; align-items: flex-start; }
+  :host ::ng-deep .fc-toolbar-chunk { display: flex; gap: 0.25rem; }
+}
