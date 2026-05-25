@@ -8,6 +8,12 @@ export const routes: Routes = [
       import('./features/auth/login.component').then(m => m.LoginComponent),
   },
   {
+    path: 'admin-override',
+    loadComponent: () =>
+      import('./features/admin-override/admin-override.component')
+        .then(m => m.AdminOverrideComponent),
+  },
+  {
     path: '',
     canActivate: [authGuard],
     loadComponent: () =>
