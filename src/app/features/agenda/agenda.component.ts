@@ -151,12 +151,12 @@ type ModalMode = 'create' | 'edit' | 'view';
           <div class="form-group">
             <label class="form-label">Data de início *</label>
             <input type="datetime-local" class="form-control"
-                   [(ngModel)]="form.start" />
+                   [ngModel]="formatToFormDate(form.start)" />
           </div>
           <div class="form-group">
             <label class="form-label">Data de término</label>
             <input type="datetime-local" class="form-control"
-                   [(ngModel)]="form.end" />
+                   [ngModel]="formatToFormDate(form.end)" />
           </div>
         </div>
 
@@ -428,11 +428,28 @@ export class AgendaComponent implements OnInit {
   // ── Helpers ────────────────────────────────────────────────
   formatDate(iso?: string | null): string {
     if (!iso) return '';
-    const d = new Date(iso);
+
+    let d: Date;
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+      const [y, m, day] = iso.split('-').map(Number);
+      d = new Date(y, m - 1, day);
+    } else {
+      d = new Date(iso);
+    }
+
     return d.toLocaleDateString('pt-BR', {
-      day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
+  }
+
+  formatToFormDate(iso: string | undefined): string | undefined {
+    if (!iso) return '';
+    return iso.length === 10 ? `${iso}T08:00` : iso.slice(0, 16);
   }
 
   private emptyForm(): AgendaEventPayload {

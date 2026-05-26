@@ -56,10 +56,10 @@ export class FirebaseEventRepository implements IEventRepository {
   private eventsCol()    { return collection(this.firestore, 'events'); }
   private importLogCol() { return collection(this.firestore, 'import_log'); }
 
-  watchAll(isPrivate: boolean): Observable<AgendaEvent[]> {
+  watchAll(isDirector: boolean): Observable<AgendaEvent[]> {
     let q = query(this.eventsCol(), orderBy('start', 'asc'));
-    if (isPrivate !== undefined) {
-      q = query(q, where('isPrivate', '==', isPrivate));
+    if (!isDirector) {
+      q = query(q, where('isPrivate', '==', false));
     }
     return collectionData(
       q,
