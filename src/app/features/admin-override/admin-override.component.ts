@@ -140,8 +140,8 @@ const STATUS_OPTIONS: { key: AppStatusKey; label: string; icon: string; color: s
               <label class="override-eta-toggle"
                      [class.active]="etaIndeterminate()">
                 <input type="checkbox"
-                       [(ngModel)]="etaIndeterminate"
-                       (ngModelChange)="onEtaToggle($event)" />
+                       [ngModel]="etaIndeterminate()"
+                       (ngModelChange)="etaIndeterminate.set($event); onEtaToggle($event)" />
                 <span class="toggle-box">{{ etaIndeterminate() ? '✓' : '' }}</span>
                 <span>Previsão indeterminada</span>
               </label>
