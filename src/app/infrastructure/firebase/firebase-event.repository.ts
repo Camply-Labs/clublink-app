@@ -49,6 +49,13 @@ function docToEvent(data: Record<string, unknown>, id: string): AgendaEvent {
   };
 }
 
+export function normalizeAgendaEventWritePayload(payload: AgendaEventPayload): AgendaEventPayload & { end: string | null } {
+  return {
+    ...payload,
+    end: payload.end?.trim() ? payload.end : null,
+  };
+}
+
 @Injectable()
 export class FirebaseEventRepository implements IEventRepository {
   private readonly firestore = inject(Firestore);
@@ -73,7 +80,7 @@ export class FirebaseEventRepository implements IEventRepository {
 
   async create(payload: AgendaEventPayload, createdBy: string): Promise<string> {
     const ref = await addDoc(this.eventsCol(), {
-      ...payload,
+      ...normalizeAgendaEventWritePayload(payload),
       source:    'manual',
       createdBy,
       createdAt: serverTimestamp(),
@@ -82,7 +89,7 @@ export class FirebaseEventRepository implements IEventRepository {
   }
 
   async update(id: string, payload: AgendaEventPayload): Promise<void> {
-    await updateDoc(doc(this.firestore, 'events', id), { ...payload });
+    await updateDoc(doc(this.firestore, 'events', id), normalizeAgendaEventWritePayload(payload));
   }
 
   async delete(id: string): Promise<void> {
