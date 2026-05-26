@@ -125,7 +125,7 @@ type ModalMode = 'create' | 'edit' | 'view';
         </div>
 
         <div class="modal-footer">
-          @if (permSvc.can('agenda.edit') && ev.source === 'manual') {
+          @if (permSvc.can('agenda.edit')) {
             <button class="btn btn-danger btn-sm"
                     [disabled]="deleting()"
                     (click)="deleteEvent(ev.id)">

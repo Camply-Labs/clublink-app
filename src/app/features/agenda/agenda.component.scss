@@ -141,6 +141,10 @@
     background: rgba(v.$gold, 0.08) !important;
   }
 
+  ::ng-deep .fc-event-main {
+    cursor: pointer;
+  }
+
   :host ::ng-deep .fc-col-header-cell {
     background: rgba(255,255,255,0.03);
     font-family: 'Cinzel', serif;
@@ -280,7 +284,7 @@
 // ── Formulário do modal ───────────────────────────────────────
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 0.75rem;
 }
 

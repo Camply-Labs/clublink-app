@@ -119,6 +119,7 @@ export class FirebaseUserRepository implements IUserRepository {
       unit:        payload.unit,
       position:    payload.position,
       photoUrl:    payload.photoUrl,
+      birth:       payload.birth       ?? '',
       isAdmin:     payload.isAdmin     ?? false,
       permissions: payload.permissions ?? [],
       lastUpdate:  serverTimestamp(),

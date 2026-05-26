@@ -14,6 +14,7 @@ service cloud.firestore {
     function isAdmin()    { return isDirector() && me().isAdmin == true; }
     function isOwner(uid) { return isAuth() && request.auth.uid == uid; }
 
+    // hasPerm: admin bypassa qualquer verificação de permissão individual
     function hasPerm(perm) {
       return isAuth()
         && me().role == 'diretoria'
@@ -28,6 +29,7 @@ service cloud.firestore {
     }
 
     // ── app_config ───────────────────────────────────────────
+    // Leitura pública — necessário para exibir tela de status antes do login
     match /app_config/{docId} {
       allow read: if true;
       allow create, update: if isAdmin()
@@ -36,10 +38,20 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // ── users ────────────────────────────────────────────────
+    // ── users ─────────────────────────────────────────────────
     match /users/{uid} {
+
+      // Qualquer autenticado pode ler (necessário para ranking e listeners)
       allow read: if isAuth();
+
+      // Criação: diretoria com register.edit OU admin.
+      // Nota: o setDoc é executado com o Firestore autenticado como o
+      // admin/diretor logado — não como o novo usuário sendo criado.
       allow create: if hasPerm('register.edit');
+
+      // Atualização:
+      //   • Próprio usuário → apenas campos pessoais seguros (sem role, points, isAdmin…)
+      //   • Diretoria com members.edit (inclui admin via hasPerm)
       allow update: if
         (isOwner(uid) && onlyAllowedFields([
           'name', 'unit', 'position', 'birth',
@@ -47,48 +59,48 @@ service cloud.firestore {
           'lastUpdate', 'lastUpdatedBy'
         ]))
         || hasPerm('members.edit');
+
+      // Exclusão: diretoria com members.delete (inclui admin via hasPerm)
       allow delete: if hasPerm('members.delete');
 
+      // ── history (sub-collection) ─────────────────────────
       match /history/{entryId} {
         allow read: if isOwner(uid) || hasPerm('appointments.view');
+
         allow create: if hasPerm('appointments.edit')
           && request.resource.data.keys().hasAll(['type','finalPoints','updatedBy','timestamp'])
           && request.resource.data.type in ['add','reset']
           && request.resource.data.finalPoints >= 0;
-        allow update: if false;
+
+        allow update: if false;  // histórico imutável
         allow delete: if hasPerm('members.delete');
       }
     }
 
-    // ── events ───────────────────────────────────────────────
+    // ── events ────────────────────────────────────────────────
     match /events/{eventId} {
       // Leitura: autenticados; eventos privados apenas para diretoria
       allow read: if isAuth()
         && (resource.data.isPrivate == false || isDirector());
 
-      // Criar evento manual: agenda.edit
+      // Criar: agenda.edit (inclui admin via hasPerm)
       allow create: if hasPerm('agenda.edit')
         && request.resource.data.keys().hasAll(['title','start','source','isPrivate'])
         && request.resource.data.source in ['manual','import','birthday'];
 
-      // Editar: agenda.edit, e apenas eventos manuais (import/birthday são imutáveis via regra)
-      allow update: if hasPerm('agenda.edit')
-        && resource.data.source == 'manual';
-
-      // Deletar evento manual: agenda.edit
-      // Deleção em batch de import/birthday é coberta pelo mesmo hasPerm
+      // Editar e excluir: agenda.edit — qualquer evento (manual, import, birthday)
+      allow update: if hasPerm('agenda.edit');
       allow delete: if hasPerm('agenda.edit');
     }
 
-    // ── import_log ───────────────────────────────────────────
+    // ── import_log ────────────────────────────────────────────
     match /import_log/{logId} {
-      // Apenas diretoria com agenda.edit lê e cria logs
-      allow read:   if hasPerm('agenda.edit');
-      allow create: if hasPerm('agenda.edit');
-      allow update, delete: if false; // logs são imutáveis
+      allow read:          if hasPerm('agenda.edit');
+      allow create:        if hasPerm('agenda.edit');
+      allow update, delete: if false;  // logs imutáveis
     }
 
-    // ── catch-all ────────────────────────────────────────────
+    // ── catch-all — nega tudo não mapeado acima ───────────────
     match /{document=**} {
       allow read, write: if false;
     }
