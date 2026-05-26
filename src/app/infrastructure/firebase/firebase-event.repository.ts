@@ -14,7 +14,7 @@ import {
   where,
   orderBy,
 } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { IEventRepository } from '../../core/repositories/event.repository';
 import { AgendaEvent, AgendaEventPayload, ImportLog } from '../../core/models/event.model';
 
@@ -57,13 +57,22 @@ export class FirebaseEventRepository implements IEventRepository {
   private importLogCol() { return collection(this.firestore, 'import_log'); }
 
   watchAll(): Observable<AgendaEvent[]> {
-    return collectionData(
-      query(this.eventsCol(), orderBy('start', 'asc')),
-      { idField: 'id' },
-    ).pipe(
-      map(docs =>
-        docs.map(d => docToEvent(d as Record<string, unknown>, (d as { id: string }).id))
-      ),
+    const mapEvents = (docs: unknown[]): AgendaEvent[] =>
+      docs
+        .map(d => docToEvent(d as Record<string, unknown>, (d as { id: string }).id))
+        .sort((a, b) => a.start.localeCompare(b.start));
+
+    return collectionData(query(this.eventsCol(), orderBy('start', 'asc')), { idField: 'id' }).pipe(
+      map(docs => mapEvents(docs)),
+      catchError(error => {
+        const code = (error as { code?: string })?.code;
+        if (code !== 'permission-denied') return throwError(() => error);
+
+        return collectionData(
+          query(this.eventsCol(), where('isPrivate', '==', false)),
+          { idField: 'id' },
+        ).pipe(map(docs => mapEvents(docs)));
+      }),
     );
   }
 
