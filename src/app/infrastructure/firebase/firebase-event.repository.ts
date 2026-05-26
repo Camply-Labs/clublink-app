@@ -121,6 +121,7 @@ export class FirebaseEventRepository implements IEventRepository {
       ...importLog,
       importedAt: serverTimestamp(),
     });
+    if (++ops >= BATCH_LIMIT) await flush();
 
     if (ops > 0) await batch.commit();
   }
