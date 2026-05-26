@@ -73,25 +73,23 @@ export class AppComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    setTimeout(() => {
-      runInInjectionContext(this.injectorObj, () => {
-        toObservable(this.auth.isLoading).pipe(
-          filter(loading => !loading),
-          take(1),
-        ).subscribe(() => {
-          const user = this.auth.currentUser();
-          const url  = this.router.url;
+    runInInjectionContext(this.injectorObj, () => {
+      toObservable(this.auth.isLoading).pipe(
+        filter(loading => !loading),
+        take(1),
+      ).subscribe(() => {
+        const user = this.auth.currentUser();
+        const url  = this.router.url;
 
-          // Não redireciona se está na rota de override
-          if (OVERRIDE_PATHS.some(p => url.startsWith(p))) return;
+        // Não redireciona se está na rota de override
+        if (OVERRIDE_PATHS.some(p => url.startsWith(p))) return;
 
-          if (!user && url !== '/login') {
-            this.router.navigate(['/login']);
-          } else if (user && url === '/login') {
-            this.router.navigate([user.role === 'diretoria' ? '/podium' : '/my-points']);
-          }
-        });
+        if (!user && url !== '/login') {
+          this.router.navigate(['/login']);
+        } else if (user && url === '/login') {
+          this.router.navigate([user.role === 'diretoria' ? '/podium' : '/my-points']);
+        }
       });
-    }, 500);
+    });
   }
 }

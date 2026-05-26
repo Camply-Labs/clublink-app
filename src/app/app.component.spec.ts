@@ -1,15 +1,17 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AppComponent } from './app.component';
 import { AuthService } from './core/services/auth.service';
+import { AppStatusService } from './core/services/app-status.service';
 import { User } from './core/models';
 
 jest.mock('@angular/core/rxjs-interop', () => ({
 	toObservable: jest.fn(),
+	toSignal: jest.fn((_source: unknown, options?: { initialValue?: string }) => signal(options?.initialValue ?? '')),
 }));
 
 describe('AppComponent', () => {
@@ -27,9 +29,15 @@ describe('AppComponent', () => {
 
 		return {
 			url,
+			events: of(new NavigationEnd(1, url, url)),
 			navigate,
 		};
 	};
+
+	const createStatusMock = () => ({
+		isLoading: signal(false),
+		isBlocked: jest.fn(() => false),
+	});
 
 	beforeEach(() => {
 		TestBed.resetTestingModule();
@@ -44,6 +52,7 @@ describe('AppComponent', () => {
 			providers: [
 				{ provide: AuthService, useValue: createAuthMock(null) },
 				{ provide: Router, useValue: router },
+				{ provide: AppStatusService, useValue: createStatusMock() },
 			],
 		});
 
@@ -61,6 +70,7 @@ describe('AppComponent', () => {
 			providers: [
 				{ provide: AuthService, useValue: createAuthMock(null) },
 				{ provide: Router, useValue: router },
+				{ provide: AppStatusService, useValue: createStatusMock() },
 			],
 		});
 
@@ -79,6 +89,7 @@ describe('AppComponent', () => {
 			providers: [
 				{ provide: AuthService, useValue: createAuthMock(user) },
 				{ provide: Router, useValue: router },
+				{ provide: AppStatusService, useValue: createStatusMock() },
 			],
 		});
 
@@ -97,6 +108,7 @@ describe('AppComponent', () => {
 			providers: [
 				{ provide: AuthService, useValue: createAuthMock(user) },
 				{ provide: Router, useValue: router },
+				{ provide: AppStatusService, useValue: createStatusMock() },
 			],
 		});
 
@@ -115,6 +127,25 @@ describe('AppComponent', () => {
 			providers: [
 				{ provide: AuthService, useValue: createAuthMock(user) },
 				{ provide: Router, useValue: router },
+				{ provide: AppStatusService, useValue: createStatusMock() },
+			],
+		});
+
+		const component = createComponent();
+
+		component.ngOnInit();
+
+		expect(router.navigate).not.toHaveBeenCalled();
+	});
+
+	it('does not redirect users on override routes', () => {
+		const router = createRouterMock('/admin-override');
+
+		TestBed.configureTestingModule({
+			providers: [
+				{ provide: AuthService, useValue: createAuthMock(null) },
+				{ provide: Router, useValue: router },
+				{ provide: AppStatusService, useValue: createStatusMock() },
 			],
 		});
 
@@ -125,5 +156,3 @@ describe('AppComponent', () => {
 		expect(router.navigate).not.toHaveBeenCalled();
 	});
 });
-
-
