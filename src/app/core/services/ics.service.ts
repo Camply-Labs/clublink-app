@@ -182,17 +182,20 @@ export class IcsService {
 
   /** YYYYMMDDTHHMMSSZ ou YYYYMMDDTHHMMSS → ISO string */
   private icsDateTimeToIso(s: string): string {
-    try {
-      // Remove o Z do final para tratar como UTC
-      const clean = s.replace('Z', '');
-      if (clean.length >= 15) {
-        const iso = `${clean.slice(0,4)}-${clean.slice(4,6)}-${clean.slice(6,8)}T` +
-                    `${clean.slice(9,11)}:${clean.slice(11,13)}:${clean.slice(13,15)}` +
-                    (s.endsWith('Z') ? 'Z' : '');
-        return new Date(iso).toISOString();
-      }
-    } catch { /* fallback abaixo */ }
-    return new Date().toISOString();
+    const match = s.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)$/);
+    if (!match) {
+      throw new Error(`Invalid ICS date-time format: ${s}`);
+    }
+
+    const [, year, month, day, hour, minute, second, z] = match;
+    const iso = `${year}-${month}-${day}T${hour}:${minute}:${second}${z ? 'Z' : ''}`;
+    const date = new Date(iso);
+
+    if (Number.isNaN(date.getTime())) {
+      throw new Error(`Invalid ICS date-time value: ${s}`);
+    }
+
+    return date.toISOString();
   }
 
   /** ISO string → YYYYMMDD */
