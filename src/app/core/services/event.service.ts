@@ -20,7 +20,7 @@ export class EventService {
   readonly events = signal<AgendaEvent[]>([]);
 
   constructor() {
-    this.repo.watchAll()
+    this.repo.watchAll(this.permSvc.isDirector())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(list => this.events.set(list));
   }

@@ -3,21 +3,25 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { AuthService } from '../../../core/services/auth.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { AvatarComponent } from '../avatar/avatar.component';
+import { ClubLogoComponent } from '../club-logo/club-logo.component';
 import { FooterComponent } from '../footer/footer.component';
-import { ClubLinkLogoComponent } from '../clublink-logo/clublink-logo.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: 'shell.component.scss',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ClubLinkLogoComponent, AvatarComponent, FooterComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ClubLogoComponent, AvatarComponent, FooterComponent],
   template: `
     <!-- ── NAVBAR ──────────────────────────────────────────── -->
     <nav class="navbar">
       <div class="navbar-brand">
-        <app-clublink-logo [size]="42" />
-        <span>Garras de Águia<small>Desbravadores</small></span>
+        <app-club-logo [size]="42" />
+        <span>
+          Garras de Águia
+          <small>Clube de Desbravadores</small>
+        </span>
       </div>
 
       <button class="navbar-toggler" (click)="menuOpen.set(!menuOpen())" aria-label="Menu">
@@ -93,14 +97,14 @@ import { ClubLinkLogoComponent } from '../clublink-logo/clublink-logo.component'
     </main>
 
     <!-- ── FOOTER ───────────────────────────────────────────── -->
-    <app-footer version="1.0.0" />
+    <app-footer version={{environment.version}} />
   `,
 })
 export class ShellComponent {
   private readonly auth   = inject(AuthService);
   private readonly router = inject(Router);
   readonly permSvc        = inject(PermissionService);
-
+  readonly environment  = environment;
   readonly user       = this.auth.currentUser;
   readonly isDirector = computed(() => this.auth.currentUser()?.role === 'diretoria');
   readonly menuOpen   = signal(false);

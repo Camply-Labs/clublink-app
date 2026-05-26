@@ -3,7 +3,7 @@ import { AgendaEvent, AgendaEventPayload, ImportLog } from '../models/event.mode
 
 export abstract class IEventRepository {
   /** Stream em tempo real de todos os eventos */
-  abstract watchAll(): Observable<AgendaEvent[]>;
+  abstract watchAll(isPrivate?: boolean): Observable<AgendaEvent[]>;
   /** Cria um evento manualmente */
   abstract create(payload: AgendaEventPayload, createdBy: string): Promise<string>;
   /** Atualiza um evento existente */
