@@ -14,7 +14,7 @@ import {
   where,
   orderBy,
 } from '@angular/fire/firestore';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IEventRepository } from '../../core/repositories/event.repository';
 import { AgendaEvent, AgendaEventPayload, ImportLog } from '../../core/models/event.model';
 
