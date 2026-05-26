@@ -10,6 +10,7 @@ export type PermissionKey =
   | 'members.view'   | 'members.edit'   | 'members.delete'
   | 'appointments.view' | 'appointments.edit'
   | 'register.view'  | 'register.edit'
+  | 'agenda.view'    | 'agenda.edit'
   | 'admin.view';
 
 export const ALL_PERMISSIONS: { key: PermissionKey; label: string; group: string }[] = [
@@ -21,6 +22,8 @@ export const ALL_PERMISSIONS: { key: PermissionKey; label: string; group: string
   { key: 'appointments.edit',  label: 'Realizar Apontamentos',   group: 'Apontamentos' },
   { key: 'register.view',      label: 'Visualizar Cadastro',     group: 'Cadastro'     },
   { key: 'register.edit',      label: 'Criar Cadastros',         group: 'Cadastro'     },
+  { key: 'agenda.view',        label: 'Visualizar Agenda',       group: 'Agenda'       },
+  { key: 'agenda.edit',        label: 'Editar Agenda',           group: 'Agenda'       },
   { key: 'admin.view',         label: 'Gerenciar Permissões',    group: 'Admin'        },
 ];
 
@@ -29,11 +32,12 @@ export interface User {
   name:           string;
   email:          string;
   unit:           string;
-  /** Cargo do membro dentro do clube (ex: "Líder", "Secretário", "Diretor") */
   position:       string;
   role:           UserRole;
   points:         number;
   photoUrl:       string;
+  /** Data de nascimento ISO string (YYYY-MM-DD) */
+  birth?:         string;
   googleUid?:     string;
   isAdmin?:       boolean;
   permissions?:   PermissionKey[];
@@ -64,13 +68,13 @@ export interface AppointmentPayload {
 export interface CreateUserPayload {
   name:         string;
   unit:         string;
-  /** Cargo do membro dentro do clube */
   position:     string;
   email:        string;
   password:     string;
   role:         UserRole;
   points:       number;
   photoUrl:     string;
+  birth?:       string;
   isAdmin?:     boolean;
   permissions?: PermissionKey[];
 }
@@ -78,9 +82,9 @@ export interface CreateUserPayload {
 export interface UpdateProfilePayload {
   name:         string;
   unit:         string;
-  /** Cargo do membro dentro do clube */
   position:     string;
   photoUrl:     string;
+  birth?:       string;
   isAdmin?:     boolean;
   permissions?: PermissionKey[];
 }

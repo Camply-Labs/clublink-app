@@ -64,6 +64,11 @@ import { PermissionKey, UpdateProfilePayload, User } from '../../../core/models'
           />
         </div>
 
+        <div class="form-group">
+          <label class="form-label">Data de Nascimento</label>
+          <input type="date" class="form-control" [(ngModel)]="form.birth" />
+        </div>
+
         <!-- Permissões — só diretoria, só admin pode editar -->
         @if (u.role === 'diretoria' && permSvc.isAdmin()) {
           <div class="divider"></div>
@@ -111,9 +116,10 @@ export class EditMemberComponent {
     name:        string;
     unit:        string;
     position:    string;
+    birth:       string;
     isAdmin:     boolean;
     permissions: PermissionKey[];
-  } = { name: '', unit: '', position: '', isAdmin: false, permissions: [] };
+  } = { name: '', unit: '', position: '', birth: '', isAdmin: false, permissions: [] };
 
   private photoBase64 = '';
 
@@ -125,6 +131,7 @@ export class EditMemberComponent {
         name:        u.name,
         unit:        u.unit,
         position:    u.position ?? '',
+        birth:       u.birth    ?? '',
         isAdmin:     u.isAdmin  ?? false,
         permissions: [...(u.permissions ?? [])],
       };
@@ -162,6 +169,7 @@ export class EditMemberComponent {
         unit:        this.form.unit.trim(),
         position:    this.form.position.trim(),
         photoUrl:    this.photoBase64 || u.photoUrl,
+        birth:       this.form.birth || undefined,
         isAdmin:     u.role === 'diretoria' ? this.form.isAdmin     : undefined,
         permissions: u.role === 'diretoria' ? this.form.permissions : undefined,
       };

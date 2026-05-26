@@ -11,6 +11,8 @@ import { routes } from './app.routes';
 import { IUserRepository, IHistoryRepository } from './core/repositories';
 import { FirebaseUserRepository }    from './infrastructure/firebase/firebase-user.repository';
 import { FirebaseHistoryRepository } from './infrastructure/firebase/firebase-history.repository';
+import { FirebaseEventRepository } from './infrastructure/firebase/firebase-event.repository';
+import { IEventRepository } from './core/repositories/event.repository';
 
 /**
  * ─── TROCA DE BACKEND ────────────────────────────────────────
@@ -37,5 +39,6 @@ export const appConfig: ApplicationConfig = {
 
     { provide: IUserRepository,    useClass: FirebaseUserRepository },
     { provide: IHistoryRepository, useClass: FirebaseHistoryRepository },
+    { provide: IEventRepository,   useClass: FirebaseEventRepository },
   ],
 };
