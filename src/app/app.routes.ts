@@ -8,6 +8,12 @@ export const routes: Routes = [
       import('./features/auth/login.component').then(m => m.LoginComponent),
   },
   {
+    path: 'admin-override',
+    loadComponent: () =>
+      import('./features/admin-override/admin-override.component')
+        .then(m => m.AdminOverrideComponent),
+  },
+  {
     path: '',
     canActivate: [authGuard],
     loadComponent: () =>
@@ -19,6 +25,11 @@ export const routes: Routes = [
           import('./features/podium/podium.component').then(m => m.PodiumComponent),
       },
       {
+        path: 'agenda',
+        loadComponent: () =>
+          import('./features/agenda/agenda.component').then(m => m.AgendaComponent),
+      },
+      {
         path: 'members',
         canActivate: [permissionGuard('members.view')],
         loadComponent: () =>
@@ -28,7 +39,8 @@ export const routes: Routes = [
         path: 'appointments',
         canActivate: [permissionGuard('appointments.view')],
         loadComponent: () =>
-          import('./features/appointments/appointments.component').then(m => m.AppointmentsComponent),
+          import('./features/appointments/appointments.component')
+            .then(m => m.AppointmentsComponent),
       },
       {
         path: 'register',
@@ -48,14 +60,13 @@ export const routes: Routes = [
           import('./features/profile/profile.component').then(m => m.ProfileComponent),
       },
       {
-        // Console — apenas administradores (isAdmin: true)
         path: 'console',
         canActivate: [permissionGuard('admin.view')],
         loadComponent: () =>
           import('./features/console/console.component').then(m => m.ConsoleComponent),
       },
       { path: 'password', redirectTo: 'profile', pathMatch: 'full' },
-      { path: '', redirectTo: 'podium', pathMatch: 'full' },
+      { path: '',         redirectTo: 'podium',  pathMatch: 'full' },
     ],
   },
   { path: '**', redirectTo: 'login' },

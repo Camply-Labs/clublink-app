@@ -14,6 +14,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: 'shell.component.scss',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, ClubLogoComponent, AvatarComponent, FooterComponent],
   template: `
+    <!-- ── NAVBAR ──────────────────────────────────────────── -->
     <nav class="navbar">
       <div class="navbar-brand">
         <app-club-logo [size]="42" />
@@ -33,7 +34,10 @@ import { environment } from '../../../../environments/environment';
             <a class="nav-link" routerLink="/podium" routerLinkActive="active"
                (click)="menuOpen.set(false)">🏔 Ranking</a>
           </li>
-
+          <li>
+            <a class="nav-link" routerLink="/agenda" routerLinkActive="active"
+               (click)="menuOpen.set(false)">📅 Agenda</a>
+          </li>
           @if (permSvc.can('members.view')) {
             <li>
               <a class="nav-link" routerLink="/members" routerLinkActive="active"
@@ -52,19 +56,16 @@ import { environment } from '../../../../environments/environment';
                  (click)="menuOpen.set(false)">➕ Cadastrar</a>
             </li>
           }
-
           @if (!isDirector()) {
             <li>
               <a class="nav-link" routerLink="/my-points" routerLinkActive="active"
                  (click)="menuOpen.set(false)">⭐ Meus Pontos</a>
             </li>
           }
-
           <li>
             <a class="nav-link" routerLink="/profile" routerLinkActive="active"
                (click)="menuOpen.set(false)">👤 Perfil</a>
           </li>
-
           @if (permSvc.isAdmin()) {
             <li>
               <a class="nav-link" routerLink="/console" routerLinkActive="active"
@@ -90,10 +91,12 @@ import { environment } from '../../../../environments/environment';
       </div>
     </nav>
 
+    <!-- ── CONTEÚDO ─────────────────────────────────────────── -->
     <main class="page-content page-bg">
       <router-outlet />
     </main>
 
+    <!-- ── FOOTER ───────────────────────────────────────────── -->
     <app-footer version={{environment.version}} />
   `,
 })

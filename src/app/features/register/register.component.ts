@@ -67,6 +67,11 @@ import { PermissionKey, UserRole } from '../../core/models';
                  [(ngModel)]="form.position" />
         </div>
 
+        <div class="form-group">
+          <label class="form-label">Data de Nascimento</label>
+          <input type="date" class="form-control" [(ngModel)]="form.birth" />
+        </div>
+
         <div class="divider"></div>
 
         <p class="credentials-title">Credenciais de Acesso</p>
@@ -134,7 +139,7 @@ export class RegisterComponent {
   readonly photoPreview = signal<string | null>(null);
 
   form = {
-    name: '', unit: '', position: '', email: '', password: '',
+    name: '', unit: '', position: '', birth: '', email: '', password: '',
     points: 0, isAdmin: false, permissions: [] as PermissionKey[],
   };
 
@@ -173,6 +178,7 @@ export class RegisterComponent {
         email:       email.trim(),
         password,
         role:        this.role(),
+        birth:       this.form.birth || undefined,
         points:      this.role() === 'desbravador' ? Math.max(0, Number(points) || 0) : 0,
         photoUrl:    this.photoBase64,
         isAdmin:     this.role() === 'diretoria' ? this.form.isAdmin : false,
@@ -194,7 +200,7 @@ export class RegisterComponent {
   }
 
   private resetForm(): void {
-    this.form = { name: '', unit: '', position: '', email: '', password: '', points: 0, isAdmin: false, permissions: [] };
+    this.form = { name: '', unit: '', position: '', birth: '', email: '', password: '', points: 0, isAdmin: false, permissions: [] };
     this.photoPreview.set(null);
     this.photoBase64 = '';
   }
