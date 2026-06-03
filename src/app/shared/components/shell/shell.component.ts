@@ -5,6 +5,7 @@ import { PermissionService } from '../../../core/services/permission.service';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { ClubLogoComponent } from '../club-logo/club-logo.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-shell',
@@ -99,14 +100,14 @@ import { ClubLogoComponent } from '../club-logo/club-logo.component';
     </main>
 
     <!-- ── FOOTER ───────────────────────────────────────────── -->
-    <app-footer version="1.0.0" />
+    <app-footer version={{environment.version}} />
   `,
 })
 export class ShellComponent {
   private readonly auth   = inject(AuthService);
   private readonly router = inject(Router);
   readonly permSvc        = inject(PermissionService);
-
+  readonly environment  = environment;
   readonly user       = this.auth.currentUser;
   readonly isDirector = computed(() => this.auth.currentUser()?.role === 'diretoria');
   readonly menuOpen   = signal(false);
