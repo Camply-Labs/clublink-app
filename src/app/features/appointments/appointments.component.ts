@@ -54,7 +54,7 @@ type GroupScope = 'unit' | 'all';
           <app-avatar [photoUrl]="d.photoUrl" [name]="d.name" [size]="52" />
           <div class="desb-name" style="font-size:.88rem;">{{ d.name }}</div>
           <div class="desb-unit">{{ d.unit }}</div>
-          <div class="desb-points">{{ currentPts(getUserById(d.uid)) }} pts</div>
+          <div class="desb-points">{{ currentPts(d) }} pts</div>
           <div class="apont-last">Últ. atualização: {{ formatDate(d.lastUpdate) }}</div>
           <button class="btn btn-primary btn-sm" style="margin-top:.4rem;"
                   (click)="openModal(d)">✏️ Apontar</button>
@@ -386,10 +386,6 @@ export class AppointmentsComponent {
   // ── Scoring helpers ───────────────────────────────────────
   currentPts(t: User): number {
     return this.localPoints()[t.uid] ?? t.points ?? 0;
-  }
-
-  getUserById(uid: string): User {
-    return this.allPathfinders().find(u => u.uid === uid) || null as unknown as User;
   }
 
   isChecked(id: string): boolean { return this.checkedItems.has(id); }
