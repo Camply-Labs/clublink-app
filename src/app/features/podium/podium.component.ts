@@ -3,10 +3,12 @@ import {
   Component,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
+import { ScoringLegendComponent } from '../../shared/components/scoring-legend/scoring-legend.component';
 import { User } from '../../core/models';
 
 interface Star    { id: number; cx: number; cy: number; r: number; opacity: number; }
@@ -16,12 +18,17 @@ interface Climber { user: User; cx: number; cy: number; color: string; clipId: s
   selector:        'app-podium',
   standalone:      true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports:         [AvatarComponent, NgClass],
+  imports:         [AvatarComponent, NgClass, ScoringLegendComponent],
   styleUrl:        'podium.component.scss',
   template: `
     <div class="section-header">
       <h2 class="section-title">Ranking — Monte Everest</h2>
+      <button class="btn btn-secondary btn-sm" (click)="legendOpen.set(true)">
+        📊 Tabela de Pontuações
+      </button>
     </div>
+
+    <app-scoring-legend [open]="legendOpen()" (closed)="legendOpen.set(false)" />
 
     @if (pathfinders().length === 0) {
       <div class="empty-state">
@@ -193,6 +200,7 @@ export class PodiumComponent {
   private readonly userSvc = inject(UserService);
 
   readonly pathfinders = computed(() => this.userSvc.getPathfinders());
+  readonly legendOpen      = signal(false);
 
   readonly climbers = computed<Climber[]>(() => {
     const desbs  = this.pathfinders().slice(0, 10);

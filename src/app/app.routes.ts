@@ -43,6 +43,12 @@ export const routes: Routes = [
             .then(m => m.AppointmentsComponent),
       },
       {
+        path: 'scoring',
+        canActivate: [permissionGuard('scoring.edit')],
+        loadComponent: () =>
+          import('./features/scoring/scoring.component').then(m => m.ScoringComponent),
+      },
+      {
         path: 'register',
         canActivate: [permissionGuard('register.view')],
         loadComponent: () =>

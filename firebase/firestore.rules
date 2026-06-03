@@ -93,6 +93,16 @@ service cloud.firestore {
       allow delete: if hasPerm('agenda.edit');
     }
 
+    // ── scorings ──────────────────────────────────────────────
+    // Pontuações padrão (itens de scoring)
+    match /scorings/{scoringId} {
+      // Qualquer autenticado lê (necessário para modal de tabela em todas as telas)
+      allow read: if isAuth();
+
+      // Criar, editar e excluir: scoring.edit (inclui admin via hasPerm)
+      allow create, update, delete: if hasPerm('scoring.edit');
+    }
+
     // ── import_log ────────────────────────────────────────────
     match /import_log/{logId} {
       allow read:          if hasPerm('agenda.edit');

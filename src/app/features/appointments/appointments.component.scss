@@ -114,3 +114,244 @@
   color: #fc8181;
   font-weight: 600;
 }
+
+// ── Scoring checkboxes ────────────────────────────────────────
+.scoring-checks-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.scoring-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.scoring-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-size: 0.78rem;
+  color: var(--gray-mid);
+  user-select: none;
+
+  input[type="checkbox"] { display: none; }
+
+  &:hover { border-color: rgba(201,168,76,0.35); color: var(--snow); }
+
+  &.checked {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.1);
+    color: var(--snow);
+  }
+}
+
+.check-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(201,168,76,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: 0.25s ease;
+
+  .scoring-check.checked & {
+    background: var(--gold);
+    color: var(--navy);
+  }
+}
+
+.check-label { font-weight: 600; }
+
+.check-pts {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 0.78rem;
+  &.positive { color: #68d391; }
+  &.negative { color: #fc8181; }
+}
+
+// ── Preview de total ──────────────────────────────────────────
+.scoring-total-preview {
+  font-size: 0.8rem;
+  color: var(--gray-mid);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  line-height: 1.5;
+
+  strong { font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.88rem; }
+  &.positive strong { color: #68d391; }
+  &.negative strong { color: #fc8181; }
+}
+
+.warn-zero { color: #f6ad55; font-weight: 600; }
+
+.modal-warning {
+  background: rgba(229,62,62,0.08);
+  border: 1px solid rgba(229,62,62,0.25);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: #fc8181;
+}
+
+// ── Header actions ────────────────────────────────────────────
+.apont-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+// ── Modal por Grupo ───────────────────────────────────────────
+.group-hint {
+  font-size: 0.83rem;
+  color: var(--gray-mid);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.group-scope-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.group-scope-option {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: 0.25s ease;
+  user-select: none;
+
+  &:hover    { border-color: rgba(201,168,76,0.3); }
+  &.selected { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+}
+
+.scope-icon  { font-size: 1.5rem; flex-shrink: 0; }
+.scope-label { font-size: 0.88rem; font-weight: 700; color: var(--snow); }
+.scope-desc  { font-size: 0.72rem; color: var(--gray-mid); margin-top: 1px; }
+
+// ── Lista de unidades ─────────────────────────────────────────
+.unit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.unit-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+  transition: 0.25s ease;
+  user-select: none;
+
+  input[type="radio"] { display: none; }
+  &:hover    { border-color: rgba(201,168,76,0.3); }
+  &.selected { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+}
+
+.unit-name  { flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--snow); }
+.unit-count { font-size: 0.72rem; color: var(--gray-mid); }
+
+// ── Preview dos alvos ─────────────────────────────────────────
+.group-targets-preview {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.group-targets-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.group-targets-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.group-target-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.72rem;
+  color: var(--snow);
+  font-weight: 600;
+}
+
+// ── Badge de escopo no step form ──────────────────────────────
+.group-scope-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.75rem;
+}
+
+// ── Tela de resultado do grupo ────────────────────────────────
+.group-result {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+}
+
+.group-result-icon  { font-size: 3rem; margin-bottom: 0.75rem; }
+.group-result-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #68d391;
+  margin-bottom: 0.5rem;
+}
+.group-result-body  { font-size: 0.85rem; color: var(--gray-light); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .apont-header-actions { width: 100%; justify-content: flex-end; }
+}
