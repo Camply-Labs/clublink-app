@@ -473,9 +473,10 @@ export class AppointmentsComponent {
         case 'add': {
           const delta = this.totalAddPreview();
           if (delta <= 0) { this.toast.error('Selecione ao menos uma pontuação ou informe um valor.'); return; }
-          await Promise.all(targets.map(t =>
-            this.apointSvc.addPoints(t, delta, autoDesc, dirName)
-          ));
+          await Promise.all(targets.map(t => {
+            const basePoints = this.currentPts(t);
+            return this.apointSvc.addPoints({ ...t, points: basePoints }, delta, autoDesc, dirName);
+          }));
           targets.forEach(t => { newLocalPts[t.uid] = this.currentPts(t) + delta; });
           this.toast.success(`+${delta} pt(s) para ${targets.length} membro(s)!`);
           break;
