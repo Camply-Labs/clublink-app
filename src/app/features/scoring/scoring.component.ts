@@ -3,8 +3,6 @@ import {
   Component,
   inject,
   signal,
-  effect,
-  input,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ScoringService } from '../../core/services/scoring.service';
