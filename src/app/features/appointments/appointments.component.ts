@@ -42,7 +42,7 @@ type GroupScope = 'unit' | 'all';
           <span class="search-icon">🔍</span>
           <input type="text" class="form-control search-input"
                  placeholder="Buscar desbravador…"
-                 [(ngModel)]="searchQuery" style="width:200px;" />
+                 [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)" style="width:200px;" />
         </div>
       </div>
     </div>
