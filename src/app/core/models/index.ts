@@ -11,6 +11,7 @@ export type PermissionKey =
   | 'appointments.view' | 'appointments.edit'
   | 'register.view'  | 'register.edit'
   | 'agenda.view'    | 'agenda.edit'
+  | 'scoring.view'  | 'scoring.edit'
   | 'admin.view';
 
 export const ALL_PERMISSIONS: { key: PermissionKey; label: string; group: string }[] = [
@@ -24,6 +25,8 @@ export const ALL_PERMISSIONS: { key: PermissionKey; label: string; group: string
   { key: 'register.edit',      label: 'Criar Cadastros',         group: 'Cadastro'     },
   { key: 'agenda.view',        label: 'Visualizar Agenda',       group: 'Agenda'       },
   { key: 'agenda.edit',        label: 'Editar Agenda',           group: 'Agenda'       },
+  { key: 'scoring.view',       label: 'Visualizar Pontuações',   group: 'Pontuações'   },
+  { key: 'scoring.edit',       label: 'Gerenciar Pontuações',    group: 'Pontuações'   },
   { key: 'admin.view',         label: 'Gerenciar Permissões',    group: 'Admin'        },
 ];
 

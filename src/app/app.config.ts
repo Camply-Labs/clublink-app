@@ -9,24 +9,13 @@ import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 
 import { IUserRepository, IHistoryRepository } from './core/repositories';
+import { IEventRepository }   from './core/repositories/event.repository';
+import { IScoringRepository } from './core/repositories/scoring.repository';
 import { FirebaseUserRepository }    from './infrastructure/firebase/firebase-user.repository';
 import { FirebaseHistoryRepository } from './infrastructure/firebase/firebase-history.repository';
-import { FirebaseEventRepository } from './infrastructure/firebase/firebase-event.repository';
-import { IEventRepository } from './core/repositories/event.repository';
+import { FirebaseEventRepository }   from './infrastructure/firebase/firebase-event.repository';
+import { FirebaseScoringRepository } from './infrastructure/firebase/firebase-scoring.repository';
 
-/**
- * ─── TROCA DE BACKEND ────────────────────────────────────────
- * Para migrar de Firebase para REST, substitua aqui:
- *   FirebaseUserRepository    → HttpUserRepository
- *   FirebaseHistoryRepository → HttpHistoryRepository
- * Nenhum componente ou service precisa mudar.
- * ─────────────────────────────────────────────────────────────
- *
- * ─── GOOGLE AUTH ─────────────────────────────────────────────
- * Habilite o provedor Google em:
- *   Firebase Console → Authentication → Sign-in method → Google
- * ─────────────────────────────────────────────────────────────
- */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -40,5 +29,6 @@ export const appConfig: ApplicationConfig = {
     { provide: IUserRepository,    useClass: FirebaseUserRepository },
     { provide: IHistoryRepository, useClass: FirebaseHistoryRepository },
     { provide: IEventRepository,   useClass: FirebaseEventRepository },
+    { provide: IScoringRepository, useClass: FirebaseScoringRepository },
   ],
 };

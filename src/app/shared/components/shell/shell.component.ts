@@ -3,9 +3,8 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { AuthService } from '../../../core/services/auth.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { AvatarComponent } from '../avatar/avatar.component';
-import { ClubLogoComponent } from '../club-logo/club-logo.component';
 import { FooterComponent } from '../footer/footer.component';
-import { environment } from '../../../../environments/environment';
+import { ClubLogoComponent } from '../club-logo/club-logo.component';
 
 @Component({
   selector: 'app-shell',
@@ -18,10 +17,7 @@ import { environment } from '../../../../environments/environment';
     <nav class="navbar">
       <div class="navbar-brand">
         <app-club-logo [size]="42" />
-        <span>
-          Garras de Águia
-          <small>Clube de Desbravadores</small>
-        </span>
+        <span>Garras de Águia<small>Desbravadores</small></span>
       </div>
 
       <button class="navbar-toggler" (click)="menuOpen.set(!menuOpen())" aria-label="Menu">
@@ -48,6 +44,12 @@ import { environment } from '../../../../environments/environment';
             <li>
               <a class="nav-link" routerLink="/appointments" routerLinkActive="active"
                  (click)="menuOpen.set(false)">✏️ Apontamentos</a>
+            </li>
+          }
+          @if (permSvc.can('scoring.edit')) {
+            <li>
+              <a class="nav-link" routerLink="/scoring" routerLinkActive="active"
+                 (click)="menuOpen.set(false)">📊 Pontuações</a>
             </li>
           }
           @if (permSvc.can('register.view')) {
@@ -97,14 +99,14 @@ import { environment } from '../../../../environments/environment';
     </main>
 
     <!-- ── FOOTER ───────────────────────────────────────────── -->
-    <app-footer version={{environment.version}} />
+    <app-footer version="1.0.0" />
   `,
 })
 export class ShellComponent {
   private readonly auth   = inject(AuthService);
   private readonly router = inject(Router);
   readonly permSvc        = inject(PermissionService);
-  readonly environment  = environment;
+
   readonly user       = this.auth.currentUser;
   readonly isDirector = computed(() => this.auth.currentUser()?.role === 'diretoria');
   readonly menuOpen   = signal(false);

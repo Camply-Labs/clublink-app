@@ -1,0 +1,149 @@
+@use '../../../styles/variables' as v;
+
+.scoring-desc {
+  font-size: 0.83rem;
+  color: v.$gray-mid;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+
+  .pos { color: #68d391; }
+  .neg { color: #fc8181; }
+}
+
+.scoring-group-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+
+  &.positive { color: #68d391; }
+  &.negative { color: #fc8181; }
+}
+
+// ── Grid de cards ─────────────────────────────────────────────
+.scoring-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.6rem;
+}
+
+.scoring-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: v.$radius;
+  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: v.$transition;
+
+  &:hover { border-color: rgba(v.$gold, 0.25); }
+
+  &.positive { border-left: 3px solid #68d391; }
+  &.negative { border-left: 3px solid #fc8181; }
+}
+
+.scoring-card-pts {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  min-width: 44px;
+  text-align: center;
+  flex-shrink: 0;
+
+  .positive & { color: #68d391; }
+  .negative & { color: #fc8181; }
+}
+
+.scoring-card-info { flex: 1; min-width: 0; }
+
+.scoring-card-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: v.$snow;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scoring-card-desc {
+  font-size: 0.72rem;
+  color: v.$gray-mid;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scoring-card-cat {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$gold;
+  background: rgba(v.$gold, 0.08);
+  border: 1px solid rgba(v.$gold, 0.2);
+  border-radius: 20px;
+  padding: 0.1rem 0.4rem;
+  margin-top: 3px;
+}
+
+.scoring-card-actions {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+// ── Formulário do modal ───────────────────────────────────────
+.points-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.points-type-selector {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.points-type {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: v.$gray-mid;
+  transition: v.$transition;
+  user-select: none;
+
+  input[type="radio"] { display: none; }
+  &:hover { border-color: rgba(v.$gold, 0.3); color: v.$snow; }
+
+  &.active {
+    border-color: rgba(v.$gold, 0.45);
+    background: rgba(v.$gold, 0.08);
+    color: v.$snow;
+  }
+}
+
+.points-preview {
+  font-size: 0.78rem;
+  color: v.$gray-mid;
+  margin-top: 0.35rem;
+
+  strong { font-family: 'Cinzel', serif; font-size: 0.9rem; }
+  &.pos strong { color: #68d391; }
+  &.neg strong { color: #fc8181; }
+}
+
+@media (max-width: 768px) {
+  .scoring-grid { grid-template-columns: 1fr; }
+}

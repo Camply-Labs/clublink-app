@@ -11,6 +11,7 @@ import { AppointmentService } from '../../core/services/appointment.service';
 import { UserService } from '../../core/services/user.service';
 import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { ScoringLegendComponent } from '../../shared/components/scoring-legend/scoring-legend.component';
 import { HistoryEntry } from '../../core/models';
 
 @Component({
@@ -18,11 +19,16 @@ import { HistoryEntry } from '../../core/models';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl:        'my-points.component.scss',
-  imports: [AvatarComponent, SpinnerComponent],
+  imports: [AvatarComponent, SpinnerComponent, ScoringLegendComponent],
   template: `
     <div class="section-header">
       <h2 class="section-title">Meus Pontos</h2>
+      <button class="btn btn-secondary btn-sm" (click)="legendOpen.set(true)">
+        📊 Tabela de Pontuações
+      </button>
     </div>
+
+    <app-scoring-legend [open]="legendOpen()" (closed)="legendOpen.set(false)" />
 
     <!-- Hero Card -->
     <div class="my-points-hero">
@@ -102,6 +108,7 @@ export class MyPointsComponent implements OnInit {
 
   readonly totalPathfinders = computed(() => this.userSvc.getPathfinders().length);
 
+  readonly legendOpen     = signal(false);
   readonly history        = signal<HistoryEntry[]>([]);
   readonly loadingHistory = signal(true);
 
