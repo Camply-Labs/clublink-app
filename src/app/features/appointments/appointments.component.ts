@@ -485,9 +485,10 @@ export class AppointmentsComponent {
         case 'subtract': {
           const delta = this.totalSubtractPreview();
           if (delta <= 0) { this.toast.error('Selecione ao menos uma pontuação ou informe um valor.'); return; }
-          await Promise.all(targets.map(t =>
-            this.apointSvc.addPoints(t, -delta, autoDesc || 'Subtração de pontos', dirName)
-          ));
+          await Promise.all(targets.map(t => {
+            const basePoints = this.currentPts(t);
+            return this.apointSvc.addPoints({ ...t, points: basePoints }, -delta, autoDesc || 'Subtração de pontos', dirName);
+          }));
           targets.forEach(t => { newLocalPts[t.uid] = Math.max(0, this.currentPts(t) - delta); });
           this.toast.success(`-${delta} pt(s) de ${targets.length} membro(s).`);
           break;
