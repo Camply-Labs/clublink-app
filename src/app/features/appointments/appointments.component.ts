@@ -84,7 +84,7 @@ type GroupScope = 'unit' | 'all';
             <div style="font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;">{{ t.unit }}</div>
             <div style="display:flex;align-items:baseline;gap:.3rem;margin-top:4px;">
               <span style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;color:var(--gold-light);">
-                {{ localPoints()[t.uid] }}
+                {{ currentPts(t) }}
               </span>
               <span style="font-size:.7rem;color:var(--gray-mid);">pontos atuais</span>
             </div>
