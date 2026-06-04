@@ -1,1 +1,0 @@
-var e={production:!0,version:"1.0.0-beta.1",firebase:{apiKey:"AIzaSyC5yAdmx2mtim-FN0WrhJEv53acgIobHbo",authDomain:"garrasconnect.firebaseapp.com",projectId:"garrasconnect",storageBucket:"garrasconnect.firebasestorage.app",messagingSenderId:"383244203174",appId:"1:383244203174:web:cc65f4123a276b0d05f067"}};export{e as a};
