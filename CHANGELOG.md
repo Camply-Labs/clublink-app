@@ -7,304 +7,207 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ---
 
-## [1.0.0-beta.1] — 2025
-
-> Versão inicial de produção do sistema **ClubLink** em Angular 19.
-> Contém todas as funcionalidades da plataforma de gerenciamento de pontuação
-> do Clube de Desbravadores.
-
----
+## [1.0.0-beta.2] — 2025
 
 ### ✨ Adicionado
 
-#### 🔐 Autenticação
+#### 📅 Agenda
 
-- Login com **e-mail e senha** via Firebase Authentication
-- Login com **conta Google** (`signInWithPopup`) — aceito somente se a conta
-  estiver vinculada a um cadastro existente no Firestore
-- **Recuperação de senha** via link enviado por e-mail (`sendPasswordResetEmail`):
-  - Link "Esqueci minha senha" no label do campo de senha
-  - Campo de e-mail pré-preenchido com o valor já digitado
-  - Tela de sucesso com confirmação do endereço e validade do link (1 hora)
-  - Segurança por design: `auth/user-not-found` não revela se o e-mail existe
-- **Vinculação de conta Google** na página de Perfil (`linkWithPopup`) para
-  usuários já cadastrados via e-mail/senha
-- **Alteração de senha** com reautenticação (`reauthenticateWithCredential`)
-- Logout com limpeza de estado em memória
-- Guards de rota: `authGuard`, `roleGuard`, `permissionGuard`
-- Observer `onAuthStateChanged` que hidrata o perfil do Firestore após o login
+- Nova aba **Agenda** acessível a todos os usuários autenticados, renderizada com
+  **FullCalendar v6** (`@fullcalendar/angular`) com os plugins:
+  `dayGrid`, `timeGrid`, `list` e `interaction`
+- Três visualizações: **Mês**, **Semana** e **Lista**, com locale `pt-BR`
+- Criação de eventos por clique em data ou botão **➕ Novo Evento**, com:
+  - Título, data/hora de início e fim, opção de dia inteiro
+  - Descrição, local, cor (8 opções) e marcação como **🔒 Privado**
+- Edição e exclusão de qualquer evento (manual, importado ou aniversário)
+- Eventos privados visíveis **apenas para diretoria**; demais usuários não os veem
+- Permissões `agenda.view` e `agenda.edit` no sistema RBAC
 
----
+##### 📥 Importação de `.ics` (Google Agenda / iCalendar)
+- Upload por clique ou **drag-and-drop** de arquivo `.ics`
+- Parse completo de `VEVENT` com suporte a:
+  - `DTSTART` / `DTEND` com datas all-day e datetime com timezone
+  - `SUMMARY`, `DESCRIPTION`, `LOCATION`, `CLASS` (PRIVATE/CONFIDENTIAL → privado)
+  - Line-folding (RFC 5545)
+- Ao importar um novo arquivo, **todos os eventos de importação e aniversário são
+  deletados e recriados** — eventos criados manualmente são preservados
+- Hash **SHA-256** gerado do conteúdo do arquivo a cada importação
+- Registro de **log de importação** na coleção `import_log`:
+  `filename`, `hash`, `importedAt`, `importedBy`, `importedByName`, `eventCount`
+- **Aniversários** gerados automaticamente para todos os membros com `birth`
+  preenchido (ano corrente e seguinte), como eventos `birthday` com cor rosa
 
-#### 👥 Gerenciamento de Membros
+##### 📤 Exportação de `.ics`
+- Exporta todos os eventos visíveis para o usuário atual como arquivo `.ics`
+  compatível com Google Agenda, Apple Calendar e Outlook
+- Eventos privados exportados com `CLASS:PRIVATE`
+- Nome do arquivo gerado: `clublink_agenda_<data>.ics`
 
-- **Cadastro** de desbravadores e membros da diretoria com:
-  - Nome completo, unidade/classe, cargo no clube (`position`), e-mail,
-    senha inicial, pontos iniciais (desbravadores), foto (base64)
-- **Listagem** separada por tipo (Desbravadores / Diretoria) com busca em
-  tempo real por nome, unidade ou cargo
-- **Edição** de qualquer membro pela diretoria com permissão `members.edit`:
-  - Campos editáveis: nome, unidade, cargo, foto
-  - E-mail e senha **não são editáveis** (gerenciados pelo Firebase Auth)
-  - Apenas admins podem editar `isAdmin` e `permissions` de outros diretores
-- **Remoção** de membros (com confirmação) e limpeza do histórico associado
-  em batch via Firestore
-- Foto armazenada como **base64** no Firestore — sem custo de Storage
-- Campo **`position`** (cargo) exibido em cards, ranking e perfil
-
----
-
-#### 🔑 Sistema de Permissões (RBAC)
-
-- Três níveis de acesso:
-  - `desbravador` → somente próprias informações e ranking
-  - `diretoria` → acesso conforme `permissions[]`
-  - `diretoria` + `isAdmin: true` → acesso total irrestrito
-
-- **9 permissões granulares** agrupadas por feature:
-
-  | Chave | Ação |
-  |---|---|
-  | `podium.view` | Ver ranking Monte Everest |
-  | `members.view` | Listar membros e ver histórico |
-  | `members.edit` | Editar perfil de membros |
-  | `members.delete` | Remover membros |
-  | `appointments.view` | Acessar tela de apontamentos |
-  | `appointments.edit` | Realizar apontamentos |
-  | `register.view` | Acessar tela de cadastro |
-  | `register.edit` | Criar novos cadastros |
-  | `admin.view` | Gerenciar permissões / Console |
-
-- `PermissionService` centraliza verificações (`can()`, `isAdmin`, `isDirector`)
-- `permissionGuard(key)` protege rotas individualmente
-- Navbar exibe somente os links para os quais o usuário tem permissão
-- Botões de ação controlados por `permSvc.can()` nos templates
-- Apenas admins podem editar permissões de outros diretores
-- Regras server-side no Firestore espelham as permissões do frontend
-
-- **`PermissionEditorComponent`** reutilizável:
-  - Chips clicáveis agrupados por feature
-  - Botão "Selecionar todas / Desmarcar todas"
-  - Toggle **Administrador** com limpeza automática das permissões individuais
-  - Usado no cadastro e na edição de membros da diretoria
+##### 🎂 Data de Nascimento (`birth`)
+- Novo campo `birth: string` (formato `YYYY-MM-DD`) em todos os membros
+- Campo **Data de Nascimento** adicionado ao formulário de cadastro (`/register`)
+  e ao modal de edição (`EditMemberComponent`)
+- Exibido no card de identidade da página Perfil
 
 ---
 
-#### 🏔 Ranking — Monte Everest
+#### 📊 Pontuações Padrão
 
-- SVG renderizado nativamente no template Angular (sem `innerHTML`)
-- Cada desbravador representado por um **marcador com foto circular**:
-  - `<image>` SVG + `<clipPath>` por UID para recorte circular
-  - Fallback com inicial do nome quando não há foto
-- Posicionamento vertical proporcional à pontuação (líderes mais próximos ao cume)
-- Alternância esquerda/direita para evitar sobreposição de marcadores
-- Gradientes SVG para céu, montanha e neve renderizados com `<defs>` Angular
-- Lista de ranking abaixo do SVG com medalhas 🥇🥈🥉, cargo e unidade
-- Atualização em tempo real via listener Firestore (`onSnapshot`)
+- Nova aba **Pontuações** (`/scoring`), acessível para quem tem `scoring.edit`
+- CRUD completo de itens de pontuação com:
+  - **Nome**, descrição, categoria e valor de pontos
+  - Seletor visual **Positivo / Negativo** — valores positivos somam, negativos subtraem
+  - Preview do valor final antes de salvar
+- Itens separados visualmente em **Positivas** e **Negativas** com borda colorida
+- Permissões `scoring.view` e `scoring.edit` adicionadas ao sistema RBAC e ao
+  `PermissionEditorComponent`
 
----
-
-#### ✏️ Apontamentos de Pontos
-
-- Modal com **3 abas**:
-  - **➕ Adicionar** — valores positivos com preview do resultado
-  - **➖ Subtrair** — valores positivos (sem negativos), com aviso de zeramento
-  - **🔄 Redefinir** — substitui a pontuação pelo valor informado
-- **Preview em tempo real** do resultado final antes de confirmar
-- Valores negativos **não são permitidos** em nenhuma aba
-- Campo de **descrição/motivo** opcional em todas as abas
-- Histórico salvo na sub-collection `users/{uid}/history` com:
-  `type`, `delta`, `finalPoints`, `description`, `updatedBy`, `timestamp`
-- Histórico **imutável** — entradas não podem ser editadas após criação
+##### 📊 Modal "Tabela de Pontuações" (`ScoringLegendComponent`)
+- Modal reutilizável com lista completa de pontuações padrão separadas por tipo
+- Disponível em **três telas**: Apontamentos, Ranking (Monte Everest) e Meus Pontos
+- Exibe nome, descrição, categoria e valor com cor verde (positivo) / vermelho (negativo)
 
 ---
 
-#### 📋 Histórico de Pontos
+#### ✏️ Melhorias em Apontamentos
 
-- **Visão do desbravador** (`/my-points`): últimas 20 entradas com tipo,
-  delta colorido (verde/vermelho/dourado), valor final e responsável
-- **Visão da diretoria** (`/members`): botão 📋 nos cards de desbravadores
-  abre modal com últimas 30 entradas, cabeçalho com avatar e pontuação atual,
-  ícone colorido por tipo de operação
+##### Checkboxes de Pontuações Padrão
+- Modal de apontamento agora lista as pontuações padrão como **chips clicáveis**:
+  - Aba **Adicionar** → exibe pontuações positivas
+  - Aba **Subtrair** → exibe pontuações negativas
+- Seleção acumula automaticamente o valor total
+- Campo de pontos adicionais mantido para valores fora da lista padrão
+- **Preview em tempo real** do total a adicionar/subtrair e do resultado final
+- Descrição preenchida automaticamente com os nomes dos itens selecionados
 
----
+##### Atualização Local Imediata
+- Após confirmar um apontamento com sucesso, a pontuação exibida nos cards é
+  **atualizada imediatamente** via signal `localPoints` — sem aguardar o listener
+  do Firestore
 
-#### 👤 Página de Perfil
-
-- Card de identidade com avatar, nome, unidade, cargo, e-mail e badge de role/admin
-- Seção **Vincular conta Google** com estado (vinculado / não vinculado)
-- Seção **Alterar senha** com toggle de visibilidade e reautenticação
-- Rota `/profile` (redireciona `/password` para compatibilidade)
-
----
-
-#### ⚙️ Console — Administradores
-
-Aba exclusiva para `isAdmin: true`, acessível via navbar.
-
-##### 🚦 Status da Aplicação
-
-- Três estados: **Em Produção** ✅ · **Em Manutenção** 🔧 · **Fora do Ar** 🚫
-- Campos: mensagem personalizada, data de início (automática), previsão de retorno
-  (data/hora específica ou **Indeterminada**)
-- Apenas o estado atual é salvo — sem histórico de alterações
-- Estados diferentes de "Em Produção" **bloqueiam a aplicação** para não-admins:
-  - Tela de bloqueio dedicada (`AppStatusComponent`) sobrepõe o `<router-outlet>`
-    inteiro — bloqueia inclusive a tela de login
-  - Fundo com orbs animados com cor contextual por status
-  - Exibe: ícone, label, mensagem, data de início, previsão de retorno, responsável
-  - Admins **não são bloqueados**
-- Status carregado **antes da autenticação** (leitura pública no Firestore)
-
-##### 📤 Exportação de Base de Dados
-
-- Exportação seletiva: **Usuários** e/ou **Histórico**
-- Formato JSON proprietário versionado `clublink-app-export`:
-
-  ```json
-  {
-    "_format":    "clublink-app-export",
-    "_version":   "2.1.0",
-    "exportedAt": "<ISO string>",
-    "exportedBy": "<uid>",
-    "collections": {
-      "users":   [ /* ExportedUser[] */ ],
-      "history": { "<uid>": [ /* ExportedHistoryEntry[] */ ] }
-    }
-  }
-  ```
-
-- Nome do arquivo gerado automaticamente: `clublink-app_<coleções>_<data>.json`
-- Download via `Blob + URL.createObjectURL` — sem backend
-- Resultado exibe contagem por coleção
-
-##### 📥 Importação de Base de Dados
-
-- Upload por clique ou **drag-and-drop**
-- **Validação estrita do schema** antes de qualquer escrita:
-  - `_format`, `_version`, `exportedAt`, `exportedBy` obrigatórios
-  - Cada `User`: campos obrigatórios, `role` válido, `points >= 0`
-  - Cada `HistoryEntry`: `type in ['add','reset']`, `finalPoints >= 0`, `id` obrigatório
-  - Erro retorna **mensagem com o caminho exato do campo inválido**
-- Prévia do arquivo com contagem de registros antes de importar
-- Seleção de quais coleções importar (pré-selecionadas pelas disponíveis no arquivo)
-- Importação via **batch Firestore** com `merge: true` (sobrescreve por ID)
-- Batches de 490 ops (abaixo do limite de 500 do Firestore)
-- Suporte a **importação parcial** — erros individuais não interrompem os demais
+##### Apontamento por Grupo
+- Botão **👥 Apontar por Grupo** no cabeçalho da tela de Apontamentos
+- Fluxo em **3 steps**:
+  1. **Escolha de escopo**: Por Unidade (radio buttons com contador) ou Clube Todo
+  2. **Formulário**: mesmo formulário com tabs, checkboxes e preview
+  3. **Resultado**: confirmação com nome do escopo e contagem de afetados
+- Preview dos membros afetados antes de confirmar (chips com avatar + nome)
+- Executa todos os apontamentos em `Promise.all` (paralelo)
+- Atualiza `localPoints` para todos os membros de uma vez
 
 ---
 
-#### 🦶 Footer Global
+### 🔧 Modificado
 
-- Componente reutilizável `FooterComponent` com input `version`
-- Presente em todas as páginas autenticadas, ausente no login
-- Seções: identidade (logo + nome), redes sociais (WhatsApp, Instagram, Facebook),
-  suporte técnico (WhatsApp), GitHub, copyright com ano dinâmico, versão da app
-
----
-
-#### 🎨 Design System
-
-- Paleta: **Azul Marinho** `#0a1628` · **Branco Neve** `#f8faff` · **Ouro Dourado** `#c9a84c`
-- Tipografia: **Cinzel** (display/títulos) + **Raleway** (corpo) via Google Fonts
-- Logo SVG do triângulo dos Desbravadores em componente Angular reutilizável
-- Animação **shimmer dourado** em títulos de destaque
-- CSS separado por componente com `styleUrl`
-- Partials globais `_variables.scss` e `_mixins.scss` como source of truth de tokens
-- Totalmente responsivo (mobile-first, breakpoints 768 px e 480 px)
-- Scrollbar personalizada com tom dourado
-
----
-
-#### 🏗 Arquitetura e Infraestrutura
-
-##### Angular 19 — 100% Standalone
-- Sem `NgModule` — todos os componentes usam `standalone: true`
-- Diretivas de control flow nativas: `@if`, `@for`, `@switch`
-- Signals: `signal()`, `computed()`, `model()`, `input()`, `output()`
-- `ChangeDetectionStrategy.OnPush` em todos os componentes de feature
-- Lazy loading via `loadComponent` em todas as rotas
-
-##### Clean Architecture
-```
-core/           → modelos, contratos, use-cases, guards
-infrastructure/ → implementações concretas (Firebase)
-shared/         → componentes reutilizáveis de UI
-features/       → páginas/telas da aplicação
-```
-
-##### SOLID
-- **S** — cada service tem responsabilidade única
-- **O/D** — componentes dependem de abstrações (`IUserRepository`, `IHistoryRepository`);
-  trocar Firebase por REST = alterar apenas `app.config.ts`
-
-##### Firebase / Firestore
-- Listener em tempo real via `collectionData()` e `onSnapshot`
-- Sub-collection `users/{uid}/history` para histórico de apontamentos
-- `serverTimestamp()` em todos os campos de data
-- App Firebase secundário para criação de usuários sem deslogar o admin
-- Índices: `history.timestamp` (desc), `users.googleUid`
-
-##### CI/CD — GitHub Actions
-- Pipeline `.github/workflows/release.yml` disparada por **tag anotada** (`git tag -a`)
-- Tags leves abortadas no Job 1 via `git cat-file -t`
-- **Job 1 — Segurança:** `npm audit --audit-level=high`
-- **Job 2 — Release:** extrai notas do `CHANGELOG.md` via `awk`, cria GitHub Release
-- **Job 3 — Deploy:** gera `environment.prod.ts` a partir de Secrets,
-  `ng build --base-href=/clublink-app/`,
-  `npx angular-cli-ghpages --dir=dist/clublink-app/browser`
+- `models/index.ts` — `PermissionKey` expandido com `scoring.view`, `scoring.edit`,
+  `agenda.view`, `agenda.edit`; campo `birth` adicionado a `User`,
+  `CreateUserPayload` e `UpdateProfilePayload`
+- `app.config.ts` — providers `IScoringRepository` e `IEventRepository` adicionados
+- `app.routes.ts` — rotas `/scoring` e `/agenda` adicionadas
+- `shell.component.ts` — links **📅 Agenda** e **📊 Pontuações** na navbar
+- `register.component.ts` — campo Data de Nascimento
+- `edit-member.component.ts` — campo Data de Nascimento
+- `firebase-user.repository.ts` — leitura/escrita do campo `birth`
+- `podium.component.ts` — botão 📊 Tabela de Pontuações + `ScoringLegendComponent`
+- `my-points.component.ts` — botão 📊 Tabela de Pontuações + `ScoringLegendComponent`
+- `package.json` — dependências `@fullcalendar/angular`, `@fullcalendar/core`,
+  `@fullcalendar/daygrid`, `@fullcalendar/timegrid`, `@fullcalendar/list`,
+  `@fullcalendar/interaction`
 
 ---
 
 ### 🔒 Segurança — Firestore Rules
 
 ```
-app_config/status   → leitura pública; escrita apenas admin + validação de enum
-users/{uid}         → leitura: autenticados; criar: register.edit;
-                       atualizar próprio perfil: campos seguros apenas;
-                       atualizar outros: members.edit; deletar: members.delete
-users/{uid}/history → leitura: dono ou appointments.view;
-                       criar: appointments.edit + validação de campos;
-                       update: bloqueado (imutável);
-                       deletar: members.delete (batch ao remover membro)
-/**                 → deny all (catch-all)
+scorings/{id}    → leitura: autenticados; escrita: scoring.edit
+events/{id}      → leitura: autenticados (privados só para diretoria);
+                   criar: agenda.edit + campos obrigatórios;
+                   editar/excluir: agenda.edit (qualquer source)
+import_log/{id}  → leitura/criação: agenda.edit; update/delete: bloqueado
 ```
 
 ---
 
-### 📁 Estrutura de Arquivos
+### 📦 Novos Arquivos
 
-```
-src/app/
-├── core/
-│   ├── models/             # User, HistoryEntry, PermissionKey, AppStatus…
-│   ├── repositories/       # IUserRepository, IHistoryRepository
-│   ├── services/           # Auth, User, Appointment, Permission,
-│   │                       # Toast, AppStatus, DatabaseIO
-│   └── guards/             # authGuard, roleGuard, permissionGuard
-├── infrastructure/firebase/ # FirebaseUserRepository, FirebaseHistoryRepository
-├── shared/components/
-│   ├── shell/              # Navbar + layout
-│   ├── footer/             # Footer reutilizável
-│   ├── avatar/             # Avatar com fallback de iniciais
-│   ├── modal/              # Modal reutilizável
-│   ├── spinner/            # Loading spinner
-│   ├── toast/              # Notificações
-│   ├── pathfinder-logo/    # Logo SVG
-│   ├── permission-editor/  # Editor de permissões (chips)
-│   └── edit-member/        # Modal de edição de perfil
-└── features/
-    ├── auth/               # Login (e-mail + Google + recuperação)
-    ├── podium/             # Monte Everest com fotos
-    ├── members/            # Lista + editar + remover + histórico
-    ├── appointments/       # Apontamentos (add / subtract / reset)
-    ├── register/           # Cadastro com permissões
-    ├── my-points/          # Pontos do desbravador
-    ├── profile/            # Perfil (Google + senha)
-    ├── console/            # Console admin (status + export + import)
-    └── app-status/         # Tela de bloqueio por status
-```
+| Arquivo | Descrição |
+|---|---|
+| `core/models/event.model.ts` | `AgendaEvent`, `ImportLog`, `AgendaEventPayload`, `EVENT_COLORS` |
+| `core/models/scoring.model.ts` | `ScoringItem`, `ScoringItemPayload` |
+| `core/repositories/event.repository.ts` | `IEventRepository` (contrato) |
+| `core/repositories/scoring.repository.ts` | `IScoringRepository` (contrato) |
+| `core/services/event.service.ts` | Use-cases da agenda (CRUD, import, export, birthdays) |
+| `core/services/scoring.service.ts` | Use-cases de pontuações padrão |
+| `core/services/ics.service.ts` | Parse e geração de arquivos `.ics` (RFC 5545, sem deps externas) |
+| `infrastructure/firebase/firebase-event.repository.ts` | Implementação Firestore da agenda |
+| `infrastructure/firebase/firebase-scoring.repository.ts` | Implementação Firestore das pontuações |
+| `features/agenda/agenda.component.ts` | Tela de agenda com FullCalendar |
+| `features/agenda/agenda.component.scss` | Estilos do calendário (override do FullCalendar) |
+| `features/scoring/scoring.component.ts` | CRUD de pontuações padrão |
+| `features/scoring/scoring.component.scss` | Cards com borda colorida por tipo |
+| `shared/components/scoring-legend/scoring-legend.component.ts` | Modal reutilizável |
+| `shared/components/scoring-legend/scoring-legend.component.scss` | Estilos do modal |
 
 ---
 
-[1.0.0-beta.1]: https://github.com/Camply-Labs/clublink-app/releases/tag/v1.0.0-beta.1
+## [1.0.0-beta.1] — 2025
+
+> Versão inicial de produção do sistema **ClubLink** em Angular 19.
+> Contém todas as funcionalidades base da plataforma.
+
+### ✨ Adicionado
+
+#### 🔐 Autenticação
+- Login com e-mail/senha e Google (`signInWithPopup`)
+- Recuperação de senha por e-mail (`sendPasswordResetEmail`)
+- Vinculação de conta Google no Perfil
+- Alteração de senha com reautenticação
+- Guards: `authGuard`, `roleGuard`, `permissionGuard`
+
+#### 👥 Membros
+- Cadastro, listagem, edição e remoção de desbravadores e diretoria
+- Foto (base64), nome, unidade, cargo, e-mail, senha, pontos iniciais
+- Campo `birth` para data de nascimento
+
+#### 🔑 Sistema de Permissões (RBAC)
+- Roles: `desbravador`, `diretoria`, `diretoria + isAdmin`
+- 9 permissões granulares por feature
+- `PermissionService`, `permissionGuard`, `PermissionEditorComponent`
+
+#### 🏔 Ranking — Monte Everest
+- SVG Angular nativo com fotos circulares (`<image>` + `<clipPath>`)
+- Posicionamento proporcional à pontuação
+
+#### ✏️ Apontamentos
+- Abas: Adicionar, Subtrair, Redefinir
+- Histórico na sub-collection `users/{uid}/history`
+
+#### 👤 Perfil
+- Card de identidade, vinculação Google, alteração de senha
+
+#### ⚙️ Console (Admin)
+- Status da aplicação (produção / manutenção / offline) com tela de bloqueio
+- Exportação/importação da base em JSON proprietário com validação estrita
+- Rota `/admin-override` para restaurar status sem acesso ao Firebase Console
+
+#### 🦶 Footer
+- `FooterComponent` reutilizável com redes sociais, suporte, GitHub e versão
+
+#### 🤖 CI/CD
+- Pipeline GitHub Actions disparada por tag anotada
+- Jobs: segurança (`npm audit`), release (notas do CHANGELOG), deploy (GitHub Pages)
+
+---
+
+## Histórico de Versões
+
+| Versão | Data | Destaque |
+|---|---|---|
+| **1.0.0-beta.2** | 2025 | Agenda, Pontuações padrão, Apontamento por grupo |
+| **1.0.0-beta.1** | 2025 | Versão base Angular 19 + Firebase |
+
+---
+
+[1.0.0-beta.2]: https://camply-labs.github.io/clublink-app/releases/tag/v1.0.0-beta.2
+[1.0.0-beta.1]: https://camply-labs.github.io/clublink-app/releases/tag/v1.0.0-beta.1
