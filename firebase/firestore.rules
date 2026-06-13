@@ -103,6 +103,56 @@ service cloud.firestore {
       allow create, update, delete: if hasPerm('scoring.edit');
     }
 
+    // ── notices ───────────────────────────────────────────────
+    // Quadro de Avisos: leitura para autenticados,
+    // escrita restrita a quem tem notices.edit
+    match /notices/{noticeId} {
+      allow read: if isAuth();
+
+      // Criação/edição/exclusão do aviso em si — apenas notices.edit
+      allow create, delete: if hasPerm('notices.edit');
+
+      // Update: notices.edit (edição do conteúdo) OU qualquer autenticado
+      // alterando SOMENTE replyCount (via transação ao criar/excluir resposta)
+      allow update: if hasPerm('notices.edit')
+        || (isAuth() && request.resource.data.diff(resource.data)
+              .affectedKeys().hasOnly(['replyCount']));
+
+      // ── replies (sub-collection) ───────────────────────────
+      // Tópico de discussão linear — sem respostas de respostas
+      match /replies/{replyId} {
+        // Qualquer autenticado lê e cria respostas
+        allow read:   if isAuth();
+        allow create: if isAuth()
+          && request.resource.data.keys().hasAll(['authorUid','authorName','text','createdAt'])
+          && request.resource.data.authorUid == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 500
+          && request.resource.data.likedBy == []
+          && request.resource.data.pinned == false;
+
+        // Update: like/unlike (qualquer autenticado, só campo likedBy)
+        // OU pin/unpin (apenas o autor do AVISO pai, só campo pinned)
+        allow update: if isAuth()
+          && (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy'])
+            || (
+              request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pinned'])
+              && get(/databases/$(database)/documents/notices/$(noticeId)).data.authorUid == request.auth.uid
+            )
+          );
+
+        // Excluir: autor da resposta, autor do aviso, ou notices.edit
+        allow delete: if isAuth()
+          && (
+            resource.data.authorUid == request.auth.uid
+            || get(/databases/$(database)/documents/notices/$(noticeId)).data.authorUid == request.auth.uid
+            || hasPerm('notices.edit')
+          );
+      }
+    }
+
     // ── import_log ────────────────────────────────────────────
     match /import_log/{logId} {
       allow read:          if hasPerm('agenda.edit');

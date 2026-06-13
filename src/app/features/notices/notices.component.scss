@@ -1,0 +1,248 @@
+@use '../../../styles/variables' as v;
+
+// ── Grid responsivo ───────────────────────────────────────────
+.notices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.1rem;
+}
+
+// ── Card ──────────────────────────────────────────────────────
+.notice-card {
+  position: relative;
+  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 3px solid var(--accent, #{v.$gold});
+  border-radius: v.$radius;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: v.$transition;
+  box-shadow: v.$shadow-sm;
+
+  &:hover {
+    border-color: rgba(255,255,255,0.15);
+    box-shadow: v.$shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+.notice-pin {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  font-size: 1.1rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  z-index: 2;
+}
+
+.notice-cover {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.2);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.notice-body {
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.notice-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: v.$snow;
+  line-height: 1.3;
+}
+
+// ── Conteúdo Markdown renderizado ────────────────────────────
+.notice-content {
+  font-size: 0.85rem;
+  color: v.$gray-light;
+  line-height: 1.65;
+  flex: 1;
+  overflow-wrap: break-word;
+
+  :global(h1) { font-family: 'Cinzel', serif; font-size: 1.1rem; color: v.$gold; margin: 0.4rem 0; }
+  :global(h2) { font-family: 'Cinzel', serif; font-size: 1rem;   color: v.$gold; margin: 0.4rem 0; }
+  :global(h3) { font-family: 'Cinzel', serif; font-size: 0.92rem; color: v.$gold-light; margin: 0.35rem 0; }
+  :global(strong) { color: v.$gold-light; font-weight: 700; }
+  :global(em)     { color: v.$snow; }
+  :global(code) {
+    background: rgba(v.$gold, 0.1);
+    color: v.$gold-light;
+    padding: 0.05rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-family: 'Courier New', monospace;
+  }
+  :global(.md-image) {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    display: block;
+  }
+  :global(.md-link) { color: v.$gold; text-decoration: underline; }
+  :global(blockquote) {
+    border-left: 3px solid rgba(v.$gold, 0.4);
+    padding-left: 0.6rem;
+    margin: 0.4rem 0;
+    color: v.$gray-mid;
+    font-style: italic;
+  }
+  :global(hr) {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 0.6rem 0;
+  }
+  :global(ul) { padding-left: 1.1rem; margin: 0.3rem 0; }
+  :global(li) { margin-bottom: 0.15rem; }
+  :global(p)  { margin: 0.3rem 0; }
+}
+
+// ── Footer do card ────────────────────────────────────────────
+.notice-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.notice-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.notice-author {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: v.$gold;
+}
+
+.notice-date {
+  font-size: 0.68rem;
+  color: v.$gray-mid;
+}
+
+.notice-edited { font-style: italic; }
+
+.notice-actions {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+// ── Formulário do modal ───────────────────────────────────────
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.color-picker {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.color-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: v.$transition;
+
+  &:hover    { transform: scale(1.2); }
+  &.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+    transform: scale(1.15);
+  }
+}
+
+.pin-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.83rem;
+  color: v.$gray-mid;
+  transition: v.$transition;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-top: 0.25rem;
+
+  input[type="checkbox"] { display: none; }
+  &:hover  { color: v.$snow; border-color: rgba(255,255,255,0.1); }
+  &.active { color: v.$snow; border-color: rgba(v.$gold, 0.35); background: rgba(v.$gold, 0.06); }
+}
+
+.toggle-box {
+  width: 18px; height: 18px; border-radius: 4px;
+  border: 2px solid rgba(v.$gold, 0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; font-weight: 900; color: v.$gold; flex-shrink: 0;
+  transition: v.$transition;
+
+  .active & { background: v.$gold; color: v.$navy; }
+}
+
+.toggle-label { font-size: 0.83rem; font-weight: 700; color: v.$snow; }
+.toggle-hint  { font-size: 0.68rem; color: v.$gray-mid; margin-top: 1px; }
+
+// ── Responsivo ────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .notices-grid { grid-template-columns: 1fr; }
+  .form-row     { grid-template-columns: 1fr; }
+}
+
+// ── Botão Responder ────────────────────────────────────────────
+.notice-reply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: v.$gray-mid;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: v.$transition;
+  font-family: 'Raleway', sans-serif;
+
+  &:hover {
+    border-color: rgba(v.$gold, 0.35);
+    background: rgba(v.$gold, 0.08);
+    color: v.$gold-light;
+  }
+}
+
+.reply-count-badge {
+  background: rgba(v.$gold, 0.18);
+  color: v.$gold-light;
+  border-radius: 20px;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  font-family: 'Cinzel', serif;
+}

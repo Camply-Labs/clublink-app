@@ -1,0 +1,144 @@
+@use '../../../../styles/variables' as v;
+
+// ── Lista de respostas ────────────────────────────────────────
+.replies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 0.75rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(v.$gold, 0.25) transparent;
+  &::-webkit-scrollbar       { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: rgba(v.$gold, 0.25); border-radius: 2px; }
+}
+
+.reply-item {
+  position: relative;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: v.$transition;
+
+  &.pinned {
+    border-color: rgba(v.$gold, 0.35);
+    background: rgba(v.$gold, 0.05);
+  }
+}
+
+.reply-pin-badge {
+  position: absolute;
+  top: -8px;
+  right: 10px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: v.$gold;
+  background: v.$navy-mid;
+  border: 1px solid rgba(v.$gold, 0.35);
+  border-radius: 20px;
+  padding: 0.05rem 0.5rem;
+}
+
+.reply-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.reply-meta { flex: 1; min-width: 0; }
+
+.reply-author {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: v.$snow;
+}
+
+.reply-date {
+  font-size: 0.66rem;
+  color: v.$gray-mid;
+}
+
+.reply-actions {
+  display: flex;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.reply-action-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: v.$transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover  { border-color: rgba(v.$gold, 0.35); background: rgba(v.$gold, 0.08); }
+  &.active { border-color: rgba(v.$gold, 0.5);  background: rgba(v.$gold, 0.15); }
+
+  &.danger:hover { border-color: rgba(v.$danger, 0.4); background: rgba(v.$danger, 0.12); }
+}
+
+.reply-text {
+  font-size: 0.85rem;
+  color: v.$gray-light;
+  line-height: 1.6;
+  margin: 0.5rem 0 0.4rem;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.reply-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.like-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: v.$gray-mid;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  transition: v.$transition;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:hover  { background: rgba(255,255,255,0.05); }
+  &.liked  { color: #fc8181; font-weight: 700; }
+}
+
+// ── Formulário de nova resposta ───────────────────────────────
+.reply-form {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.reply-textarea {
+  resize: vertical;
+  min-height: 50px;
+}
+
+.reply-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+}
+
+.reply-char-count {
+  font-size: 0.68rem;
+  color: v.$gray-mid;
+}

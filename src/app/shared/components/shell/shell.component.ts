@@ -35,6 +35,10 @@ import { environment } from '../../../../environments/environment';
             <a class="nav-link" routerLink="/agenda" routerLinkActive="active"
                (click)="menuOpen.set(false)">📅 Agenda</a>
           </li>
+          <li>
+            <a class="nav-link" routerLink="/notices" routerLinkActive="active"
+               (click)="menuOpen.set(false)">📌 Quadro de Avisos</a>
+          </li>
           @if (permSvc.can('members.view')) {
             <li>
               <a class="nav-link" routerLink="/members" routerLinkActive="active"
