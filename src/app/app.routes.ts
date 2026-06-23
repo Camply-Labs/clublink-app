@@ -30,6 +30,11 @@ export const routes: Routes = [
           import('./features/agenda/agenda.component').then(m => m.AgendaComponent),
       },
       {
+        path: 'notices',
+        loadComponent: () =>
+          import('./features/notices/notices.component').then(m => m.NoticesComponent),
+      },
+      {
         path: 'members',
         canActivate: [permissionGuard('members.view')],
         loadComponent: () =>

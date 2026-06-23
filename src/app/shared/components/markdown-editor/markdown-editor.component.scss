@@ -1,0 +1,288 @@
+@use '../../../../styles/variables' as v;
+
+// ── Seletor de modo ───────────────────────────────────────────
+.editor-mode-bar {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  color: v.$gray-mid;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: v.$transition;
+  font-family: 'Raleway', sans-serif;
+
+  &:hover  { border-color: rgba(v.$gold, 0.3); color: v.$snow; }
+  &.active { border-color: rgba(v.$gold, 0.45); background: rgba(v.$gold, 0.1); color: v.$gold-light; }
+}
+
+// ── Modo simples — upload de imagem ───────────────────────────
+.image-upload-area {
+  position: relative;
+  border: 2px dashed rgba(255,255,255,0.15);
+  border-radius: v.$radius;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: v.$transition;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+
+  &:hover { border-color: rgba(v.$gold, 0.4); background: rgba(v.$gold, 0.04); }
+
+  &.has-image {
+    border-style: solid;
+    border-color: rgba(v.$gold, 0.35);
+    padding: 0.5rem;
+    min-height: auto;
+  }
+}
+
+.image-upload-icon  { font-size: 2rem; opacity: 0.5; }
+.image-upload-label { font-size: 0.85rem; font-weight: 600; color: v.$snow; }
+.image-upload-hint  { font-size: 0.7rem; color: v.$gray-mid; }
+
+.image-preview-thumb {
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
+.image-remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(10,22,40,0.85);
+  border: 1px solid rgba(v.$danger, 0.4);
+  color: #fc8181;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: v.$transition;
+  z-index: 2;
+
+  &:hover { background: v.$danger; color: white; }
+}
+
+.simple-textarea { resize: vertical; }
+
+.md-hint {
+  font-size: 0.7rem;
+  color: v.$gray-mid;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+// ════════════════════════════════════════════════════════════
+//  EasyMDE — tema com as cores do projeto
+//  IMPORTANTE: EasyMDE renderiza fora do Shadow DOM do componente,
+//  então usamos ::ng-deep para alcançar seus elementos.
+// ════════════════════════════════════════════════════════════
+
+// ── Visibilidade sem destruir o DOM ──────────────────────────
+// Usar display:none causaria problemas de layout no CodeMirror
+// (medidas zeradas). Usamos visibility+height para manter o DOM
+// mas sem ocupar espaço visual.
+.is-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.markdown-mode-wrapper { width: 100%; }
+
+.markdown-editor-wrapper {
+  // Garante que o editor herde a largura do container
+  width: 100%;
+}
+
+:host ::ng-deep {
+
+  // ── Container principal do EasyMDE ────────────────────────
+  .EasyMDEContainer {
+    font-family: 'Raleway', sans-serif;
+  }
+
+  // ── Toolbar ────────────────────────────────────────────────
+  .editor-toolbar {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 0.4rem 0.5rem;
+    opacity: 1;
+
+    &::before, &::after {
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    // Botões da toolbar
+    button {
+      color: v.$snow !important;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      margin: 1px;
+      min-width: 28px;
+      height: 28px;
+      transition: v.$transition;
+
+      &:hover, &.active {
+        background: rgba(v.$gold, 0.12) !important;
+        border-color: rgba(v.$gold, 0.4) !important;
+        color: v.$gold-light !important;
+        box-shadow: none;
+      }
+
+      // Ícones (FontAwesome) — herdam a cor do botão
+      i, svg {
+        color: inherit;
+      }
+    }
+
+    i.separator {
+      border-left: 1px solid rgba(255,255,255,0.1);
+      border-right: none;
+      margin: 0 0.3rem;
+    }
+  }
+
+  // ── Área de edição (CodeMirror) ───────────────────────────
+  .CodeMirror {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    color: v.$snow;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+
+    .CodeMirror-cursor { border-left: 1px solid v.$gold; }
+    .CodeMirror-selected { background: rgba(v.$gold, 0.15); }
+
+    // Placeholder
+    .CodeMirror-placeholder { color: v.$gray-mid !important; }
+  }
+
+  .CodeMirror-scroll { min-height: 220px; }
+
+  // Syntax highlight — cabeçalhos, ênfase, links etc.
+  .cm-header   { color: v.$gold !important; font-weight: 700; }
+  .cm-strong   { color: v.$gold-light !important; }
+  .cm-em       { color: v.$gray-light !important; }
+  .cm-link     { color: v.$gold !important; }
+  .cm-url      { color: rgba(v.$gold, 0.6) !important; }
+  .cm-quote    { color: v.$gray-mid !important; font-style: italic; }
+  .cm-comment  { color: rgba(v.$gold, 0.7) !important; } // code blocks
+
+  // ── Barra de status (desabilitada via status:false, mas por garantia) ──
+  .editor-statusbar { display: none; }
+
+  // ── Preview lateral/inline (botão de olho) ────────────────
+  .editor-preview,
+  .editor-preview-side {
+    background: v.$navy-mid;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0 0 8px 8px;
+    color: v.$snow;
+    padding: 1rem 1.1rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+
+    h1, h2, h3 {
+      font-family: 'Cinzel', serif;
+      color: v.$gold;
+      margin: 0.5rem 0;
+    }
+    h3 { color: v.$gold-light; font-size: 1rem; }
+
+    strong { color: v.$gold-light; font-weight: 700; }
+    em     { color: v.$gray-light; }
+
+    code {
+      background: rgba(v.$gold, 0.1);
+      color: v.$gold-light;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    pre {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      overflow-x: auto;
+
+      code { background: none; padding: 0; }
+    }
+
+    img { max-width: 100%; border-radius: 8px; margin: 0.5rem 0; }
+
+    a {
+      color: v.$gold;
+      text-decoration: underline;
+    }
+
+    blockquote {
+      border-left: 3px solid rgba(v.$gold, 0.4);
+      padding-left: 0.75rem;
+      margin: 0.5rem 0;
+      color: v.$gray-mid;
+      font-style: italic;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 0.75rem 0;
+    }
+
+    ul, ol { padding-left: 1.25rem; margin: 0.4rem 0; }
+    li     { margin-bottom: 0.2rem; }
+    p      { margin: 0.4rem 0; }
+  }
+
+  // ── Tooltips da toolbar ────────────────────────────────────
+  .CodeMirror-dialog,
+  .editor-toolbar button[title]:hover::after {
+    color: v.$snow;
+  }
+
+  // Fullscreen do EasyMDE (caso o usuário use o atalho)
+  .CodeMirror-fullscreen {
+    background: v.$navy;
+    z-index: 1100;
+  }
+}
+
+@media (max-width: 768px) {
+  :host ::ng-deep .editor-toolbar {
+    flex-wrap: wrap;
+  }
+}

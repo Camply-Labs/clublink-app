@@ -28,6 +28,10 @@ export class UserService {
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  getById(uid: string): User | undefined {
+    return this.users().find(u => u.uid === uid);
+  }
+
   getAll(): User[] {
     return [...this.users()].sort((a, b) => a.name.localeCompare(b.name));
   }

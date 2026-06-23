@@ -11,10 +11,12 @@ import { routes } from './app.routes';
 import { IUserRepository, IHistoryRepository } from './core/repositories';
 import { IEventRepository }   from './core/repositories/event.repository';
 import { IScoringRepository } from './core/repositories/scoring.repository';
+import { INoticeRepository } from './core/repositories/notice.repository';
 import { FirebaseUserRepository }    from './infrastructure/firebase/firebase-user.repository';
 import { FirebaseHistoryRepository } from './infrastructure/firebase/firebase-history.repository';
 import { FirebaseEventRepository }   from './infrastructure/firebase/firebase-event.repository';
 import { FirebaseScoringRepository } from './infrastructure/firebase/firebase-scoring.repository';
+import { FirebaseNoticeRepository } from './infrastructure/firebase/firebase-notice.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,5 +32,6 @@ export const appConfig: ApplicationConfig = {
     { provide: IHistoryRepository, useClass: FirebaseHistoryRepository },
     { provide: IEventRepository,   useClass: FirebaseEventRepository },
     { provide: IScoringRepository, useClass: FirebaseScoringRepository },
+    { provide: INoticeRepository,  useClass: FirebaseNoticeRepository },
   ],
 };
