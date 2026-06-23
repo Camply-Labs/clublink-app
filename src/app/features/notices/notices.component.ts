@@ -311,7 +311,7 @@ export class NoticesComponent implements OnDestroy {
       const payload: NoticePayload = {
         title:      this.form.title.trim(),
         content:    this.form.content,
-        coverImage: this.form.coverImage || undefined,
+        coverImage: this.form.coverImage || null,
         color:      this.form.color,
         pinned:     this.form.pinned,
       };

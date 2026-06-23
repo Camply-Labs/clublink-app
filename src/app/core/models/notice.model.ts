@@ -25,7 +25,7 @@ export interface Notice {
 export interface NoticePayload {
   title:       string;
   content:     string;
-  coverImage?: string;
+  coverImage?: string | null;
   color:       string;
   pinned:      boolean;
 }
