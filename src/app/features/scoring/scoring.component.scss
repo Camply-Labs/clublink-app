@@ -34,6 +34,7 @@
   gap: 0.75rem;
   padding: 0.75rem 0.9rem;
   border-radius: v.$radius;
+  min-width: 100%;
   background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
   border: 1px solid rgba(255,255,255,0.07);
   transition: v.$transition;
