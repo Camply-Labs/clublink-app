@@ -1,18 +1,20 @@
 @use '../../../styles/variables' as v;
 
-// ── Grid responsivo ───────────────────────────────────────────
-.notices-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.1rem;
+// ── Feed: coluna única centralizada, estilo Instagram ─────────
+.notices-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
 }
 
 // ── Card ──────────────────────────────────────────────────────
 .notice-card {
-  position: relative;
+  width: 100%;
+  max-width: 500px;   // limite para monitores grandes
   background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
   border: 1px solid rgba(255,255,255,0.08);
-  border-top: 3px solid var(--accent, #{v.$gold});
   border-radius: v.$radius;
   overflow: hidden;
   display: flex;
@@ -21,62 +23,123 @@
   box-shadow: v.$shadow-sm;
 
   &:hover {
-    border-color: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.14);
     box-shadow: v.$shadow-md;
-    transform: translateY(-2px);
   }
 }
 
-.notice-pin {
-  position: absolute;
-  top: 0.6rem;
-  right: 0.6rem;
-  font-size: 1.1rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-  z-index: 2;
+// ── Cabeçalho: autor ───────────────────────────────────────────
+.notice-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem 1rem;
 }
 
+.notice-header-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.notice-author-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: v.$snow;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notice-date {
+  font-size: 0.68rem;
+  color: v.$gray-mid;
+}
+
+.notice-edited { font-style: italic; }
+
+.notice-pin {
+  font-size: 1rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+.notice-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.notice-action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: v.$transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: v.$snow;
+
+  &:hover { border-color: rgba(v.$gold, 0.35); background: rgba(v.$gold, 0.08); }
+  &.danger:hover { border-color: rgba(v.$danger, 0.4); background: rgba(v.$danger, 0.12); }
+  &:disabled { opacity: 0.5; cursor: default; }
+}
+
+// ── Imagem — proporção real, limitada pela largura do card ─────
 .notice-cover {
   width: 100%;
-  height: 160px;
+  // Sem altura fixa: a imagem mantém sua proporção real (aspect-ratio nativo)
+  // mas nunca excede a largura do card (max-width: 500px do .notice-card)
+  max-height: 600px;       // teto de segurança para imagens muito altas
   overflow: hidden;
   background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;   // preserva proporção real, sem cortar
     display: block;
   }
 }
 
+// ── Corpo ────────────────────────────────────────────────────
 .notice-body {
-  padding: 1.1rem 1.2rem;
+  padding: 0.85rem 1rem 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
+  gap: 0.4rem;
 }
 
 .notice-title {
   font-family: 'Cinzel', serif;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   color: v.$snow;
   line-height: 1.3;
+  border-left: 3px solid var(--accent, #{v.$gold});
+  padding-left: 0.6rem;
 }
 
-// ── Conteúdo Markdown renderizado ────────────────────────────
+// ── Conteúdo Markdown renderizado ──────────────────────────────
 .notice-content {
   font-size: 0.85rem;
   color: v.$gray-light;
   line-height: 1.65;
-  flex: 1;
   overflow-wrap: break-word;
 
-  :global(h1) { font-family: 'Cinzel', serif; font-size: 1.1rem; color: v.$gold; margin: 0.4rem 0; }
-  :global(h2) { font-family: 'Cinzel', serif; font-size: 1rem;   color: v.$gold; margin: 0.4rem 0; }
-  :global(h3) { font-family: 'Cinzel', serif; font-size: 0.92rem; color: v.$gold-light; margin: 0.35rem 0; }
+  :global(h1) { font-family: 'Cinzel', serif; font-size: 1.05rem; color: v.$gold; margin: 0.4rem 0; }
+  :global(h2) { font-family: 'Cinzel', serif; font-size: 0.98rem; color: v.$gold; margin: 0.4rem 0; }
+  :global(h3) { font-family: 'Cinzel', serif; font-size: 0.9rem;  color: v.$gold-light; margin: 0.35rem 0; }
   :global(strong) { color: v.$gold-light; font-weight: 700; }
   :global(em)     { color: v.$snow; }
   :global(code) {
@@ -111,39 +174,69 @@
   :global(p)  { margin: 0.3rem 0; }
 }
 
-// ── Footer do card ────────────────────────────────────────────
+// ── Footer: ações de curtir/comentar (estilo Instagram) ─────────
 .notice-footer {
+  padding: 0.5rem 1rem 0.85rem;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  padding-top: 0.6rem;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.notice-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.notice-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.1rem;
+}
 
-.notice-author {
-  font-size: 0.74rem;
+.notice-like-btn,
+.notice-comment-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+  border-radius: 8px;
+  transition: transform 0.15s ease, background 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover { background: rgba(255,255,255,0.05); }
+  &:active { transform: scale(0.85); }
+}
+
+.notice-like-btn.liked {
+  animation: like-pop 0.3s ease;
+}
+
+@keyframes like-pop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.notice-likes-count {
+  font-size: 0.8rem;
   font-weight: 700;
-  color: v.$gold;
+  color: v.$snow;
 }
 
-.notice-date {
-  font-size: 0.68rem;
+.notice-comments-link {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.78rem;
   color: v.$gray-mid;
+  padding: 0;
+  transition: v.$transition;
+
+  &:hover { color: v.$gold-light; }
 }
 
-.notice-edited { font-style: italic; }
-
-.notice-actions {
-  display: flex;
-  gap: 0.3rem;
-  flex-shrink: 0;
-}
-
-// ── Formulário do modal ───────────────────────────────────────
+// ── Formulário do modal (criar/editar) ──────────────────────────
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -208,41 +301,10 @@
 
 // ── Responsivo ────────────────────────────────────────────────
 @media (max-width: 768px) {
-  .notices-grid { grid-template-columns: 1fr; }
-  .form-row     { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
 }
 
-// ── Botão Responder ────────────────────────────────────────────
-.notice-reply-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  align-self: flex-start;
-  margin-top: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
-  color: v.$gray-mid;
-  font-size: 0.76rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: v.$transition;
-  font-family: 'Raleway', sans-serif;
-
-  &:hover {
-    border-color: rgba(v.$gold, 0.35);
-    background: rgba(v.$gold, 0.08);
-    color: v.$gold-light;
-  }
-}
-
-.reply-count-badge {
-  background: rgba(v.$gold, 0.18);
-  color: v.$gold-light;
-  border-radius: 20px;
-  padding: 0.05rem 0.45rem;
-  font-size: 0.68rem;
-  font-weight: 800;
-  font-family: 'Cinzel', serif;
+@media (max-width: 540px) {
+  .notice-card { max-width: 100%; border-radius: 0; border-left: none; border-right: none; }
+  .notices-feed { gap: 1rem; }
 }

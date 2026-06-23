@@ -39,6 +39,15 @@ export class NoticeService {
     return this.repo.delete(id);
   }
 
+  watchLikes(noticeId: string): Observable<string[]> {
+    return this.repo.watchLikes(noticeId);
+  }
+
+  toggleNoticeLike(noticeId: string): Promise<void> {
+    const uid = this.auth.currentUser()?.uid ?? '';
+    return this.repo.toggleNoticeLike(noticeId, uid);
+  }
+
   // ── Respostas ──────────────────────────────────────────────
 
   watchReplies(noticeId: string): Observable<NoticeReply[]> {

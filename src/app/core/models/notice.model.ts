@@ -16,6 +16,8 @@ export interface Notice {
   pinned:      boolean;
   /** Contador desnormalizado de respostas — atualizado via transação */
   replyCount:  number;
+  /** UIDs dos usuários que curtiram este aviso */
+  likedBy:     string[];
   createdAt:   string;   // ISO string
   updatedAt?:  string;
 }

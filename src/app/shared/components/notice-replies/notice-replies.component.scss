@@ -4,10 +4,11 @@
 .replies-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  max-height: 360px;
+  gap: 1.35rem;
+  max-height: 420px;
   overflow-y: auto;
   padding-right: 4px;
+  padding-bottom: 0.25rem;
   margin-bottom: 0.75rem;
 
   scrollbar-width: thin;
@@ -17,106 +18,133 @@
   &::-webkit-scrollbar-thumb { background: rgba(v.$gold, 0.25); border-radius: 2px; }
 }
 
-.reply-item {
-  position: relative;
-  padding: 0.7rem 0.85rem;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: v.$transition;
+// ── Linha de comentário: avatar + balão ────────────────────────
+.reply-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 
-  &.pinned {
-    border-color: rgba(v.$gold, 0.35);
-    background: rgba(v.$gold, 0.05);
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
   }
 }
 
+.reply-avatar {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+// ── Balão de comentário ─────────────────────────────────────────
+.reply-bubble {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
 .reply-pin-badge {
-  position: absolute;
-  top: -8px;
-  right: 10px;
+  display: inline-flex;
+  align-self: flex-start;
   font-size: 0.62rem;
   font-weight: 700;
   color: v.$gold;
-  background: v.$navy-mid;
-  border: 1px solid rgba(v.$gold, 0.35);
+  background: rgba(v.$gold, 0.1);
+  border: 1px solid rgba(v.$gold, 0.3);
   border-radius: 20px;
   padding: 0.05rem 0.5rem;
 }
 
-.reply-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+.reply-content {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: v.$gray-light;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
-.reply-meta { flex: 1; min-width: 0; }
-
 .reply-author {
-  font-size: 0.82rem;
   font-weight: 700;
   color: v.$snow;
+  margin-right: 0.4rem;
+}
+
+.reply-text {
+  color: v.$gray-light;
+}
+
+// ── Footer do comentário: data, like, ações ────────────────────
+.reply-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .reply-date {
   font-size: 0.66rem;
   color: v.$gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.reply-actions {
-  display: flex;
-  gap: 0.2rem;
-  flex-shrink: 0;
-}
-
-.reply-action-btn {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition: v.$transition;
-  display: flex;
+.reply-like-btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-
-  &:hover  { border-color: rgba(v.$gold, 0.35); background: rgba(v.$gold, 0.08); }
-  &.active { border-color: rgba(v.$gold, 0.5);  background: rgba(v.$gold, 0.15); }
-
-  &.danger:hover { border-color: rgba(v.$danger, 0.4); background: rgba(v.$danger, 0.12); }
-}
-
-.reply-text {
-  font-size: 0.85rem;
-  color: v.$gray-light;
-  line-height: 1.6;
-  margin: 0.5rem 0 0.4rem;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-}
-
-.reply-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.like-btn {
-  background: transparent;
+  gap: 0.2rem;
+  background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: v.$gray-mid;
-  padding: 0.15rem 0.4rem;
-  border-radius: 6px;
-  transition: v.$transition;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+  padding: 0;
+  transition: transform 0.15s ease, color 0.15s ease;
 
-  &:hover  { background: rgba(255,255,255,0.05); }
-  &.liked  { color: #fc8181; font-weight: 700; }
+  &:active { transform: scale(0.85); }
+  &.liked  { color: #fc8181; }
+}
+
+.reply-like-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.reply-mini-action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.78rem;
+  opacity: 0.55;
+  padding: 0;
+  transition: v.$transition;
+  margin-left: auto;
+
+  &:hover   { opacity: 1; }
+  &.active  { opacity: 1; filter: drop-shadow(0 0 4px rgba(v.$gold, 0.6)); }
+  &.danger:hover { filter: drop-shadow(0 0 4px rgba(v.$danger, 0.6)); }
+}
+
+.reply-mini-action + .reply-mini-action {
+  margin-left: 0.6rem;
+}
+
+// Quando há pin + ação extra, o primeiro mini-action não deve empurrar tudo
+.reply-footer .reply-mini-action:first-of-type {
+  margin-left: auto;
+}
+.reply-footer .reply-mini-action:not(:first-of-type) {
+  margin-left: 0.6rem;
+}
+
+// ── Fixado: destaque sutil no balão inteiro ────────────────────
+.reply-row.pinned .reply-bubble {
+  background: rgba(v.$gold, 0.05);
+  border: 1px solid rgba(v.$gold, 0.18);
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+  margin: -0.5rem -0.65rem -0.5rem 0; // compensa para alinhar com não-pinados
 }
 
 // ── Formulário de nova resposta ───────────────────────────────

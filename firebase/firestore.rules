@@ -1,5 +1,5 @@
 // ============================================================
-//  CLUBLINK APP — Regras de Segurança do Cloud Firestore
+//  GARRAS DE ÁGUIA — Regras de Segurança do Cloud Firestore
 // ============================================================
 
 rules_version = '2';
@@ -113,10 +113,21 @@ service cloud.firestore {
       allow create, delete: if hasPerm('notices.edit');
 
       // Update: notices.edit (edição do conteúdo) OU qualquer autenticado
-      // alterando SOMENTE replyCount (via transação ao criar/excluir resposta)
+      // alterando SOMENTE replyCount (transação de respostas) OU SOMENTE likedBy (curtida)
       allow update: if hasPerm('notices.edit')
         || (isAuth() && request.resource.data.diff(resource.data)
-              .affectedKeys().hasOnly(['replyCount']));
+              .affectedKeys().hasOnly(['replyCount']))
+        || (isAuth() && request.resource.data.diff(resource.data)
+              .affectedKeys().hasOnly(['likedBy']));
+
+      // ── likes (sub-collection notices/{id}/likes/{uid}) ────
+      // Doc ID = UID — cada usuário só pode criar/deletar SEU PRÓPRIO doc
+      match /likes/{uid} {
+        allow read: if isAuth();
+        allow create: if isAuth() && request.auth.uid == uid;
+        allow delete: if isAuth() && request.auth.uid == uid;
+        allow update: if false; // toggle = create ou delete, nunca update
+      }
 
       // ── replies (sub-collection) ───────────────────────────
       // Tópico de discussão linear — sem respostas de respostas

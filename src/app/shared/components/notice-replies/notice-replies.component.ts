@@ -40,45 +40,43 @@ import { Notice, NoticeReply } from '../../../core/models/notice.model';
       } @else {
         <div class="replies-list">
           @for (r of replies(); track r.id) {
-            <div class="reply-item" [class.pinned]="r.pinned">
-              @if (r.pinned) {
-                <div class="reply-pin-badge">📌 Fixado</div>
-              }
+            <div class="reply-row" [class.pinned]="r.pinned">
+              <app-avatar [photoUrl]="r.authorPhoto" [name]="r.authorName" [size]="34" class="reply-avatar" />
 
-              <div class="reply-header">
-                <app-avatar [photoUrl]="r.authorPhoto" [name]="r.authorName" [size]="32" />
-                <div class="reply-meta">
-                  <div class="reply-author">{{ r.authorName }}</div>
-                  <div class="reply-date">{{ formatDate(r.createdAt) }}</div>
+              <div class="reply-bubble">
+                @if (r.pinned) {
+                  <div class="reply-pin-badge">📌 Fixado pelo autor</div>
+                }
+
+                <div class="reply-content">
+                  <span class="reply-author">{{ r.authorName }}</span>
+                  <span class="reply-text">{{ r.text }}</span>
                 </div>
 
-                <!-- Ações: pin (só autor do aviso) e excluir (autor da resposta ou notices.edit) -->
-                <div class="reply-actions">
+                <div class="reply-footer">
+                  <span class="reply-date">{{ formatDate(r.createdAt) }}</span>
+
+                  <button class="reply-like-btn" [class.liked]="hasLiked(r)"
+                          (click)="toggleLike(r)">
+                    {{ hasLiked(r) ? '❤️' : '🤍' }}
+                    @if (r.likedBy.length > 0) {
+                      <span class="reply-like-count">{{ r.likedBy.length }}</span>
+                    }
+                  </button>
+
                   @if (isNoticeAuthor()) {
-                    <button class="reply-action-btn"
-                            [class.active]="r.pinned"
-                            title="Fixar resposta"
-                            (click)="togglePin(r)">
+                    <button class="reply-mini-action" [class.active]="r.pinned"
+                            title="Fixar resposta" (click)="togglePin(r)">
                       📌
                     </button>
                   }
                   @if (canDelete(r)) {
-                    <button class="reply-action-btn danger"
-                            title="Excluir resposta"
-                            (click)="deleteReply(r)">
+                    <button class="reply-mini-action danger"
+                            title="Excluir resposta" (click)="deleteReply(r)">
                       🗑
                     </button>
                   }
                 </div>
-              </div>
-
-              <div class="reply-text">{{ r.text }}</div>
-
-              <div class="reply-footer">
-                <button class="like-btn" [class.liked]="hasLiked(r)"
-                        (click)="toggleLike(r)">
-                  {{ hasLiked(r) ? '❤️' : '🤍' }} {{ r.likedBy.length || '' }}
-                </button>
               </div>
             </div>
           }
@@ -104,9 +102,7 @@ import { Notice, NoticeReply } from '../../../core/models/notice.model';
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="closed.emit()">Fechar</button>
-      </div>
+
     </app-modal>
   `,
 })

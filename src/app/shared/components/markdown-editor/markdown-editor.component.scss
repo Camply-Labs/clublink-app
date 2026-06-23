@@ -99,6 +99,21 @@
 //  então usamos ::ng-deep para alcançar seus elementos.
 // ════════════════════════════════════════════════════════════
 
+// ── Visibilidade sem destruir o DOM ──────────────────────────
+// Usar display:none causaria problemas de layout no CodeMirror
+// (medidas zeradas). Usamos visibility+height para manter o DOM
+// mas sem ocupar espaço visual.
+.is-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.markdown-mode-wrapper { width: 100%; }
+
 .markdown-editor-wrapper {
   // Garante que o editor herde a largura do container
   width: 100%;

@@ -3,9 +3,13 @@ import {
   Component,
   inject,
   signal,
+  OnDestroy,
+  viewChild,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { NoticeService } from '../../core/services/notice.service';
+import { UserService } from '../../core/services/user.service';
 import { PermissionService } from '../../core/services/permission.service';
 import { ToastService } from '../../core/services/toast.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
@@ -15,6 +19,7 @@ import {
 } from '../../shared/components/markdown-editor/markdown-editor.component';
 import { Notice, NoticePayload, NOTICE_COLORS } from '../../core/models/notice.model';
 import { NoticeRepliesComponent } from '../../shared/components/notice-replies/notice-replies.component';
+import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
 
 type ModalMode = 'create' | 'edit';
 
@@ -23,7 +28,7 @@ type ModalMode = 'create' | 'edit';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: 'notices.component.scss',
-  imports: [FormsModule, ModalComponent, MarkdownEditorComponent, NoticeRepliesComponent],
+  imports: [FormsModule, ModalComponent, MarkdownEditorComponent, NoticeRepliesComponent, AvatarComponent],
   template: `
     <div class="section-header">
       <h2 class="section-title">📌 Quadro de Avisos</h2>
@@ -45,54 +50,75 @@ type ModalMode = 'create' | 'edit';
         </div>
       </div>
     } @else {
-      <div class="notices-grid">
+      <div class="notices-feed">
         @for (n of noticeSvc.notices(); track n.id) {
           <article class="notice-card" [style.--accent]="n.color">
-            @if (n.pinned) {
-              <div class="notice-pin" title="Fixado">📌</div>
-            }
 
+            <!-- ── Cabeçalho: autor ────────────────────────── -->
+            <header class="notice-header">
+              <app-avatar [photoUrl]="authorPhoto(n)" [name]="n.authorName" [size]="36" />
+              <div class="notice-header-info">
+                <div class="notice-author-name">{{ n.authorName }}</div>
+                <div class="notice-date">
+                  {{ formatDate(n.createdAt) }}
+                  @if (n.updatedAt) {
+                    <span class="notice-edited"> · editado</span>
+                  }
+                </div>
+              </div>
+
+              @if (n.pinned) {
+                <div class="notice-pin" title="Fixado">📌</div>
+              }
+
+              @if (permSvc.can('notices.edit')) {
+                <div class="notice-actions">
+                  <button class="notice-action-btn" (click)="openEdit(n)" title="Editar">✏️</button>
+                  <button class="notice-action-btn danger"
+                          [disabled]="deleting() === n.id"
+                          (click)="confirmDelete(n)" title="Excluir">
+                    {{ deleting() === n.id ? '…' : '🗑' }}
+                  </button>
+                </div>
+              }
+            </header>
+
+            <!-- ── Imagem (opcional) ───────────────────────── -->
             @if (n.coverImage) {
               <div class="notice-cover">
-                <img [src]="n.coverImage" [alt]="n.title" />
+                <img [src]="n.coverImage" [alt]="n.title" loading="lazy" />
               </div>
             }
 
+            <!-- ── Corpo ────────────────────────────────────── -->
             <div class="notice-body">
               <h3 class="notice-title">{{ n.title }}</h3>
-
               <div class="notice-content" [innerHTML]="render(n.content)"></div>
+            </div>
 
-              <div class="notice-footer">
-                <div class="notice-meta">
-                  <span class="notice-author">{{ n.authorName }}</span>
-                  <span class="notice-date">
-                    {{ formatDate(n.createdAt) }}
-                    @if (n.updatedAt) {
-                      <span class="notice-edited"> · editado em {{ formatDate(n.updatedAt) }}</span>
-                    }
-                  </span>
-                </div>
-
-                @if (permSvc.can('notices.edit')) {
-                  <div class="notice-actions">
-                    <button class="btn btn-secondary btn-sm" (click)="openEdit(n)">✏️</button>
-                    <button class="btn btn-danger btn-sm"
-                            [disabled]="deleting() === n.id"
-                            (click)="confirmDelete(n)">
-                      {{ deleting() === n.id ? '…' : '🗑' }}
-                    </button>
-                  </div>
-                }
+            <!-- ── Footer: ações de curtir/comentar + contagens ── -->
+            <div class="notice-footer">
+              <div class="notice-actions-row">
+                <button class="notice-like-btn" [class.liked]="hasLiked(n)"
+                        (click)="toggleLike(n)">
+                  {{ hasLiked(n) ? '❤️' : '🤍' }}
+                </button>
+                <button class="notice-comment-btn" (click)="openReplies(n)">
+                  💬
+                </button>
               </div>
 
-              <!-- Responder / contagem de respostas -->
-              <button class="notice-reply-btn" (click)="openReplies(n)">
-                💬 Responder
-                @if (n.replyCount > 0) {
-                  <span class="reply-count-badge">{{ n.replyCount }}</span>
-                }
-              </button>
+              @if (likeCount(n) > 0) {
+                <div class="notice-likes-count">
+                  {{ likeCount(n) }} {{ likeCount(n) === 1 ? 'curtida' : 'curtidas' }}
+                </div>
+              }
+
+              @if (n.replyCount > 0) {
+                <button class="notice-comments-link" (click)="openReplies(n)">
+                  Ver {{ n.replyCount === 1 ? 'o comentário' : 'os ' + n.replyCount + ' comentários' }}
+                </button>
+              }
             </div>
           </article>
         }
@@ -115,6 +141,7 @@ type ModalMode = 'create' | 'edit';
       <div class="form-group">
         <label class="form-label">Conteúdo *</label>
         <app-markdown-editor
+          #mdEditorRef
           [(value)]="form.content"
           [(coverImage)]="form.coverImage!"
         />
@@ -180,12 +207,14 @@ type ModalMode = 'create' | 'edit';
     </app-modal>
   `,
 })
-export class NoticesComponent {
+export class NoticesComponent implements OnDestroy {
   readonly noticeSvc = inject(NoticeService);
+  private readonly userSvc = inject(UserService);
   readonly permSvc   = inject(PermissionService);
   private readonly toast = inject(ToastService);
 
   readonly noticeColors = NOTICE_COLORS;
+  readonly mdEditor = viewChild<MarkdownEditorComponent>('mdEditorRef');
 
   readonly modalOpen       = signal(false);
   readonly mode            = signal<ModalMode>('create');
@@ -202,6 +231,44 @@ export class NoticesComponent {
 
   render(md: string): string {
     return renderMarkdown(md);
+  }
+
+  /** Foto do autor — busca pelo UID no UserService se disponível, senão vazio */
+  authorPhoto(n: Notice): string {
+    return this.userSvc.getById(n.authorUid)?.photoUrl ?? '';
+  }
+
+  /** UIDs que curtiram cada aviso — uid → string[] */
+  private readonly likesMap = signal<Record<string, string[]>>({});
+
+  /** Assinaturas ativas de watchLikes() por noticeId */
+  private likeSubs = new Map<string, Subscription>();
+
+  /** Garante que exista uma assinatura de likes para este aviso */
+  private ensureLikeSub(noticeId: string): void {
+    if (this.likeSubs.has(noticeId)) return;
+    const sub = this.noticeSvc.watchLikes(noticeId).subscribe(uids => {
+      this.likesMap.update(map => ({ ...map, [noticeId]: uids }));
+    });
+    this.likeSubs.set(noticeId, sub);
+  }
+
+  likeCount(n: Notice): number {
+    this.ensureLikeSub(n.id);
+    return this.likesMap()[n.id]?.length ?? 0;
+  }
+
+  hasLiked(n: Notice): boolean {
+    this.ensureLikeSub(n.id);
+    return (this.likesMap()[n.id] ?? []).includes(this.noticeSvc.currentUid);
+  }
+
+  async toggleLike(n: Notice): Promise<void> {
+    try {
+      await this.noticeSvc.toggleNoticeLike(n.id);
+    } catch {
+      this.toast.error('Erro ao curtir aviso.');
+    }
   }
 
   openReplies(n: Notice): void {
@@ -227,6 +294,8 @@ export class NoticesComponent {
     };
     this.mode.set('edit');
     this.modalOpen.set(true);
+    // Sincroniza o conteúdo existente no EasyMDE após o modal abrir
+    setTimeout(() => this.mdEditor()?.setEditorValue(n.content));
   }
 
   async save(): Promise<void> {
@@ -291,5 +360,10 @@ export class NoticesComponent {
 
   private emptyForm(): NoticePayload {
     return { title: '', content: '', coverImage: '', color: '#c9a84c', pinned: false };
+  }
+
+  ngOnDestroy(): void {
+    this.likeSubs.forEach(sub => sub.unsubscribe());
+    this.likeSubs.clear();
   }
 }

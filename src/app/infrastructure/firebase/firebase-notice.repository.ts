@@ -42,6 +42,7 @@ function docToNotice(data: Record<string, unknown>, id: string): Notice {
     color:       (data['color']       as string)  ?? '#c9a84c',
     pinned:      (data['pinned']      as boolean) ?? false,
     replyCount:  (data['replyCount']  as number)  ?? 0,
+    likedBy:     (data['likedBy']     as string[]) ?? [],
     createdAt:   toIso(data['createdAt']),
     updatedAt:   data['updatedAt'] ? toIso(data['updatedAt']) : undefined,
   };
@@ -97,6 +98,7 @@ export class FirebaseNoticeRepository implements INoticeRepository {
       authorUid,
       authorName,
       replyCount: 0,
+      likedBy:    [],
       createdAt: serverTimestamp(),
     });
     return ref.id;
@@ -111,6 +113,31 @@ export class FirebaseNoticeRepository implements INoticeRepository {
 
   async delete(id: string): Promise<void> {
     await deleteDoc(doc(this.firestore, 'notices', id));
+  }
+
+  // ── Likes do aviso (sub-collection notices/{id}/likes/{uid}) ──
+  // Doc ID = UID do usuário — leitura por existência do doc,
+  // sem necessidade de índices compostos.
+
+  watchLikes(noticeId: string): Observable<string[]> {
+    return collectionData(
+      collection(this.firestore, 'notices', noticeId, 'likes'),
+      { idField: 'id' },
+    ).pipe(
+      map(docs => docs.map(d => (d as { id: string }).id)),
+    );
+  }
+
+  async toggleNoticeLike(noticeId: string, uid: string): Promise<void> {
+    const likeRef = doc(this.firestore, 'notices', noticeId, 'likes', uid);
+    await runTransaction(this.firestore, async (tx) => {
+      const snap = await tx.get(likeRef);
+      if (snap.exists()) {
+        tx.delete(likeRef);
+      } else {
+        tx.set(likeRef, { likedAt: serverTimestamp() });
+      }
+    });
   }
 
   // ── Respostas ──────────────────────────────────────────────
