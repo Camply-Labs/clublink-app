@@ -7,7 +7,100 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ---
 
-## [1.0.0-beta.2] — 2025
+## [1.0.0-beta.3] — 2026
+
+### ✨ Adicionado
+
+#### 📌 Quadro de Avisos (`/notices`)
+
+- Nova aba visível para **todos os usuários autenticados**, sem restrição de permissão para leitura
+- Publicação, edição e exclusão restritas a quem possui `notices.edit`
+- Permissões `notices.view` e `notices.edit` adicionadas ao RBAC
+- Layout estilo **Instagram Web**: feed em coluna única, centralizado, limitado a **500 px de largura** em monitores grandes
+- Imagens com proporção real preservada (`object-fit: contain`), sem cortes, com teto de 600 px de altura
+- Em mobile (≤540 px) o card ocupa a tela toda, sem bordas laterais
+- Card com: foto do autor (via `AvatarComponent`), nome, data de publicação, indicador "editado", ações de edição/exclusão e pin 📌
+- Avisos podem ser **fixados no topo** — ordenados por `pinned desc, createdAt desc`
+- Conteúdo renderizado em Markdown; imagem de capa completamente opcional
+
+##### 🔣 Editor Markdown (`MarkdownEditorComponent` com EasyMDE)
+- **Modo Simples**: upload de imagem de capa (base64 via `FileReader`) ou URL externa + textarea de texto puro
+- **Modo Markdown**: editor EasyMDE com toolbar completa (negrito, itálico, H1-H3, link, imagem, código, citação, listas, linha horizontal, preview, guia)
+- Editor e modo simples sempre presentes no DOM (ocultos via CSS `.is-hidden`) — nunca destruídos ao trocar de modo, evitando bugs de ciclo de vida do CodeMirror
+- EasyMDE instanciado via `afterNextRender()` e rodando em `zone.runOutsideAngular()` para não interferir no CD do Angular
+- Preview ao vivo integrado ao EasyMDE (botão 👁 na toolbar)
+- Renderizador `renderMarkdown()` próprio para exibição nos cards (sem dependências externas)
+
+##### ❤️ Curtidas em Avisos
+- Sub-collection `notices/{id}/likes/{uid}` — doc ID = UID do usuário
+- Sem campos de array no documento principal: sem necessidade de índices compostos, leitura por existência do doc
+- Toggle via `runTransaction` (cria/deleta o doc de like)
+- Contagem e estado de curtida ("já curtiu") via `watchLikes()` — stream em tempo real
+- `notices.component` gerencia uma assinatura `watchLikes()` por aviso via `likesMap` signal + `Map<noticeId, Subscription>`
+- Botão ❤️/🤍 com contagem exibida abaixo do card, estilo Instagram
+
+##### 💬 Respostas (Tópico de Discussão Linear)
+- Botão **💬 Comentar** com badge de contagem de respostas
+- Modal `NoticeRepliesComponent` com lista em tempo real (sub-collection `notices/{id}/replies`)
+- Respostas **lineares apenas** — sem replies de replies
+- Texto simples, máximo de **500 caracteres**, sem Markdown nem imagens
+- Layout de **bolha de comentário** estilo Instagram: avatar à esquerda, nome em negrito inline com o texto
+- **Curtidas** (❤️/🤍) em respostas via `likedBy[]` array com `arrayUnion`/`arrayRemove`
+- **Fixar resposta** — exclusivo para o autor do aviso; badge "📌 Fixado pelo autor" + fundo dourado sutil
+- **Excluir** — autor da resposta, autor do aviso, ou `notices.edit`
+- `replyCount` desnormalizado no aviso, mantido via `runTransaction` ao criar/excluir respostas
+- Botão "Fechar" removido do modal — apenas o X no cabeçalho fecha
+- Espaçamento ampliado entre respostas com separador sutil
+
+---
+
+### 🔧 Modificado
+
+- `notices.component.ts` — layout migrado de grid para feed em coluna única (`notices-feed`); foto do autor via `UserService.getById()`; `likesMap` signal com lazy subscription por aviso
+- `notice-replies.component.ts/.scss` — redesign completo para layout de bolha de comentário; botão Fechar removido; espaçamento aumentado
+- `user.service.ts` — novo método `getById(uid)` para buscar membro por UID
+
+---
+
+### 🔒 Segurança — Firestore Rules
+
+```
+notices/{id}             → leitura: autenticados;
+                            create/delete: notices.edit;
+                            update: notices.edit OU somente campo replyCount (transação de resposta)
+
+notices/{id}/likes/{uid} → leitura: autenticados;
+                            create/delete: apenas o próprio usuário (request.auth.uid == uid);
+                            update: bloqueado (toggle = create ou delete)
+
+notices/{id}/replies/{r} → leitura/criação: autenticados + validação de campos;
+                            update: likedBy (qualquer) OU pinned (autor do aviso);
+                            delete: autor da resposta, autor do aviso, ou notices.edit
+```
+
+---
+
+### 📦 Arquivos Adicionados / Modificados
+
+| Arquivo | Descrição |
+|---|---|
+| `core/models/notice.model.ts` | `Notice`, `NoticeReply`, `NoticeReplyPayload`, `NOTICE_COLORS` |
+| `core/repositories/notice.repository.ts` | `INoticeRepository` com `watchLikes`, `toggleNoticeLike`, métodos de replies |
+| `core/services/notice.service.ts` | Use-cases de avisos, likes e respostas |
+| `infrastructure/firebase/firebase-notice.repository.ts` | Sub-collections `likes` e `replies` com transações |
+| `features/notices/notices.component.ts` | Feed estilo Instagram, likes, abertura de replies |
+| `features/notices/notices.component.scss` | Layout de feed, card 500px, imagem proporção real |
+| `shared/components/markdown-editor/markdown-editor.component.ts` | EasyMDE fora da zona Angular, is-hidden CSS, setEditorValue() |
+| `shared/components/markdown-editor/markdown-editor.component.scss` | Tema EasyMDE com paleta do projeto |
+| `shared/components/notice-replies/notice-replies.component.ts` | Bolha de comentário, likes em respostas, pin |
+| `shared/components/notice-replies/notice-replies.component.scss` | Layout bolha, espaçamento ampliado, separadores |
+| `user.service.ts` | Novo `getById(uid)` |
+| `firestore.rules` | Regras para `likes` e `replies` sub-collections |
+| `firestore.indexes.json` | Índices para `notices` e `replies` |
+
+---
+
+## [1.0.0-beta.2] — 2026
 
 ### ✨ Adicionado
 
@@ -42,7 +135,7 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Exporta todos os eventos visíveis para o usuário atual como arquivo `.ics`
   compatível com Google Agenda, Apple Calendar e Outlook
 - Eventos privados exportados com `CLASS:PRIVATE`
-- Nome do arquivo gerado: `clublink_agenda_<data>.ics`
+- Nome do arquivo gerado: `club_link_agenda_<data>.ics`
 
 ##### 🎂 Data de Nascimento (`birth`)
 - Novo campo `birth: string` (formato `YYYY-MM-DD`) em todos os membros
@@ -151,7 +244,7 @@ import_log/{id}  → leitura/criação: agenda.edit; update/delete: bloqueado
 
 ---
 
-## [1.0.0-beta.1] — 2025
+## [1.0.0-beta.1] — 2026
 
 > Versão inicial de produção do sistema **ClubLink** em Angular 19.
 > Contém todas as funcionalidades base da plataforma.
@@ -204,10 +297,12 @@ import_log/{id}  → leitura/criação: agenda.edit; update/delete: bloqueado
 
 | Versão | Data | Destaque |
 |---|---|---|
-| **1.0.0-beta.2** | 2025 | Agenda, Pontuações padrão, Apontamento por grupo |
-| **1.0.0-beta.1** | 2025 | Versão base Angular 19 + Firebase |
+| **1.0.0-beta.3** | 2026 | Quadro de Avisos com Markdown e respostas |
+| **1.0.0-beta.2** | 2026 | Agenda, Pontuações padrão, Apontamento por grupo |
+| **1.0.0-beta.1** | 2026 | Versão base Angular 19 + Firebase |
 
 ---
 
-[1.0.0-beta.2]: https://camply-labs.github.io/clublink-app/releases/tag/v1.0.0-beta.2
-[1.0.0-beta.1]: https://camply-labs.github.io/clublink-app/releases/tag/v1.0.0-beta.1
+[1.0.0-beta.3]: https://github.com/Camply-Labs/clublink-app/releases/tag/v1.0.0-beta.3
+[1.0.0-beta.2]: https://github.com/Camply-Labs/clublink-app/releases/tag/v1.0.0-beta.2
+[1.0.0-beta.1]: https://github.com/Camply-Labs/clublink-app/releases/tag/v1.0.0-beta.1
