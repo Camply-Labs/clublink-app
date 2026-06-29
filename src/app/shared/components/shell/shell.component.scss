@@ -1,143 +1,352 @@
-@use '../../../../styles/variables.scss' as v;
+@use '../../../../styles/variables' as v;
 
-// ── Navbar ────────────────────────────────────────────────────
-.navbar {
-  background: linear-gradient(90deg, v.$navy 0%, v.$navy-mid 100%);
-  border-bottom: 2px solid v.$gold;
-  padding: 0.6rem 1.5rem;
+// ════════════════════════════════════════════════════════════
+//  VARIÁVEIS DE LAYOUT
+// ════════════════════════════════════════════════════════════
+$topbar-h:      56px;
+$sidebar-w:     240px;
+$sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para futuro
+
+// ════════════════════════════════════════════════════════════
+//  TOPBAR
+// ════════════════════════════════════════════════════════════
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $topbar-h;
+  z-index: 200;
+  background: rgba(v.$navy, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(v.$gold, 0.1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  padding: 0 1rem;
+  gap: 0.75rem;
 }
 
-.navbar-brand {
+// ── Hamburguer ────────────────────────────────────────────────
+.topbar-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: v.$snow;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: v.$transition;
+
+  svg { width: 20px; height: 20px; }
+  &:hover { background: rgba(255,255,255,0.06); }
+}
+
+// ── Brand ─────────────────────────────────────────────────────
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar-brand-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: v.$gold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+
+  small {
+    font-size: 0.55rem;
+    color: v.$gray-mid;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+  }
+}
+
+// ── Avatar + dropdown de conta ─────────────────────────────────
+.topbar-user {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.topbar-avatar-btn {
+  background: none;
+  border: 2px solid rgba(v.$gold, 0.3);
+  border-radius: 50%;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: v.$transition;
+
+  &:hover { border-color: rgba(v.$gold, 0.7); }
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: v.$navy-mid;
+  border: 1px solid rgba(v.$gold, 0.2);
+  border-radius: v.$radius;
+  box-shadow: v.$shadow-lg;
+  overflow: hidden;
+  z-index: 300;
+  animation: fadeSlideDown 0.15s ease;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.user-dropdown-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
-  span {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: v.$gold;
-    line-height: 1.2;
-  }
-
-  small {
-    display: block;
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.7rem;
-    color: v.$gray-mid;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+  padding: 1rem;
 }
 
-.navbar-nav {
+.user-dropdown-info { min-width: 0; }
+
+.user-dropdown-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: v.$snow;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-dropdown-role {
+  font-size: 0.7rem;
+  color: v.$gold;
+  margin-top: 1px;
+}
+
+.user-dropdown-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin: 0;
+}
+
+.user-dropdown-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  list-style: none;
-}
-
-.nav-link {
-  padding: 0.4rem 0.85rem;
-  border-radius: 8px;
-  font-size: 0.82rem;
+  gap: 0.65rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.83rem;
   font-weight: 600;
   color: v.$gray-light;
-  transition: v.$transition;
+  text-decoration: none;
   cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  display: block;
-
-  &:hover,
-  &.active {
-    color: v.$gold;
-    background: rgba(v.$gold, 0.12);
-  }
-}
-
-.nav-user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.78rem;
-  color: v.$gray-mid;
-}
-
-.nav-user-name { font-weight: 600; font-size: 0.8rem; color: v.$snow; }
-.nav-user-role { font-size: 0.68rem; color: v.$gold; }
-
-.btn-logout {
-  background: transparent;
-  border: 1px solid v.$danger;
-  color: v.$danger;
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: v.$transition;
-  text-transform: uppercase;
-  font-family: 'Raleway', sans-serif;
-
-  &:hover { background: v.$danger; color: white; }
-}
-
-// ── Hamburger (mobile) ────────────────────────────────────────
-.navbar-toggler {
-  display: none;
-  background: transparent;
   border: none;
-  cursor: pointer;
-  padding: 4px;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: 'Raleway', sans-serif;
+  transition: v.$transition;
 
-  span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: v.$gold;
-    margin: 5px 0;
-    transition: v.$transition;
-    border-radius: 2px;
+  svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.7; }
+
+  &:hover {
+    background: rgba(255,255,255,0.05);
+    color: v.$snow;
+    svg { opacity: 1; }
+  }
+
+  &.danger {
+    color: #fc8181;
+    svg { opacity: 0.8; }
+    &:hover { background: rgba(229,62,62,0.08); color: #fc8181; }
   }
 }
 
-.navbar-collapse {
+// ════════════════════════════════════════════════════════════
+//  OVERLAY (mobile)
+// ════════════════════════════════════════════════════════════
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 149;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ════════════════════════════════════════════════════════════
+//  SIDEBAR
+// ════════════════════════════════════════════════════════════
+.sidebar {
+  position: fixed;
+  top: $topbar-h;
+  left: 0;
+  bottom: 0;
+  width: $sidebar-w;
+  z-index: 150;
+  background: linear-gradient(180deg, v.$navy-mid 0%, rgba(10,22,40,0.98) 100%);
+  border-right: 1px solid rgba(v.$gold, 0.1);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(v.$gold, 0.15) transparent;
+
+  &.open { transform: translateX(0); }
+}
+
+// ── Navegação ─────────────────────────────────────────────────
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-section {
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+
+  & + & { margin-top: 0.5rem; }
+}
+
+.sidebar-section-label {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: v.$gray-mid;
+  padding: 0 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-link {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: v.$gray-light;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: v.$transition;
+  position: relative;
 
-// ── Responsive ────────────────────────────────────────────────
-@media (max-width: 768px) {
-  .navbar-toggler { display: block; }
-
-  .navbar-collapse {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: v.$navy-mid;
-    border-bottom: 2px solid v.$gold;
-    padding: 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    box-shadow: v.$shadow-md;
-
-    &.open { display: flex; }
+  svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: v.$transition;
   }
 
-  .navbar-nav    { flex-direction: column; width: 100%; }
-  .nav-link      { width: 100%; padding: 0.5rem 0.75rem; }
-  .nav-user-info { width: 100%; justify-content: space-between; }
+  span { white-space: nowrap; }
+
+  &:hover {
+    background: rgba(255,255,255,0.05);
+    color: v.$snow;
+    svg { opacity: 1; }
+  }
+
+  &.active {
+    background: rgba(v.$gold, 0.1);
+    color: v.$gold-light;
+    font-weight: 700;
+
+    svg { opacity: 1; color: v.$gold; }
+
+    // Barra lateral dourada (estilo Firebase)
+    &::before {
+      content: '';
+      position: absolute;
+      left: -0.5rem;
+      top: 20%;
+      height: 60%;
+      width: 3px;
+      background: v.$gold;
+      border-radius: 0 3px 3px 0;
+    }
+  }
+}
+
+// ── Footer do sidebar ─────────────────────────────────────────
+.sidebar-footer {
+  padding: 0.75rem 1.25rem 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: auto;
+}
+
+.sidebar-footer-version {
+  font-size: 0.65rem;
+  color: rgba(v.$gold, 0.5);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+}
+
+.sidebar-footer-copy {
+  font-size: 0.62rem;
+  color: v.$gray-mid;
+  margin-top: 2px;
+}
+
+// ════════════════════════════════════════════════════════════
+//  CONTEÚDO PRINCIPAL
+// ════════════════════════════════════════════════════════════
+.page-content {
+  margin-top: $topbar-h;
+  min-height: calc(100vh - #{$topbar-h});
+  padding: 1.75rem 1.5rem;
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// ════════════════════════════════════════════════════════════
+//  RESPONSIVO
+// ════════════════════════════════════════════════════════════
+
+// Tablet/desktop — sidebar abre ao lado do conteúdo sem overlay
+@media (min-width: 1024px) {
+  .sidebar {
+    transform: translateX(0);   // sempre visível por padrão
+
+    // Quando o toggle fecha em desktop, esconde via classe removida
+    &:not(.open) { transform: translateX(-100%); }
+  }
+
+  .sidebar-overlay { display: none; }
+
+  .page-content.sidebar-is-open {
+    margin-left: $sidebar-w;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-brand-name small { display: none; }
+  .page-content { padding: 1.25rem 1rem; }
+  .sidebar { width: min(#{$sidebar-w}, 85vw); }
 }
