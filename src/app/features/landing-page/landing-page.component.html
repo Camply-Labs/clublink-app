@@ -1,0 +1,803 @@
+<!-- ============================================================
+     Clube de Desbravadores – GARRAS DE ÁGUIA
+     Componente Angular 19 – Template HTML
+
+     VARIÁVEIS DE COR (customize em garras-de-aguia.component.scss):
+       --ga-midnight:   #0B0F1A   (fundo escuro principal)
+       --ga-navy:       #0D1B3E   (fundo de seções alternadas)
+       --ga-cobalt:     #1A3A8F   (azul cobalto – cor primária)
+       --ga-cobalt-lt:  #2A5CC7   (azul mais claro para hovers)
+       --ga-gold:       #D4A017   (dourado – cor de destaque)
+       --ga-gold-lt:    #F0C040   (dourado claro para destaques)
+       --ga-crimson:    #8B1A1A   (vermelho escuro – acento)
+       --ga-white:      #F5F5F0   (branco quente)
+       --ga-gray:       #8A8FA8   (texto secundário)
+
+     DADOS PARA PREENCHER (busque por: TODO):
+       - Ano de fundação / anos de história
+       - Cidade / bairro
+       - Nome do diretor(a)
+       - Número de membros
+       - Número de acampamentos realizados
+       - Número de camporis
+       - Endereço completo
+       - Telefone / e-mail
+       - Redes sociais
+       - Igreja base (IASD)
+       - Datas da linha do tempo
+   ================================================================ -->
+
+<!-- ────────────────────────────── NAVBAR ────────────────────────────── -->
+<nav class="ga-nav" id="ga-nav" role="navigation" aria-label="Navegação principal">
+  <div class="ga-nav__container">
+    <!-- Logo -->
+    <a href="#hero" class="ga-nav__brand" aria-label="Garras de Águia – Início">
+      <div class="ga-nav__eagle-icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 4C24 4 10 14 8 26C8 26 14 22 18 24C18 24 14 30 16 36C16 36 20 30 24 30C28 30 32 36 32 36C34 30 30 24 30 24C34 22 40 26 40 26C38 14 24 4 24 4Z" fill="#D4A017"/>
+          <path d="M24 30C24 30 20 38 20 42C20 42 22 40 24 40C26 40 28 42 28 42C28 38 24 30 24 30Z" fill="#D4A017"/>
+          <circle cx="19" cy="16" r="2" fill="#0B0F1A"/>
+          <circle cx="29" cy="16" r="2" fill="#0B0F1A"/>
+        </svg>
+      </div>
+      <div class="ga-nav__brand-text">
+        <span class="ga-nav__club">Garras de Águia</span>
+        <span class="ga-nav__sub">Clube de Desbravadores</span>
+      </div>
+    </a>
+
+    <!-- Hamburger mobile -->
+    <button class="ga-nav__hamburger" id="ga-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="ga-menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Menu -->
+    <ul class="ga-nav__menu" id="ga-menu" role="list">
+      <li><a href="#sobre" class="ga-nav__link">Sobre</a></li>
+      <li><a href="#atividades" class="ga-nav__link">Atividades</a></li>
+      <li><a href="#timeline" class="ga-nav__link">História</a></li>
+      <li><a href="#fe" class="ga-nav__link">Fé</a></li>
+      <li><a href="#contato" class="ga-nav__link ga-nav__link--cta">Fale Conosco</a></li>
+      <li><a href="#login" class="ga-nav__link ga-nav__link--login">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Entrar
+      </a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─────────────────────────────── HERO ─────────────────────────────── -->
+<section class="ga-hero" id="hero" aria-label="Apresentação do clube">
+  <!-- Parallax starfield canvas -->
+  <canvas class="ga-hero__stars" id="ga-stars" aria-hidden="true"></canvas>
+
+  <!-- Decorative mountain silhouette -->
+  <div class="ga-hero__mountain" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,320 L0,200 L120,140 L260,200 L380,100 L520,180 L640,60 L760,160 L900,80 L1040,160 L1160,100 L1300,170 L1440,120 L1440,320 Z" fill="#0D1B3E" opacity="0.7"/>
+      <path d="M0,320 L0,250 L200,190 L360,240 L500,170 L640,220 L780,150 L920,210 L1060,160 L1200,200 L1340,170 L1440,190 L1440,320 Z" fill="#0B0F1A" opacity="0.9"/>
+    </svg>
+  </div>
+
+  <div class="ga-hero__content">
+    <!-- Eyebrow -->
+    <p class="ga-hero__eyebrow">
+      <span class="ga-hero__badge">⚜ Pathfinders — IASD</span>
+    </p>
+
+    <!-- Headline principal -->
+    <h1 class="ga-hero__headline">
+      <span class="ga-hero__headline-top">Garras</span>
+      <span class="ga-hero__headline-middle">de</span>
+      <span class="ga-hero__headline-bottom">Águia</span>
+    </h1>
+
+    <p class="ga-hero__tagline">
+      Voamos alto. Servimos com propósito.<br>
+      Vivemos pela fé.
+    </p>
+
+    <div class="ga-hero__stats" role="list">
+      <div class="ga-hero__stat" role="listitem">
+        <strong class="ga-hero__stat-num"><!-- TODO: ex: 18 -->XX</strong>
+        <span class="ga-hero__stat-label">anos de história</span>
+      </div>
+      <div class="ga-hero__stat-divider" aria-hidden="true"></div>
+      <div class="ga-hero__stat" role="listitem">
+        <strong class="ga-hero__stat-num"><!-- TODO: ex: 47 -->XX</strong>
+        <span class="ga-hero__stat-label">desbravadores ativos</span>
+      </div>
+      <div class="ga-hero__stat-divider" aria-hidden="true"></div>
+      <div class="ga-hero__stat" role="listitem">
+        <strong class="ga-hero__stat-num"><!-- TODO: ex: 12 -->XX</strong>
+        <span class="ga-hero__stat-label">acampamentos realizados</span>
+      </div>
+    </div>
+
+    <div class="ga-hero__ctas">
+      <a href="#sobre" class="ga-btn ga-btn--primary">Conhecer o clube</a>
+      <a href="#contato" class="ga-btn ga-btn--ghost">Quero participar</a>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="ga-hero__scroll-hint" aria-hidden="true">
+    <span>Role para descobrir</span>
+    <div class="ga-hero__scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── SOBRE NÓS ───────────────────────────── -->
+<section class="ga-section ga-sobre" id="sobre" aria-labelledby="sobre-title">
+  <div class="ga-container">
+    <div class="ga-section__header">
+      <span class="ga-eyebrow">Quem somos</span>
+      <h2 id="sobre-title" class="ga-section__title">
+        Mais que um clube —<br>
+        <em>uma família em missão</em>
+      </h2>
+    </div>
+
+    <div class="ga-sobre__grid">
+      <!-- Texto principal -->
+      <div class="ga-sobre__text">
+        <p class="ga-sobre__lead">
+          O Clube de Desbravadores <strong>Garras de Águia</strong> nasceu em
+          <mark class="ga-mark"><!-- TODO: ex: 2006 -->XXXX</mark>
+          no coração de
+          <mark class="ga-mark"><!-- TODO: ex: Bairro, Cidade – UF -->CIDADE, ESTADO</mark>.
+          Somos parte da
+          <mark class="ga-mark"><!-- TODO: ex: Igreja Adventista Central de ... -->Igreja Adventista do Sétimo Dia de [Nome]</mark>,
+          e desde nossa fundação formamos jovens de
+          <strong>10 a 15 anos</strong> para voar alto — na vida, na fé e no serviço.
+        </p>
+        <p>
+          Inspirados na águia — ave que enxerga longe, voa acima das tempestades e renova suas forças — acreditamos que cada desbravador carrega um potencial extraordinário esperando para ser despertado. Aqui, esse potencial ganha asas.
+        </p>
+        <p>
+          Dirigido por
+          <strong><!-- TODO: ex: Dir. Mariana Costa -->Dir. [Nome do Diretor(a)]</strong>
+          e por uma equipe apaixonada de conselheiros e instrutores, o clube combina aventura ao ar livre, disciplina, criatividade e uma fé viva e prática.
+        </p>
+
+        <!-- Valores -->
+        <ul class="ga-valores" role="list" aria-label="Nossos valores">
+          <li class="ga-valor">
+            <span class="ga-valor__icon" aria-hidden="true">🦅</span>
+            <div>
+              <strong>Visão elevada</strong>
+              <p>Enxergamos além do presente. Formamos líderes com propósito eterno.</p>
+            </div>
+          </li>
+          <li class="ga-valor">
+            <span class="ga-valor__icon" aria-hidden="true">🤝</span>
+            <div>
+              <strong>Comunidade</strong>
+              <p>Ninguém voa sozinho. Nos apoiamos, crescemos e servimos juntos.</p>
+            </div>
+          </li>
+          <li class="ga-valor">
+            <span class="ga-valor__icon" aria-hidden="true">✝️</span>
+            <div>
+              <strong>Fé adventista</strong>
+              <p>Cristo é o centro. A Bíblia é nosso guia. O serviço é nosso testemunho.</p>
+            </div>
+          </li>
+          <li class="ga-valor">
+            <span class="ga-valor__icon" aria-hidden="true">🌿</span>
+            <div>
+              <strong>Natureza</strong>
+              <p>O ar livre é nossa sala de aula favorita. A criação de Deus, nosso laboratório.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Imagem / visual card -->
+      <aside class="ga-sobre__visual" aria-label="Galeria de fotos do clube">
+        <div class="ga-photo-stack">
+          <figure class="ga-photo ga-photo--1">
+            <img
+              src="https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?w=600&q=80"
+              alt="Jovens desbravadores em formação ao ar livre"
+              loading="lazy"
+            />
+            <figcaption>Reunião de unidade</figcaption>
+          </figure>
+          <figure class="ga-photo ga-photo--2">
+            <img
+              src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80"
+              alt="Acampamento ao pôr do sol com tendas na natureza"
+              loading="lazy"
+            />
+            <figcaption>Acampamento anual</figcaption>
+          </figure>
+          <div class="ga-photo-badge" aria-hidden="true">
+            <span>Desde</span>
+            <strong><!-- TODO -->XXXX</strong>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── ATIVIDADES ───────────────────────────── -->
+<section class="ga-section ga-atividades" id="atividades" aria-labelledby="ativ-title">
+  <div class="ga-container">
+    <div class="ga-section__header ga-section__header--center">
+      <span class="ga-eyebrow">O que fazemos</span>
+      <h2 id="ativ-title" class="ga-section__title">
+        Aventuras que transformam
+      </h2>
+      <p class="ga-section__subtitle">
+        Do rapel ao culto, da fogueira à missão — cada atividade tem um propósito maior.
+      </p>
+    </div>
+
+    <div class="ga-cards" role="list">
+
+      <!-- Acampamentos -->
+      <article class="ga-card" role="listitem" tabindex="0">
+        <div class="ga-card__img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&q=80"
+            alt="Grupo de jovens acampando em área verde com tendas coloridas ao amanhecer"
+            loading="lazy"
+            class="ga-card__img"
+          />
+          <div class="ga-card__overlay" aria-hidden="true"></div>
+        </div>
+        <div class="ga-card__body">
+          <span class="ga-card__tag">🏕️ Natureza</span>
+          <h3 class="ga-card__title">Acampamentos</h3>
+          <p class="ga-card__desc">
+            Finais de semana e semanas inteiras imersos na natureza. Aprenda a montar barraca, orientar-se pelo mapa, cozinhar no fogão a lenha e conviver em comunidade — longe das telas, perto de Deus e das pessoas.
+          </p>
+          <div class="ga-card__footer">
+            <span class="ga-card__stat"><!-- TODO -->X acampamentos/ano</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Rapel -->
+      <article class="ga-card ga-card--featured" role="listitem" tabindex="0">
+        <div class="ga-card__img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=700&q=80"
+            alt="Jovem praticando rapel em parede rochosa com capacete e equipamento de segurança"
+            loading="lazy"
+            class="ga-card__img"
+          />
+          <div class="ga-card__overlay" aria-hidden="true"></div>
+        </div>
+        <div class="ga-card__body">
+          <span class="ga-card__tag">🧗 Aventura</span>
+          <h3 class="ga-card__title">Rapel & Trilhas</h3>
+          <p class="ga-card__desc">
+            Supere seus limites. Desça paredes de rocha, atravesse pontes de cipó e desbrave trilhas que testam coragem e confiança. Cada descida ensina que com preparo, equipe e fé, nenhum desafio é grande demais.
+          </p>
+          <div class="ga-card__footer">
+            <span class="ga-card__badge-featured">Destaque ⚡</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Camporis -->
+      <article class="ga-card" role="listitem" tabindex="0">
+        <div class="ga-card__img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=700&q=80"
+            alt="Multidão de jovens reunidos em grande evento ao ar livre com bandeiras coloridas"
+            loading="lazy"
+            class="ga-card__img"
+          />
+          <div class="ga-card__overlay" aria-hidden="true"></div>
+        </div>
+        <div class="ga-card__body">
+          <span class="ga-card__tag">🏆 Eventos</span>
+          <h3 class="ga-card__title">Camporis</h3>
+          <p class="ga-card__desc">
+            Os grandes encontros dos desbravadores! Milhares de jovens, competições, louvor, pregação e amizades que duram para sempre. Já participamos de
+            <strong><!-- TODO: ex: 5 -->X camporis</strong> regionais e nacionais.
+          </p>
+          <div class="ga-card__footer">
+            <span class="ga-card__stat">Próximo Campori: <!-- TODO: ex: 2026 -->XXXX</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Especialidades -->
+      <article class="ga-card" role="listitem" tabindex="0">
+        <div class="ga-card__img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?w=700&q=80"
+            alt="Jovens aprendendo a fazer nós e técnicas de sobrevivência em grupo"
+            loading="lazy"
+            class="ga-card__img"
+          />
+          <div class="ga-card__overlay" aria-hidden="true"></div>
+        </div>
+        <div class="ga-card__body">
+          <span class="ga-card__tag">🎖️ Crescimento</span>
+          <h3 class="ga-card__title">Especialidades</h3>
+          <p class="ga-card__desc">
+            De primeiros socorros à astronomia, de culinária à marcenaria. As especialidades dos Desbravadores desenvolvem habilidades reais que você carregará pelo resto da vida.
+          </p>
+          <div class="ga-card__footer">
+            <span class="ga-card__stat">+<!-- TODO: ex: 80 -->XX especialidades disponíveis</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Serviço comunitário -->
+      <article class="ga-card" role="listitem" tabindex="0">
+        <div class="ga-card__img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=700&q=80"
+            alt="Jovens voluntários servindo refeições e ajudando a comunidade com sorrisos"
+            loading="lazy"
+            class="ga-card__img"
+          />
+          <div class="ga-card__overlay" aria-hidden="true"></div>
+        </div>
+        <div class="ga-card__body">
+          <span class="ga-card__tag">❤️ Missão</span>
+          <h3 class="ga-card__title">Serviço Comunitário</h3>
+          <p class="ga-card__desc">
+            Servir é nossa linguagem de amor. Projetos de evangelismo, ações sociais, visitas a asilos e muito mais. Porque fé sem obras é palavra vazia — e o mundo precisa de jovens que agem.
+          </p>
+          <div class="ga-card__footer">
+            <span class="ga-card__stat">Comunidade transformada</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Louvor e Culto -->
+      <article class="ga-card" role="listitem" tabindex="0">
+        <div class="ga-card__img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=700&q=80"
+            alt="Jovens em círculo de oração ao ar livre com mãos dadas sob luz dourada"
+            loading="lazy"
+            class="ga-card__img"
+          />
+          <div class="ga-card__overlay" aria-hidden="true"></div>
+        </div>
+        <div class="ga-card__body">
+          <span class="ga-card__tag">🕊️ Espiritual</span>
+          <h3 class="ga-card__title">Cultos & Louvor</h3>
+          <p class="ga-card__desc">
+            A fogueira de acampamento não é só calor — é onde oramos, adoramos e partilhamos. Cada reunião do clube começa e termina reconhecendo que Aquele que criou a águia é maior do que qualquer desafio.
+          </p>
+          <div class="ga-card__footer">
+            <span class="ga-card__stat">Todo sábado, com propósito</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── LINHA DO TEMPO ───────────────────────────── -->
+<section class="ga-section ga-timeline" id="timeline" aria-labelledby="tl-title">
+  <div class="ga-container">
+    <div class="ga-section__header ga-section__header--center">
+      <span class="ga-eyebrow">Nossa história</span>
+      <h2 id="tl-title" class="ga-section__title">
+        Uma trilha de <em>conquistas</em>
+      </h2>
+      <p class="ga-section__subtitle">
+        Cada passo foi dado com fé, coragem e muita aventura.
+      </p>
+    </div>
+
+    <!-- Trail line -->
+    <div class="ga-tl" role="list" aria-label="Linha do tempo do clube">
+
+      <div class="ga-tl__item ga-tl__item--left" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">🦅</div>
+        <div class="ga-tl__card">
+          <time class="ga-tl__year" datetime="<!-- TODO: ex: 2006 -->"><!-- TODO: ex: 2006 -->XXXX</time>
+          <h3 class="ga-tl__event">Fundação</h3>
+          <p>O Clube Garras de Águia é fundado na
+            <mark class="ga-mark"><!-- TODO: ex: IASD Central de [Cidade] -->Igreja Adventista de [Nome]</mark>
+            com
+            <mark class="ga-mark"><!-- TODO: ex: 12 -->XX</mark>
+            desbravadores pioneiros e o sonho de voar alto.
+          </p>
+        </div>
+      </div>
+
+      <div class="ga-tl__item ga-tl__item--right" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">🏕️</div>
+        <div class="ga-tl__card">
+          <time class="ga-tl__year" datetime="<!-- TODO -->"><!-- TODO -->XXXX</time>
+          <h3 class="ga-tl__event">1º Acampamento Oficial</h3>
+          <p>A primeira aventura coletiva! Em
+            <mark class="ga-mark"><!-- TODO: ex: Serra da Mantiqueira -->LOCALIDADE</mark>,
+            os desbravadores descobriram que a natureza é o melhor professor.
+          </p>
+        </div>
+      </div>
+
+      <div class="ga-tl__item ga-tl__item--left" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">🏆</div>
+        <div class="ga-tl__card">
+          <time class="ga-tl__year" datetime="<!-- TODO -->"><!-- TODO -->XXXX</time>
+          <h3 class="ga-tl__event">1º Campori Regional</h3>
+          <p>Primeira participação em um Campori Regional — e já com destaque!
+            <mark class="ga-mark"><!-- TODO: ex: 3º lugar na competição de ordem unida -->Resultado</mark>.
+            O nome Garras de Águia começa a ser conhecido.
+          </p>
+        </div>
+      </div>
+
+      <div class="ga-tl__item ga-tl__item--right" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">🧗</div>
+        <div class="ga-tl__card">
+          <time class="ga-tl__year" datetime="<!-- TODO -->"><!-- TODO -->XXXX</time>
+          <h3 class="ga-tl__event">Programa de Rapel</h3>
+          <p>Lançado o programa permanente de esportes radicais — rapel, trilhas e orientação. Mais de
+            <mark class="ga-mark"><!-- TODO: ex: 30 -->XX</mark>
+            jovens viveram sua primeira descida em rocha.
+          </p>
+        </div>
+      </div>
+
+      <div class="ga-tl__item ga-tl__item--left" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">🌟</div>
+        <div class="ga-tl__card">
+          <time class="ga-tl__year" datetime="<!-- TODO -->"><!-- TODO -->XXXX</time>
+          <h3 class="ga-tl__event">Campori Nacional</h3>
+          <p>Participação no maior Campori do Brasil, com
+            <mark class="ga-mark"><!-- TODO: ex: 60.000 -->XX mil</mark>
+            desbravadores de todo o país. Uma experiência que nenhum de nós esquece.
+          </p>
+        </div>
+      </div>
+
+      <div class="ga-tl__item ga-tl__item--right" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">📖</div>
+        <div class="ga-tl__card">
+          <time class="ga-tl__year" datetime="<!-- TODO -->"><!-- TODO -->XXXX</time>
+          <h3 class="ga-tl__event">Projeto Missão Urbana</h3>
+          <p>O clube lança ações de serviço comunitário permanentes na comunidade local — distribuição de alimentos, visitas a asilos e evangelismo jovem.
+          </p>
+        </div>
+      </div>
+
+      <div class="ga-tl__item ga-tl__item--left ga-tl__item--current" role="listitem">
+        <div class="ga-tl__dot" aria-hidden="true">🦅</div>
+        <div class="ga-tl__card ga-tl__card--current">
+          <time class="ga-tl__year" datetime="2025">Hoje</time>
+          <h3 class="ga-tl__event">Voando cada vez mais alto</h3>
+          <p>Com
+            <mark class="ga-mark"><!-- TODO: ex: 47 -->XX</mark>
+            membros ativos, o Garras de Águia segue formando gerações de jovens corajosos, compassivos e cheios de fé. A história continua — e <em>você pode fazer parte dela</em>.
+          </p>
+          <a href="#contato" class="ga-btn ga-btn--primary ga-btn--sm">Quero participar →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── FÉ & ESPIRITUALIDADE ───────────────────── -->
+<section class="ga-section ga-fe" id="fe" aria-labelledby="fe-title">
+  <div class="ga-fe__bg" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=70"
+      alt=""
+      loading="lazy"
+    />
+    <div class="ga-fe__bg-overlay"></div>
+  </div>
+
+  <div class="ga-container ga-fe__content">
+    <div class="ga-section__header">
+      <span class="ga-eyebrow ga-eyebrow--light">Nossa fé</span>
+      <h2 id="fe-title" class="ga-section__title ga-section__title--light">
+        Cristo no centro de<br><em>tudo o que fazemos</em>
+      </h2>
+    </div>
+
+    <div class="ga-fe__grid">
+      <div class="ga-fe__text">
+        <p class="ga-fe__lead">
+          Somos um clube <strong>Adventista do Sétimo Dia</strong>. Isso significa que nossa fé não fica só na teoria — ela aparece no serviço, na natureza, na comunidade e na forma como tratamos cada pessoa.
+        </p>
+        <p>
+          A cada reunião, acampamento e atividade, levamos a mensagem de que Jesus transforma vidas. Estudamos a Bíblia, oramos juntos e buscamos crescer em caráter — porque acreditamos que o verdadeiro aventureiro é aquele que tem coragem de viver por aquilo que acredita.
+        </p>
+        <p>
+          O Sábado é nosso dia especial — um presente de Deus para que nos lembremos de que somos mais do que nossa produtividade. É no Sábado que nos reunimos, adoramos e nos fortalecemos para a semana.
+        </p>
+
+        <blockquote class="ga-fe__quote">
+          <p>"Aqueles que esperam no SENHOR renovam as suas forças. Voam alto como águias."</p>
+          <cite>Isaías 40:31</cite>
+        </blockquote>
+      </div>
+
+      <div class="ga-fe__pillars" role="list" aria-label="Pilares espirituais do clube">
+        <div class="ga-pillar" role="listitem">
+          <div class="ga-pillar__icon" aria-hidden="true">📖</div>
+          <h3>Palavra</h3>
+          <p>A Bíblia como fundamento de toda decisão e aprendizado.</p>
+        </div>
+        <div class="ga-pillar" role="listitem">
+          <div class="ga-pillar__icon" aria-hidden="true">🙏</div>
+          <h3>Oração</h3>
+          <p>Conversamos com Deus em todo lugar — na floresta, no acampamento, na cidade.</p>
+        </div>
+        <div class="ga-pillar" role="listitem">
+          <div class="ga-pillar__icon" aria-hidden="true">❤️</div>
+          <h3>Serviço</h3>
+          <p>Amar ao próximo não é opcional — é o centro da vida cristã.</p>
+        </div>
+        <div class="ga-pillar" role="listitem">
+          <div class="ga-pillar__icon" aria-hidden="true">🌿</div>
+          <h3>Saúde</h3>
+          <p>Cuidar do corpo que Deus nos deu: natureza, alimentação e estilo de vida saudável.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── CTA ENTRAR ───────────────────────────── -->
+<section class="ga-section ga-cta" aria-labelledby="cta-title">
+  <div class="ga-container ga-cta__content">
+    <div class="ga-cta__eagle" aria-hidden="true">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 10 C60 10 25 35 20 65 C20 65 35 55 45 60 C45 60 35 75 40 90 C40 90 50 75 60 75 C70 75 80 90 80 90 C85 75 75 60 75 60 C85 55 100 65 100 65 C95 35 60 10 60 10Z" fill="#D4A017" opacity="0.9"/>
+        <path d="M60 75 C60 75 50 95 50 105 C50 105 55 100 60 100 C65 100 70 105 70 105 C70 95 60 75 60 75Z" fill="#D4A017" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="ga-cta__text">
+      <h2 id="cta-title" class="ga-cta__title">
+        Você foi feito para voar alto.
+      </h2>
+      <p class="ga-cta__subtitle">
+        Se você tem entre 10 e 15 anos e busca aventura, amizade e propósito — este clube é para você. Venha descobrir o que é ser um Desbravador.
+      </p>
+    </div>
+    <div class="ga-cta__actions">
+      <a href="#contato" class="ga-btn ga-btn--gold ga-btn--lg">Quero me inscrever</a>
+      <p class="ga-cta__fine">Entrada gratuita nas primeiras reuniões. Venha nos visitar!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────── CONTATO ───────────────────────────── -->
+<section class="ga-section ga-contato" id="contato" aria-labelledby="contato-title">
+  <div class="ga-container">
+    <div class="ga-section__header ga-section__header--center">
+      <span class="ga-eyebrow">Fale Conosco</span>
+      <h2 id="contato-title" class="ga-section__title">
+        Vamos conversar?
+      </h2>
+      <p class="ga-section__subtitle">
+        Tire suas dúvidas, agende uma visita ou saiba mais sobre como participar.
+      </p>
+    </div>
+
+    <div class="ga-contato__grid">
+      <!-- Info cards -->
+      <div class="ga-contato__infos" role="list" aria-label="Informações de contato">
+
+        <div class="ga-info-card" role="listitem">
+          <div class="ga-info-card__icon" aria-hidden="true">📍</div>
+          <div>
+            <h3 class="ga-info-card__label">Localização</h3>
+            <address class="ga-info-card__value">
+              <!-- TODO: ex: Rua das Palmeiras, 123 – Bairro, Cidade – UF -->
+              [Endereço completo]<br>
+              [Cidade – UF]
+            </address>
+          </div>
+        </div>
+
+        <div class="ga-info-card" role="listitem">
+          <div class="ga-info-card__icon" aria-hidden="true">📅</div>
+          <div>
+            <h3 class="ga-info-card__label">Reuniões</h3>
+            <p class="ga-info-card__value">
+              <!-- TODO: ex: Sábados às 15h -->
+              [Dia da semana] às [horário]<br>
+              <span class="ga-text-muted"><!-- TODO: ex: Igreja Adventista Central de [Cidade] -->Igreja Adventista de [Nome]</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="ga-info-card" role="listitem">
+          <div class="ga-info-card__icon" aria-hidden="true">📞</div>
+          <div>
+            <h3 class="ga-info-card__label">Telefone / WhatsApp</h3>
+            <p class="ga-info-card__value">
+              <a href="tel:<!-- TODO: ex: +55119XXXXXXXX -->+551100000000" class="ga-link">
+                <!-- TODO: ex: (11) 9XXXX-XXXX -->(XX) XXXXX-XXXX
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="ga-info-card" role="listitem">
+          <div class="ga-info-card__icon" aria-hidden="true">✉️</div>
+          <div>
+            <h3 class="ga-info-card__label">E-mail</h3>
+            <p class="ga-info-card__value">
+              <a href="mailto:<!-- TODO: ex: garrasdeaguia@iasd.org.br -->contato@exemplo.com" class="ga-link">
+                <!-- TODO -->contato&#64;exemplo.com
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="ga-info-card" role="listitem">
+          <div class="ga-info-card__icon" aria-hidden="true">📱</div>
+          <div>
+            <h3 class="ga-info-card__label">Redes Sociais</h3>
+            <div class="ga-social-links">
+              <a href="<!-- TODO: ex: https://instagram.com/garrasdeaguia -->#" class="ga-social-link" aria-label="Instagram do clube">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                Instagram
+              </a>
+              <a href="<!-- TODO: ex: https://facebook.com/garrasdeaguia -->#" class="ga-social-link" aria-label="Facebook do clube">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Formulário de contato -->
+      <div class="ga-contato__form-wrap">
+        <form class="ga-form" id="ga-contact-form" novalidate aria-label="Formulário de contato">
+          <h3 class="ga-form__title">Mande uma mensagem</h3>
+
+          <div class="ga-form__group">
+            <label for="ga-nome" class="ga-form__label">Nome completo</label>
+            <input type="text" id="ga-nome" name="nome" class="ga-form__input" placeholder="Seu nome" required autocomplete="name" />
+          </div>
+
+          <div class="ga-form__group">
+            <label for="ga-email" class="ga-form__label">E-mail</label>
+            <input type="email" id="ga-email" name="email" class="ga-form__input" placeholder="seu@email.com" required autocomplete="email" />
+          </div>
+
+          <div class="ga-form__group">
+            <label for="ga-fone" class="ga-form__label">WhatsApp <span class="ga-form__optional">(opcional)</span></label>
+            <input type="tel" id="ga-fone" name="fone" class="ga-form__input" placeholder="(XX) XXXXX-XXXX" autocomplete="tel" />
+          </div>
+
+          <div class="ga-form__group">
+            <label for="ga-assunto" class="ga-form__label">Assunto</label>
+            <select id="ga-assunto" name="assunto" class="ga-form__input ga-form__select" required>
+              <option value="" disabled selected>Selecione…</option>
+              <option value="inscricao">Quero me inscrever</option>
+              <option value="visita">Agendar uma visita</option>
+              <option value="duvidas">Dúvidas gerais</option>
+              <option value="parceria">Parceria / patrocínio</option>
+            </select>
+          </div>
+
+          <div class="ga-form__group">
+            <label for="ga-msg" class="ga-form__label">Mensagem</label>
+            <textarea id="ga-msg" name="mensagem" class="ga-form__input ga-form__textarea" placeholder="Escreva sua mensagem aqui…" rows="4" required></textarea>
+          </div>
+
+          <button type="submit" class="ga-btn ga-btn--primary ga-btn--full">
+            Enviar mensagem
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+
+          <div class="ga-form__success" id="ga-form-success" role="alert" aria-live="polite" hidden>
+            ✅ Mensagem enviada! Em breve entraremos em contato.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────── FOOTER ────────────────────────────── -->
+<footer class="ga-footer" role="contentinfo" aria-label="Rodapé do site">
+  <div class="ga-container">
+    <div class="ga-footer__grid">
+
+      <!-- Identidade -->
+      <div class="ga-footer__brand">
+        <div class="ga-footer__logo">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M24 4C24 4 10 14 8 26C8 26 14 22 18 24C18 24 14 30 16 36C16 36 20 30 24 30C28 30 32 36 32 36C34 30 30 24 30 24C34 22 40 26 40 26C38 14 24 4 24 4Z" fill="#D4A017"/>
+            <path d="M24 30C24 30 20 38 20 42C20 42 22 40 24 40C26 40 28 42 28 42C28 38 24 30 24 30Z" fill="#D4A017"/>
+          </svg>
+          <span>Garras de Águia</span>
+        </div>
+        <p class="ga-footer__slogan">
+          Clube de Desbravadores<br>
+          <em>Voamos alto. Servimos com propósito. Vivemos pela fé.</em>
+        </p>
+        <p class="ga-footer__church">
+          Vinculado à
+          <strong><!-- TODO: ex: Igreja Adventista Central de [Cidade] -->Igreja Adventista de [Nome]</strong>
+        </p>
+      </div>
+
+      <!-- Links rápidos -->
+      <nav class="ga-footer__nav" aria-label="Links rápidos do rodapé">
+        <h4 class="ga-footer__heading">Navegação</h4>
+        <ul role="list">
+          <li><a href="#sobre">Sobre o clube</a></li>
+          <li><a href="#atividades">Atividades</a></li>
+          <li><a href="#timeline">Nossa história</a></li>
+          <li><a href="#fe">Nossa fé</a></li>
+          <li><a href="#contato">Fale conosco</a></li>
+          <li><a href="#login">Área do membro</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contato resumido -->
+      <div class="ga-footer__contact">
+        <h4 class="ga-footer__heading">Contato</h4>
+        <address>
+          <p>
+            <span aria-hidden="true">📍</span>
+            <!-- TODO: ex: Rua das Palmeiras, 123 – Bairro<br>Cidade – UF, CEP 00000-000 -->
+            [Endereço completo]<br>
+            [Cidade – UF, CEP]
+          </p>
+          <p>
+            <span aria-hidden="true">📞</span>
+            <a href="tel:+551100000000"><!-- TODO -->(XX) XXXXX-XXXX</a>
+          </p>
+          <p>
+            <span aria-hidden="true">✉️</span>
+            <a href="mailto:contato@exemplo.com"><!-- TODO -->contato&#64;exemplo.com</a>
+          </p>
+          <p>
+            <span aria-hidden="true">📅</span>
+            Reuniões: <!-- TODO: ex: Sábados às 15h -->[Dia] às [Hora]
+          </p>
+        </address>
+      </div>
+
+      <!-- Redes sociais e app -->
+      <div class="ga-footer__social">
+        <h4 class="ga-footer__heading">Siga-nos</h4>
+        <div class="ga-footer__social-links">
+          <a href="#" class="ga-footer__social-icon" aria-label="Instagram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="ga-footer__social-icon" aria-label="Facebook">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="ga-footer__social-icon" aria-label="YouTube">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+        </div>
+        <p class="ga-footer__desbravadores-link">
+          Movimento mundial de <a href="https://desbravadores.com.br" target="_blank" rel="noopener noreferrer">Desbravadores</a>
+        </p>
+      </div>
+
+    </div>
+
+    <div class="ga-footer__bottom">
+      <p>
+        &copy; <span id="ga-year"></span> Clube de Desbravadores Garras de Águia. Todos os direitos reservados.
+      </p>
+      <p>
+        <a href="#hero" class="ga-footer__back-top" aria-label="Voltar ao topo">
+          ↑ Voltar ao topo
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

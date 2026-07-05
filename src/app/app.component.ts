@@ -17,6 +17,7 @@ import { AppStatusComponent } from './features/app-status/app-status.component';
 
 /** Rotas que nunca são bloqueadas pelo status da aplicação */
 const OVERRIDE_PATHS = ['/admin-override'];
+const PUBLIC_PATHS   = ['/', '/login'];
 
 @Component({
   selector: 'app-root',
@@ -85,13 +86,17 @@ export class AppComponent implements OnInit {
           // Não redireciona se está na rota de override
           if (OVERRIDE_PATHS.some(p => url.startsWith(p))) return;
 
-          if (!user && url !== '/login') {
-            this.router.navigate(['/login']);
-          } else if (user && url === '/login') {
+          if (!user && !this.isPublicRoute(url)) {
+            this.router.navigate(['/']);
+          } else if (user && this.isPublicRoute(url)) {
             this.router.navigate([user.role === 'diretoria' ? '/podium' : '/my-points']);
           }
         });
       });
     }, 500);
+  }
+
+  isPublicRoute(url: string): boolean {
+    return PUBLIC_PATHS.includes(url);
   }
 }
