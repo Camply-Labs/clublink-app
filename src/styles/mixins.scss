@@ -5,20 +5,20 @@
 
 // Card com gradiente padrão
 @mixin navy-card($hover: true) {
-  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.6));
-  border: 1px solid rgba(v.$gold, 0.15);
+  background: linear-gradient(145deg, var(--cl-bg-surface), rgba(26,50,85,0.6));
+  border: 1px solid rgba(var(--cl-secondary), 0.15);
   border-radius: v.$radius;
   box-shadow: v.$shadow-md;
   transition: v.$transition;
 
   @if $hover {
-    &:hover { border-color: rgba(v.$gold, 0.35); }
+    &:hover { border-color: rgba(var(--cl-secondary), 0.35); }
   }
 }
 
 // Texto com efeito shimmer dourado
 @mixin gold-shimmer {
-  background: linear-gradient(90deg, v.$gold 0%, v.$gold-pale 40%, v.$gold 80%);
+  background: linear-gradient(90deg, var(--cl-secondary) 0%, var(--cl-secondary-subtle) 40%, var(--cl-secondary) 80%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

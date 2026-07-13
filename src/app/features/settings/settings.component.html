@@ -1,0 +1,250 @@
+<!-- ============================================================
+     ClubLink – Configurações (Admin)
+     features/settings/settings.component.html
+     ============================================================ -->
+
+<div class="st-page">
+
+  <!-- ── Cabeçalho ──────────────────────────────────────────────── -->
+  <header class="st-header">
+    <span class="st-eyebrow">Administração · ClubLink</span>
+    <h1 class="st-title">Configurações do Clube</h1>
+    <p class="st-subtitle">
+      Personalize o nome, logo, contato e redes sociais exibidos no site público.
+    </p>
+
+    @if (saveSuccess$()) {
+      <div class="st-alert st-alert--cl-success" role="alert">
+        ✅ Configurações salvas com sucesso!
+      </div>
+    }
+    @if (saveError$()) {
+      <div class="st-alert st-alert--error" role="alert">
+        ⚠️ {{ saveError$() }}
+      </div>
+    }
+  </header>
+
+  <div class="st-layout">
+
+    <!-- Navegação lateral das seções -->
+    <nav class="st-tabs" aria-label="Seções de configuração">
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="st-tab"
+          [class.st-tab--active]="activeTab$() === tab.id"
+          (click)="setTab(tab.id)"
+          [attr.aria-current]="activeTab$() === tab.id ? 'page' : null"
+        >
+          <span class="st-tab__icon" aria-hidden="true">{{ tab.icon }}</span>
+          <span class="st-tab__label">{{ tab.label }}</span>
+        </button>
+      }
+    </nav>
+
+    <main class="st-main">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- IDENTIDADE -->
+        @if (activeTab$() === 'identity') {
+          <section class="st-section" aria-labelledby="id-heading">
+            <div class="st-section__head">
+              <h2 id="id-heading" class="st-section__title">🦅 Identidade do Clube</h2>
+              <p class="st-section__desc">Nome e logo exibidos na navegação e rodapé do site.</p>
+            </div>
+            <div formGroupName="identity" class="st-fields">
+
+              <div class="st-field">
+                <label for="clubName" class="st-label">
+                  Nome do clube <abbr title="obrigatório" class="st-required">*</abbr>
+                </label>
+                <input id="clubName" type="text" formControlName="clubName"
+                  class="st-input" [class.st-input--error]="isInvalid('identity.clubName')"
+                  placeholder="Ex: Garras de Águia" maxlength="80" autocomplete="organization" />
+                @if (isInvalid('identity.clubName')) {
+                  <p class="st-field-error" role="alert">
+                    @if (ctrl('identity.clubName')?.errors?.['required']) { Obrigatório. }
+                    @else if (ctrl('identity.clubName')?.errors?.['minlength']) { Mínimo 3 caracteres. }
+                  </p>
+                }
+              </div>
+
+              <div class="st-field">
+                <span class="st-label">Logo do clube</span>
+                <div class="st-logo-preview">
+                  @if (logoPreview$()) {
+                    <img [src]="logoPreview$()" alt="Preview da logo" class="st-logo-preview__img" />
+                  } @else {
+                    <div class="st-logo-preview__empty">
+                      <span aria-hidden="true">🖼️</span><span>Sem logo</span>
+                    </div>
+                  }
+                </div>
+                <label for="logoFile" class="st-upload-btn">
+                  <span aria-hidden="true">📤</span>
+                  Enviar imagem
+                  <input id="logoFile" type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    class="st-upload-hidden" (change)="onLogoFileChange($event)"
+                     />
+                </label>
+                <p class="st-hint">PNG, JPG, SVG ou WebP · Máx. 2 MB</p>
+                <div class="st-field" style="margin-top:.75rem">
+                  <label for="logoUrl" class="st-label st-label--sm">Ou cole a URL da logo</label>
+                  <input id="logoUrl" type="url" formControlName="logoUrl"
+                    class="st-input" placeholder="https://exemplo.com/logo.png" />
+                </div>
+              </div>
+
+            </div>
+          </section>
+        }
+
+        <!-- CONTATO -->
+        @if (activeTab$() === 'contact') {
+          <section class="st-section" aria-labelledby="contact-heading">
+            <div class="st-section__head">
+              <h2 id="contact-heading" class="st-section__title">📍 Contato & Endereço</h2>
+              <p class="st-section__desc">Informações da seção de contato e do rodapé do site público.</p>
+            </div>
+            <div formGroupName="contact" class="st-fields">
+
+              <div class="st-field">
+                <label for="churchName" class="st-label">Igreja / Sede</label>
+                <input id="churchName" type="text" formControlName="churchName"
+                  class="st-input" placeholder="Ex: IASD Central de São Paulo" maxlength="100" />
+              </div>
+
+              <div class="st-field">
+                <label for="schedule" class="st-label">Horário das reuniões</label>
+                <input id="schedule" type="text" formControlName="meetingSchedule"
+                  class="st-input" placeholder="Ex: Sábados às 15h" maxlength="60" />
+              </div>
+
+              <div class="st-field">
+                <label for="addr1" class="st-label">Endereço — linha 1</label>
+                <input id="addr1" type="text" formControlName="addressLine1"
+                  class="st-input" placeholder="Ex: Rua das Palmeiras, 123" maxlength="120" />
+              </div>
+
+              <div class="st-field">
+                <label for="addr2" class="st-label">Endereço — linha 2</label>
+                <input id="addr2" type="text" formControlName="addressLine2"
+                  class="st-input" placeholder="Ex: São Paulo – SP, CEP 01310-100" maxlength="80" />
+              </div>
+
+              <div class="st-fields st-fields--row">
+                <div class="st-field">
+                  <label for="phone" class="st-label">Telefone / WhatsApp</label>
+                  <input id="phone" type="tel" formControlName="phone"
+                    class="st-input" placeholder="(11) 99999-9999" maxlength="20" />
+                </div>
+                <div class="st-field">
+                  <label for="cemail" class="st-label">E-mail de contato</label>
+                  <input id="cemail" type="email" formControlName="email"
+                    class="st-input" [class.st-input--error]="isInvalid('contact.email')"
+                    placeholder="contato@seuclube.com" maxlength="100" />
+                  @if (isInvalid('contact.email')) {
+                    <p class="st-field-error" role="alert">E-mail inválido.</p>
+                  }
+                </div>
+              </div>
+
+            </div>
+          </section>
+        }
+
+        <!-- REDES SOCIAIS -->
+        @if (activeTab$() === 'social') {
+          <section class="st-section" aria-labelledby="social-heading">
+            <div class="st-section__head">
+              <h2 id="social-heading" class="st-section__title">📱 Redes Sociais</h2>
+              <p class="st-section__desc">Campos vazios ocultam o ícone no site.</p>
+            </div>
+            <div formGroupName="social" class="st-fields">
+              <div class="st-field">
+                <label for="ig" class="st-label">📸 Instagram</label>
+                <input id="ig" type="url" formControlName="instagram" class="st-input"
+                  placeholder="https://instagram.com/seuclube" maxlength="200" />
+              </div>
+              <div class="st-field">
+                <label for="fb" class="st-label">👥 Facebook</label>
+                <input id="fb" type="url" formControlName="facebook" class="st-input"
+                  placeholder="https://facebook.com/seuclube" maxlength="200" />
+              </div>
+              <div class="st-field">
+                <label for="yt" class="st-label">▶️ YouTube</label>
+                <input id="yt" type="url" formControlName="youtube" class="st-input"
+                  placeholder="https://youtube.com/@seuclube" maxlength="200" />
+              </div>
+              <div class="st-field">
+                <label for="wa" class="st-label">💬 WhatsApp</label>
+                <input id="wa" type="url" formControlName="whatsapp" class="st-input"
+                  placeholder="https://wa.me/55119..." maxlength="200" />
+                <p class="st-hint">Use o formato wa.me para links diretos.</p>
+              </div>
+              <div class="st-field">
+                <label for="tw" class="st-label">🐦 X (Twitter)</label>
+                <input id="tw" type="url" formControlName="twitter" class="st-input"
+                  placeholder="https://x.com/seuclube" maxlength="200" />
+              </div>
+              <div class="st-field">
+                <label for="tt" class="st-label">🎵 TikTok</label>
+                <input id="tt" type="url" formControlName="tiktok" class="st-input"
+                  placeholder="https://tiktok.com/@seuclube" maxlength="200" />
+              </div>
+            </div>
+          </section>
+        }
+
+        <!-- SUPORTE -->
+        @if (activeTab$() === 'support') {
+          <section class="st-section" aria-labelledby="support-heading">
+            <div class="st-section__head">
+              <h2 id="support-heading" class="st-section__title">🛠️ Suporte Técnico</h2>
+              <p class="st-section__desc">Dados exibidos no rodapé para usuários logados.</p>
+            </div>
+            <div formGroupName="support" class="st-fields">
+              <div class="st-field">
+                <label for="semail" class="st-label">E-mail de suporte</label>
+                <input id="semail" type="email" formControlName="supportEmail"
+                  class="st-input" [class.st-input--error]="isInvalid('support.supportEmail')"
+                  placeholder="suporte@clublink.app" maxlength="100" />
+                @if (isInvalid('support.supportEmail')) {
+                  <p class="st-field-error" role="alert">E-mail inválido.</p>
+                }
+              </div>
+              <div class="st-field">
+                <label for="sphone" class="st-label">Telefone de suporte</label>
+                <input id="sphone" type="tel" formControlName="supportPhone"
+                  class="st-input" placeholder="(11) 3000-0000" maxlength="20" />
+              </div>
+              <div class="st-field">
+                <label for="docs" class="st-label">URL da documentação</label>
+                <input id="docs" type="url" formControlName="docsUrl"
+                  class="st-input" placeholder="https://docs.clublink.app" maxlength="200" />
+              </div>
+            </div>
+          </section>
+        }
+
+        <!-- Barra de ação -->
+        <div class="st-action-bar">
+          <p class="st-action-bar__hint">
+            Alterações entram em vigor imediatamente após salvar.
+          </p>
+          <button type="submit" class="st-btn st-btn--primary"
+            [disabled]="isSaving$() || form.invalid" [attr.aria-busy]="isSaving$()">
+            @if (isSaving$()) {
+              <span class="st-spinner st-spinner--sm" aria-hidden="true"></span> Salvando…
+            } @else {
+              💾 Salvar configurações
+            }
+          </button>
+        </div>
+
+      </form>
+    </main>
+
+  </div>
+</div>

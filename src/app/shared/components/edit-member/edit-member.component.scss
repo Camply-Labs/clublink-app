@@ -13,7 +13,7 @@
 
 .avatar-upload-label {
   font-size: 0.75rem;
-  color: v.$gold;
+  color: var(--cl-secondary);
   cursor: pointer;
   text-decoration: underline;
   font-weight: 600;
@@ -23,7 +23,7 @@
 
 .edit-email {
   font-size: 0.72rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
 }
 
 // ── Admin toggle ─────────────────────────────────────────────
@@ -42,11 +42,11 @@
 
   input[type="checkbox"] { display: none; }
 
-  &:hover { border-color: rgba(v.$gold, 0.3); }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.3); }
 
   &.active {
-    border-color: rgba(v.$gold, 0.5);
-    background: rgba(v.$gold, 0.08);
+    border-color: rgba(var(--cl-secondary), 0.5);
+    background: rgba(var(--cl-secondary), 0.08);
   }
 }
 
@@ -54,30 +54,30 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  border: 2px solid rgba(v.$gold, 0.5);
+  border: 2px solid rgba(var(--cl-secondary), 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
   font-weight: 900;
-  color: v.$gold;
+  color: var(--cl-secondary);
   flex-shrink: 0;
   transition: v.$transition;
 
   .admin-toggle.active & {
-    background: v.$gold;
-    color: v.$navy;
+    background: var(--cl-secondary);
+    color: var(--cl-bg-base);
   }
 }
 
 .admin-toggle-label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
 }
 
 .admin-toggle-hint {
   font-size: 0.7rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 1px;
 }

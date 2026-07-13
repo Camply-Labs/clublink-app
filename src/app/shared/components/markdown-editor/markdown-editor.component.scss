@@ -13,15 +13,15 @@
   border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.03);
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   transition: v.$transition;
   font-family: 'Raleway', sans-serif;
 
-  &:hover  { border-color: rgba(v.$gold, 0.3); color: v.$snow; }
-  &.active { border-color: rgba(v.$gold, 0.45); background: rgba(v.$gold, 0.1); color: v.$gold-light; }
+  &:hover  { border-color: rgba(var(--cl-secondary), 0.3); color: var(--cl-text-primary); }
+  &.active { border-color: rgba(var(--cl-secondary), 0.45); background: rgba(var(--cl-secondary), 0.1); color: var(--cl-secondary-hover); }
 }
 
 // ── Modo simples — upload de imagem ───────────────────────────
@@ -40,19 +40,19 @@
   justify-content: center;
   gap: 0.3rem;
 
-  &:hover { border-color: rgba(v.$gold, 0.4); background: rgba(v.$gold, 0.04); }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.4); background: rgba(var(--cl-secondary), 0.04); }
 
   &.has-image {
     border-style: solid;
-    border-color: rgba(v.$gold, 0.35);
+    border-color: rgba(var(--cl-secondary), 0.35);
     padding: 0.5rem;
     min-height: auto;
   }
 }
 
 .image-upload-icon  { font-size: 2rem; opacity: 0.5; }
-.image-upload-label { font-size: 0.85rem; font-weight: 600; color: v.$snow; }
-.image-upload-hint  { font-size: 0.7rem; color: v.$gray-mid; }
+.image-upload-label { font-size: 0.85rem; font-weight: 600; color: var(--cl-text-primary); }
+.image-upload-hint  { font-size: 0.7rem; color: var(--cl-text-muted); }
 
 .image-preview-thumb {
   max-width: 100%;
@@ -71,7 +71,7 @@
   height: 26px;
   border-radius: 50%;
   background: rgba(10,22,40,0.85);
-  border: 1px solid rgba(v.$danger, 0.4);
+  border: 1px solid rgba(var(--cl-error), 0.4);
   color: #fc8181;
   cursor: pointer;
   font-size: 0.85rem;
@@ -81,14 +81,14 @@
   transition: v.$transition;
   z-index: 2;
 
-  &:hover { background: v.$danger; color: white; }
+  &:hover { background: var(--cl-error); color: white; }
 }
 
 .simple-textarea { resize: vertical; }
 
 .md-hint {
   font-size: 0.7rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 0.5rem;
   line-height: 1.5;
 }
@@ -141,7 +141,7 @@
 
     // Botões da toolbar
     button {
-      color: v.$snow !important;
+      color: var(--cl-text-primary) !important;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 4px;
@@ -151,9 +151,9 @@
       transition: v.$transition;
 
       &:hover, &.active {
-        background: rgba(v.$gold, 0.12) !important;
-        border-color: rgba(v.$gold, 0.4) !important;
-        color: v.$gold-light !important;
+        background: rgba(var(--cl-secondary), 0.12) !important;
+        border-color: rgba(var(--cl-secondary), 0.4) !important;
+        color: var(--cl-secondary-hover) !important;
         box-shadow: none;
       }
 
@@ -176,28 +176,28 @@
     border: 1px solid rgba(255,255,255,0.08);
     border-top: none;
     border-radius: 0 0 8px 8px;
-    color: v.$snow;
+    color: var(--cl-text-primary);
     font-family: 'Courier New', monospace;
     font-size: 0.85rem;
     line-height: 1.6;
 
-    .CodeMirror-cursor { border-left: 1px solid v.$gold; }
-    .CodeMirror-selected { background: rgba(v.$gold, 0.15); }
+    .CodeMirror-cursor { border-left: 1px solid var(--cl-secondary); }
+    .CodeMirror-selected { background: rgba(var(--cl-secondary), 0.15); }
 
     // Placeholder
-    .CodeMirror-placeholder { color: v.$gray-mid !important; }
+    .CodeMirror-placeholder { color: var(--cl-text-muted) !important; }
   }
 
   .CodeMirror-scroll { min-height: 220px; }
 
   // Syntax highlight — cabeçalhos, ênfase, links etc.
-  .cm-header   { color: v.$gold !important; font-weight: 700; }
-  .cm-strong   { color: v.$gold-light !important; }
-  .cm-em       { color: v.$gray-light !important; }
-  .cm-link     { color: v.$gold !important; }
-  .cm-url      { color: rgba(v.$gold, 0.6) !important; }
-  .cm-quote    { color: v.$gray-mid !important; font-style: italic; }
-  .cm-comment  { color: rgba(v.$gold, 0.7) !important; } // code blocks
+  .cm-header   { color: var(--cl-secondary) !important; font-weight: 700; }
+  .cm-strong   { color: var(--cl-secondary-hover) !important; }
+  .cm-em       { color: var(--cl-text-secondary) !important; }
+  .cm-link     { color: var(--cl-secondary) !important; }
+  .cm-url      { color: rgba(var(--cl-secondary), 0.6) !important; }
+  .cm-quote    { color: var(--cl-text-muted) !important; font-style: italic; }
+  .cm-comment  { color: rgba(var(--cl-secondary), 0.7) !important; } // code blocks
 
   // ── Barra de status (desabilitada via status:false, mas por garantia) ──
   .editor-statusbar { display: none; }
@@ -205,27 +205,27 @@
   // ── Preview lateral/inline (botão de olho) ────────────────
   .editor-preview,
   .editor-preview-side {
-    background: v.$navy-mid;
+    background: var(--cl-bg-surface);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 0 0 8px 8px;
-    color: v.$snow;
+    color: var(--cl-text-primary);
     padding: 1rem 1.1rem;
     font-size: 0.88rem;
     line-height: 1.7;
 
     h1, h2, h3 {
       font-family: 'Cinzel', serif;
-      color: v.$gold;
+      color: var(--cl-secondary);
       margin: 0.5rem 0;
     }
-    h3 { color: v.$gold-light; font-size: 1rem; }
+    h3 { color: var(--cl-secondary-hover); font-size: 1rem; }
 
-    strong { color: v.$gold-light; font-weight: 700; }
-    em     { color: v.$gray-light; }
+    strong { color: var(--cl-secondary-hover); font-weight: 700; }
+    em     { color: var(--cl-text-secondary); }
 
     code {
-      background: rgba(v.$gold, 0.1);
-      color: v.$gold-light;
+      background: rgba(var(--cl-secondary), 0.1);
+      color: var(--cl-secondary-hover);
       padding: 0.1rem 0.35rem;
       border-radius: 4px;
       font-size: 0.82rem;
@@ -245,15 +245,15 @@
     img { max-width: 100%; border-radius: 8px; margin: 0.5rem 0; }
 
     a {
-      color: v.$gold;
+      color: var(--cl-secondary);
       text-decoration: underline;
     }
 
     blockquote {
-      border-left: 3px solid rgba(v.$gold, 0.4);
+      border-left: 3px solid rgba(var(--cl-secondary), 0.4);
       padding-left: 0.75rem;
       margin: 0.5rem 0;
-      color: v.$gray-mid;
+      color: var(--cl-text-muted);
       font-style: italic;
     }
 
@@ -271,12 +271,12 @@
   // ── Tooltips da toolbar ────────────────────────────────────
   .CodeMirror-dialog,
   .editor-toolbar button[title]:hover::after {
-    color: v.$snow;
+    color: var(--cl-text-primary);
   }
 
   // Fullscreen do EasyMDE (caso o usuário use o atalho)
   .CodeMirror-fullscreen {
-    background: v.$navy;
+    background: var(--cl-bg-base);
     z-index: 1100;
   }
 }

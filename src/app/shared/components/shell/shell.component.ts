@@ -13,6 +13,8 @@ import { ClubLogoComponent } from '../club-logo/club-logo.component';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { environment } from '../../../../environments/environment';
+import { AppThemeMode, THEME_CATALOG } from '../../models/app-config.model';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-shell',
@@ -220,10 +222,97 @@ import { environment } from '../../../../environments/environment';
               </svg>
               <span>Console</span>
             </a>
+            <a class="sidebar-link" routerLink="/settings" routerLinkActive="active"
+               (click)="closeSidebarMobile()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+              <span>Configurações</span>
+            </a>
           </div>
         }
 
       </nav>
+
+      <!-- ── Seletor de Tema ───────────────────────────────────────── -->
+      <div class="sb__theme-section">
+
+        <div class="sb__section-label" [class.sb__section-label--hidden]="isCollapsed$()">
+          Aparência
+        </div>
+
+        <!-- Botão que abre o painel de temas -->
+        <button
+          class="sb__theme-btn"
+          [class.sb__theme-btn--active]="isThemePanelOpen$()"
+          (click)="toggleThemePanel()"
+          [title]="isCollapsed$() ? 'Tema: ' + currentTheme$().label : ''"
+          aria-haspopup="true"
+          [attr.aria-expanded]="isThemePanelOpen$()"
+        >
+          <!-- Swatch de preview da cor atual -->
+          <span
+            class="sb__theme-swatch"
+            [style.background]="currentTheme$().previewBg"
+            [style.border-color]="currentTheme$().previewFg"
+            aria-hidden="true"
+          ></span>
+
+          @if (!isCollapsed$()) {
+            <span class="sb__theme-label">{{ currentTheme$().label }}</span>
+            <span class="sb__theme-arrow" aria-hidden="true">
+              {{ isThemePanelOpen$() ? '▲' : '▼' }}
+            </span>
+          }
+        </button>
+
+        <!-- Painel de seleção de tema -->
+        @if (isThemePanelOpen$()) {
+          <div
+            class="sb__theme-panel"
+            [class.sb__theme-panel--collapsed]="isCollapsed$()"
+            role="listbox"
+            aria-label="Selecionar tema"
+          >
+            @for (theme of themeCatalog; track theme.id) {
+              <button
+                class="sb__theme-option"
+                [class.sb__theme-option--active]="currentTheme$().id === theme.id"
+                (click)="selectTheme(theme.id)"
+                role="option"
+                [attr.aria-selected]="currentTheme$().id === theme.id"
+              >
+                <!-- Preview swatch -->
+                <span
+                  class="sb__theme-option-swatch"
+                  [style.background]="theme.previewBg"
+                  aria-hidden="true"
+                >
+                  <span
+                    class="sb__theme-option-swatch-fg"
+                    [style.background]="theme.previewFg"
+                  ></span>
+                </span>
+
+                <div class="sb__theme-option-info">
+                  <span class="sb__theme-option-name">
+                    {{ theme.icon }} {{ theme.label }}
+                  </span>
+                  @if (!isCollapsed$()) {
+                    <span class="sb__theme-option-desc">{{ theme.description }}</span>
+                  }
+                </div>
+
+                @if (currentTheme$().id === theme.id) {
+                  <span class="sb__theme-option-check" aria-hidden="true">✓</span>
+                }
+              </button>
+            }
+          </div>
+        }
+
+      </div>
 
       <!-- Footer compacto no sidebar -->
       <div class="sidebar-footer">
@@ -246,12 +335,18 @@ export class ShellComponent {
   readonly version  = signal(environment.version);
   private readonly router = inject(Router);
   readonly permSvc        = inject(PermissionService);
+  readonly themeService  = inject(ThemeService);
 
   readonly user       = this.auth.currentUser;
   readonly isDirector = computed(() => this.auth.currentUser()?.role === 'diretoria');
   readonly sidebarOpen  = signal(false);
   readonly userMenuOpen = signal(false);
   readonly year = new Date().getFullYear();
+
+  readonly themeCatalog    = THEME_CATALOG;
+  readonly currentTheme$   = this.themeService.currentTheme$;
+  readonly isCollapsed$      = signal(false);
+  readonly isThemePanelOpen$ = signal(false);
 
   /** Fecha o dropdown de usuário ao clicar em qualquer lugar fora */
   @HostListener('document:click', ['$event'])
@@ -274,5 +369,13 @@ export class ShellComponent {
     this.auth.logout().subscribe({
       complete: () => this.router.navigate(['/login']),
     });
+  }
+
+  toggleThemePanel(): void {
+      this.isThemePanelOpen$.update(v => !v);
+    }
+
+  selectTheme(mode: AppThemeMode): void {
+    this.themeService.setMode(mode);
   }
 }

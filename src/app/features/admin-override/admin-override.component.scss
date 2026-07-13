@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: v.$navy;
+  background: var(--cl-bg-base);
   position: relative;
   overflow: hidden;
 }
@@ -15,21 +15,21 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 80%, rgba(v.$gold, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 20%, rgba(v.$gold, 0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 80%, rgba(var(--cl-secondary), 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(var(--cl-secondary), 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
 // ── Card ──────────────────────────────────────────────────────
 .override-card {
   position: relative;
-  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
-  border: 1px solid rgba(v.$gold, 0.3);
+  background: linear-gradient(145deg, var(--cl-bg-surface), var(--cl-bg-elevated));
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
   border-radius: v.$radius-lg;
   padding: 2.25rem 2rem;
   width: 100%;
   max-width: 420px;
-  box-shadow: v.$shadow-lg, 0 0 60px rgba(v.$gold, 0.06);
+  box-shadow: v.$shadow-lg, 0 0 60px rgba(var(--cl-secondary), 0.06);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -43,13 +43,13 @@
   font-family: 'Cinzel', serif;
   font-size: 1.3rem;
   font-weight: 700;
-  color: v.$gold;
+  color: var(--cl-secondary);
   margin: 0;
 }
 
 .override-subtitle {
   font-size: 0.72rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-bottom: 0.5rem;
@@ -57,7 +57,7 @@
 
 .override-hint {
   font-size: 0.8rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   line-height: 1.6;
   margin-bottom: 0.5rem;
 }
@@ -93,19 +93,19 @@
 
 .status-current-icon  { font-size: 1.6rem; flex-shrink: 0; }
 .status-current-label { font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700; }
-.status-current-since { font-size: 0.7rem; color: v.$gray-mid; margin-top: 2px; }
+.status-current-since { font-size: 0.7rem; color: var(--cl-text-muted); margin-top: 2px; }
 
 .override-divider {
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(v.$gold, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--cl-secondary), 0.2), transparent);
   margin: 0.25rem 0;
 }
 
 .override-section-label {
   font-size: 0.72rem;
   font-weight: 700;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   align-self: flex-start;
@@ -133,8 +133,8 @@
   text-align: left;
 
   input[type="radio"] { display: none; }
-  &:hover   { border-color: rgba(v.$gold, 0.3); }
-  &.selected { border-color: rgba(v.$gold, 0.45); background: rgba(v.$gold, 0.08); }
+  &:hover   { border-color: rgba(var(--cl-secondary), 0.3); }
+  &.selected { border-color: rgba(var(--cl-secondary), 0.45); background: rgba(var(--cl-secondary), 0.08); }
 }
 
 .status-option-icon  { font-size: 1rem; flex-shrink: 0; }
@@ -147,23 +147,23 @@
   gap: 0.5rem;
   cursor: pointer;
   font-size: 0.82rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   user-select: none;
   transition: v.$transition;
 
   input[type="checkbox"] { display: none; }
-  &:hover { color: v.$snow; }
-  &.active { color: v.$snow; font-weight: 600; }
+  &:hover { color: var(--cl-text-primary); }
+  &.active { color: var(--cl-text-primary); font-weight: 600; }
 }
 
 .toggle-box {
   width: 18px; height: 18px; border-radius: 4px;
-  border: 2px solid rgba(v.$gold, 0.4);
+  border: 2px solid rgba(var(--cl-secondary), 0.4);
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.68rem; font-weight: 900; color: v.$gold; flex-shrink: 0;
+  font-size: 0.68rem; font-weight: 900; color: var(--cl-secondary); flex-shrink: 0;
   transition: v.$transition;
 
-  .override-eta-toggle.active & { background: v.$gold; color: v.$navy; }
+  .override-eta-toggle.active & { background: var(--cl-secondary); color: var(--cl-bg-base); }
 }
 
 // ── Ações ─────────────────────────────────────────────────────
@@ -179,7 +179,7 @@
 .go-to-app {
   background: none;
   border: none;
-  color: rgba(v.$gold, 0.6);
+  color: rgba(var(--cl-secondary), 0.6);
   font-family: 'Raleway', sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
@@ -190,7 +190,7 @@
   text-underline-offset: 2px;
   margin-top: 0.25rem;
 
-  &:hover { color: v.$gold; }
+  &:hover { color: var(--cl-secondary); }
 }
 
 // ── Form (reusa classes globais mas ajusta contexto) ──────────

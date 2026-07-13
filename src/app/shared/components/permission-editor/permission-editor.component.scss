@@ -14,15 +14,15 @@
 .perm-title {
   font-size: 0.78rem;
   font-weight: 700;
-  color: v.$gold;
+  color: var(--cl-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .btn-select-all {
   background: transparent;
-  border: 1px solid rgba(v.$gold, 0.4);
-  color: v.$gold;
+  border: 1px solid rgba(var(--cl-secondary), 0.4);
+  color: var(--cl-secondary);
   font-size: 0.68rem;
   font-family: 'Raleway', sans-serif;
   font-weight: 600;
@@ -33,16 +33,16 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
 
-  &:hover { background: rgba(v.$gold, 0.12); }
+  &:hover { background: rgba(var(--cl-secondary), 0.12); }
 }
 
 .perm-admin-badge {
-  background: rgba(v.$gold, 0.1);
-  border: 1px solid rgba(v.$gold, 0.35);
+  background: rgba(var(--cl-secondary), 0.1);
+  border: 1px solid rgba(var(--cl-secondary), 0.35);
   border-radius: 8px;
   padding: 0.6rem 0.9rem;
   font-size: 0.82rem;
-  color: v.$gold-light;
+  color: var(--cl-secondary-hover);
   font-weight: 600;
 }
 
@@ -52,7 +52,7 @@
 
 .perm-group-name {
   font-size: 0.68rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
@@ -77,20 +77,20 @@
   cursor: pointer;
   transition: v.$transition;
   font-size: 0.75rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   user-select: none;
 
   input[type="checkbox"] { display: none; }
 
   &:hover {
-    border-color: rgba(v.$gold, 0.4);
-    color: v.$snow;
+    border-color: rgba(var(--cl-secondary), 0.4);
+    color: var(--cl-text-primary);
   }
 
   &.checked {
-    background: rgba(v.$gold, 0.15);
-    border-color: rgba(v.$gold, 0.5);
-    color: v.$gold-light;
+    background: rgba(var(--cl-secondary), 0.15);
+    border-color: rgba(var(--cl-secondary), 0.5);
+    color: var(--cl-secondary-hover);
   }
 }
 
@@ -98,7 +98,7 @@
   font-size: 0.65rem;
   width: 12px;
   text-align: center;
-  color: v.$gold;
+  color: var(--cl-secondary);
   font-weight: 900;
 }
 

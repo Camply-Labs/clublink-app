@@ -14,24 +14,24 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  border: 3px solid v.$gold;
+  border: 3px solid var(--cl-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
   transition: v.$transition;
-  background: v.$navy-light;
+  background: var(--cl-bg-elevated);
 
-  &:hover { border-color: v.$gold-light; }
+  &:hover { border-color: var(--cl-secondary-hover); }
 }
 
-.avatar-preview-icon  { font-size: 2rem; color: v.$gray-mid; }
-.avatar-upload-label  { font-size: 0.75rem; color: v.$gray-mid; cursor: pointer; text-decoration: underline; }
+.avatar-preview-icon  { font-size: 2rem; color: var(--cl-text-muted); }
+.avatar-upload-label  { font-size: 0.75rem; color: var(--cl-text-muted); cursor: pointer; text-decoration: underline; }
 
 .credentials-title {
   font-size: 0.78rem;
-  color: v.$gold;
+  color: var(--cl-secondary);
   font-weight: 600;
   margin-bottom: 0.75rem;
   text-transform: uppercase;

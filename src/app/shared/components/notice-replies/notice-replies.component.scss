@@ -12,10 +12,10 @@
   margin-bottom: 0.75rem;
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(v.$gold, 0.25) transparent;
+  scrollbar-color: rgba(var(--cl-secondary), 0.25) transparent;
   &::-webkit-scrollbar       { width: 4px; }
   &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: rgba(v.$gold, 0.25); border-radius: 2px; }
+  &::-webkit-scrollbar-thumb { background: rgba(var(--cl-secondary), 0.25); border-radius: 2px; }
 }
 
 // ── Linha de comentário: avatar + balão ────────────────────────
@@ -51,9 +51,9 @@
   align-self: flex-start;
   font-size: 0.62rem;
   font-weight: 700;
-  color: v.$gold;
-  background: rgba(v.$gold, 0.1);
-  border: 1px solid rgba(v.$gold, 0.3);
+  color: var(--cl-secondary);
+  background: rgba(var(--cl-secondary), 0.1);
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
   border-radius: 20px;
   padding: 0.05rem 0.5rem;
 }
@@ -61,19 +61,19 @@
 .reply-content {
   font-size: 0.85rem;
   line-height: 1.55;
-  color: v.$gray-light;
+  color: var(--cl-text-secondary);
   word-break: break-word;
   white-space: pre-wrap;
 }
 
 .reply-author {
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   margin-right: 0.4rem;
 }
 
 .reply-text {
-  color: v.$gray-light;
+  color: var(--cl-text-secondary);
 }
 
 // ── Footer do comentário: data, like, ações ────────────────────
@@ -85,7 +85,7 @@
 
 .reply-date {
   font-size: 0.66rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -98,7 +98,7 @@
   border: none;
   cursor: pointer;
   font-size: 0.78rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   padding: 0;
   transition: transform 0.15s ease, color 0.15s ease;
 
@@ -122,8 +122,8 @@
   margin-left: auto;
 
   &:hover   { opacity: 1; }
-  &.active  { opacity: 1; filter: drop-shadow(0 0 4px rgba(v.$gold, 0.6)); }
-  &.danger:hover { filter: drop-shadow(0 0 4px rgba(v.$danger, 0.6)); }
+  &.active  { opacity: 1; filter: drop-shadow(0 0 4px rgba(var(--cl-secondary), 0.6)); }
+  &.danger:hover { filter: drop-shadow(0 0 4px rgba(var(--cl-error), 0.6)); }
 }
 
 .reply-mini-action + .reply-mini-action {
@@ -140,8 +140,8 @@
 
 // ── Fixado: destaque sutil no balão inteiro ────────────────────
 .reply-row.pinned .reply-bubble {
-  background: rgba(v.$gold, 0.05);
-  border: 1px solid rgba(v.$gold, 0.18);
+  background: rgba(var(--cl-secondary), 0.05);
+  border: 1px solid rgba(var(--cl-secondary), 0.18);
   border-radius: 10px;
   padding: 0.5rem 0.65rem;
   margin: -0.5rem -0.65rem -0.5rem 0; // compensa para alinhar com não-pinados
@@ -168,5 +168,5 @@
 
 .reply-char-count {
   font-size: 0.68rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
 }

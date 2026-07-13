@@ -20,9 +20,9 @@
   app-avatar { margin-bottom: 0.25rem; }
 }
 
-.profile-name  { font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700; color: v.$snow; }
-.profile-unit  { font-size: 0.75rem; color: v.$gold; text-transform: uppercase; letter-spacing: 0.1em; }
-.profile-email { font-size: 0.72rem; color: v.$gray-mid; margin-top: 0.1rem; }
+.profile-name  { font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700; color: var(--cl-text-primary); }
+.profile-unit  { font-size: 0.75rem; color: var(--cl-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+.profile-email { font-size: 0.72rem; color: var(--cl-text-muted); margin-top: 0.1rem; }
 
 .profile-role-badge {
   margin-top: 0.5rem;
@@ -30,14 +30,14 @@
   font-weight: 700;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
-  background: rgba(v.$gold, 0.1);
-  border: 1px solid rgba(v.$gold, 0.3);
-  color: v.$gold;
+  background: rgba(var(--cl-secondary), 0.1);
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
+  color: var(--cl-secondary);
 
   &.is-admin {
-    background: rgba(v.$gold, 0.2);
-    border-color: rgba(v.$gold, 0.5);
-    color: v.$gold-light;
+    background: rgba(var(--cl-secondary), 0.2);
+    border-color: rgba(var(--cl-secondary), 0.5);
+    color: var(--cl-secondary-hover);
   }
 }
 
@@ -54,8 +54,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 0.9rem;
-  background: rgba(v.$success, 0.1);
-  border: 1px solid rgba(v.$success, 0.35);
+  background: rgba(var(--cl-success), 0.1);
+  border: 1px solid rgba(var(--cl-success), 0.35);
   border-radius: 8px;
   color: #9ae6b4;
   font-size: 0.85rem;
@@ -64,7 +64,7 @@
 
 .google-hint {
   font-size: 0.82rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-bottom: 0.75rem;
   line-height: 1.5;
 }
@@ -97,7 +97,7 @@
   text-transform: uppercase;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--snow);
+  color: var(--cl-text-primary);
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.12);
   padding: 0.2rem 0.65rem;

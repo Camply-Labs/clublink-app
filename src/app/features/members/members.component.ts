@@ -169,10 +169,10 @@ type Tab = 'pathfinders' | 'directors';
     <!-- ── Modal: Confirmar exclusão ─────────────────────────── -->
     <app-modal title="🗑 Remover Membro" [open]="deleteModalOpen()"
                (closed)="deleteModalOpen.set(false)">
-      <p style="color:var(--gray-light);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem;">
+      <p style="color:var(--cl-text-secondary);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem;">
         Tem certeza que deseja remover
-        <strong style="color:var(--snow);">{{ deleteTarget()?.name }}</strong>?<br/>
-        <span style="color:var(--gray-mid);font-size:.8rem;">
+        <strong style="color:var(--cl-text-primary);">{{ deleteTarget()?.name }}</strong>?<br/>
+        <span style="color:var(--cl-text-muted);font-size:.8rem;">
           Esta ação não pode ser desfeita. O histórico de pontos também será apagado.
         </span>
       </p>

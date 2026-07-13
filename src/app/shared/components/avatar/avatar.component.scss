@@ -5,19 +5,19 @@
 .avatar-img {
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid v.$gold;
+  border: 2px solid var(--cl-secondary);
   flex-shrink: 0;
 }
 
 .avatar-placeholder {
   border-radius: 50%;
-  background: v.$navy-light;
+  background: var(--cl-bg-elevated);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Cinzel', serif;
-  color: v.$gold;
-  border: 2px solid v.$gold;
+  color: var(--cl-secondary);
+  border: 2px solid var(--cl-secondary);
   flex-shrink: 0;
   font-weight: 700;
 }

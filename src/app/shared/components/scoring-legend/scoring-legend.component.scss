@@ -36,12 +36,12 @@
 .legend-item-name {
   font-size: 0.85rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
 }
 
 .legend-item-desc {
   font-size: 0.72rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 1px;
   line-height: 1.4;
 }
@@ -52,9 +52,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: v.$gold;
-  background: rgba(v.$gold, 0.1);
-  border: 1px solid rgba(v.$gold, 0.2);
+  color: var(--cl-secondary);
+  background: rgba(var(--cl-secondary), 0.1);
+  border: 1px solid rgba(var(--cl-secondary), 0.2);
   border-radius: 20px;
   padding: 0.1rem 0.45rem;
   margin-top: 3px;

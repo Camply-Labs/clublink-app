@@ -1,0 +1,367 @@
+/* ================================================================
+   ClubLink – Sistema de Temas
+   shared/styles/themes.scss
+   
+   Três temas disponíveis, ativados via classe no <html>:
+     .theme-nightsky  → padrão (azul-meia-noite + dourado)
+     .theme-light     → branco + cinza + azul
+     .theme-dark      → preto + cinza + branco
+
+   Todos os tokens seguem o prefixo --cl-* (ClubLink).
+   Os tokens --ga-* da landing page são aliasados aqui para
+   manter compatibilidade sem alterar o template existente.
+   ================================================================ */
+
+// ── Transição suave ao trocar de tema ────────────────────────────────────
+// Aplica apenas em elementos que precisam, não em imagens/canvas
+*:not(img):not(canvas):not(video) {
+  transition:
+    background-color 280ms ease,
+    border-color     280ms ease,
+    color            180ms ease,
+    box-shadow       280ms ease;
+}
+
+// Sem transição durante a inicialização (evita flash)
+.theme-init-no-transition *,
+.theme-init-no-transition *::before,
+.theme-init-no-transition *::after {
+  transition: none !important;
+}
+
+// ================================================================
+//  TEMA 1 — NIGHT SKY  (padrão – o tema original do sistema)
+//  Paleta: azul-meia-noite · dourado · branco quente
+// ================================================================
+:root,
+.theme-nightsky {
+
+  // Identidade do tema
+  --cl-theme-id:   'nightsky';
+  --cl-theme-name: 'Night Sky';
+
+  // ── Superfícies ────────────────────────────────────────────────
+  --cl-bg-base:       #0B0F1A;   // fundo principal
+  --cl-bg-surface:    #0D1B3E;   // cards, seções alternadas
+  --cl-bg-elevated:   #122350;   // modais, popovers, dropdowns
+  --cl-bg-overlay:    rgba(11, 15, 26, 0.92); // overlays com blur
+
+  // ── Texto ──────────────────────────────────────────────────────
+  --cl-text-primary:   #F5F5F0;  // texto principal
+  --cl-text-secondary: #B8BDCC;  // texto secundário
+  --cl-text-muted:     #8A8FA8;  // placeholders, hints
+  --cl-text-disabled:  #4A4F62;  // campos desabilitados
+  --cl-text-inverse:   #0B0F1A;  // texto sobre fundos claros (badge dourado)
+
+  // ── Marca primária (azul cobalto) ──────────────────────────────
+  --cl-primary:        #1A3A8F;
+  --cl-primary-hover:  #2A5CC7;
+  --cl-primary-active: #0F2460;
+  --cl-primary-subtle: rgba(26, 58, 143, 0.12);
+  --cl-primary-text:   #FFFFFF;  // texto sobre primário
+
+  // ── Marca secundária (dourado) ─────────────────────────────────
+  --cl-secondary:        #D4A017;
+  --cl-secondary-hover:  #F0C040;
+  --cl-secondary-active: #9A7210;
+  --cl-secondary-subtle: rgba(212, 160, 23, 0.12);
+  --cl-secondary-text:   #0B0F1A; // texto sobre secundário
+
+  // ── Bordas & divisores ─────────────────────────────────────────
+  --cl-border:         rgba(212, 160, 23, 0.20);
+  --cl-border-strong:  rgba(212, 160, 23, 0.45);
+  --cl-border-subtle:  rgba(255, 255, 255, 0.06);
+  --cl-divider:        rgba(255, 255, 255, 0.08);
+
+  // ── Sombras ────────────────────────────────────────────────────
+  --cl-shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.40);
+  --cl-shadow-md:  0 8px 24px rgba(0, 0, 0, 0.50);
+  --cl-shadow-lg:  0 20px 60px rgba(0, 0, 0, 0.60);
+  --cl-shadow-glow-primary:   0 0 24px rgba(26, 58, 143, 0.40);
+  --cl-shadow-glow-secondary: 0 0 24px rgba(212, 160, 23, 0.40);
+
+  // ── Estados semânticos ─────────────────────────────────────────
+  --cl-success:        #27AE60;
+  --cl-success-subtle: rgba(39, 174, 96, 0.12);
+  --cl-success-text:   #6FCF97;
+  --cl-error:          #EB5757;
+  --cl-error-subtle:   rgba(235, 87, 87, 0.12);
+  --cl-error-text:     #FF8A80;
+  --cl-warning:        #F2994A;
+  --cl-warning-subtle: rgba(242, 153, 74, 0.12);
+  --cl-info:           #2F80ED;
+  --cl-info-subtle:    rgba(47, 128, 237, 0.12);
+
+  // ── Formulários ────────────────────────────────────────────────
+  --cl-input-bg:          rgba(255, 255, 255, 0.04);
+  --cl-input-bg-focus:    rgba(26, 58, 143, 0.10);
+  --cl-input-border:      rgba(255, 255, 255, 0.10);
+  --cl-input-border-focus: var(--cl-primary-hover);
+  --cl-input-placeholder: var(--cl-text-muted);
+
+  // ── Sidebar ────────────────────────────────────────────────────
+  --cl-sidebar-bg:          #070B14;
+  --cl-sidebar-border:      rgba(212, 160, 23, 0.12);
+  --cl-sidebar-item-hover:  rgba(255, 255, 255, 0.05);
+  --cl-sidebar-item-active: rgba(26, 58, 143, 0.25);
+  --cl-sidebar-text:        #8A8FA8;
+  --cl-sidebar-text-active: #F5F5F0;
+  --cl-sidebar-icon-active: #D4A017;
+
+  // ── Navbar ─────────────────────────────────────────────────────
+  --cl-navbar-bg:     rgba(11, 15, 26, 0.92);
+  --cl-navbar-border: rgba(212, 160, 23, 0.20);
+
+  // ── Gradientes de hero ─────────────────────────────────────────
+  --cl-hero-gradient:
+    radial-gradient(ellipse at 30% 0%, rgba(26, 58, 143, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(212, 160, 23, 0.12) 0%, transparent 50%),
+    var(--cl-bg-base);
+
+  // ── Scrollbar customizada ──────────────────────────────────────
+  --cl-scrollbar-track: #0B0F1A;
+  --cl-scrollbar-thumb: #1A3A8F;
+  --cl-scrollbar-thumb-hover: #2A5CC7;
+
+  // ────────────────────────────────────────────────────────────────
+  // ALIASES --ga-* para compatibilidade com o template existente
+  // ────────────────────────────────────────────────────────────────
+  --ga-midnight:   var(--cl-bg-base);
+  --ga-navy:       var(--cl-bg-surface);
+  --ga-cobalt:     var(--cl-primary);
+  --ga-cobalt-lt:  var(--cl-primary-hover);
+  --ga-cobalt-dk:  var(--cl-primary-active);
+  --ga-gold:       var(--cl-secondary);
+  --ga-gold-lt:    var(--cl-secondary-hover);
+  --ga-gold-dk:    var(--cl-secondary-active);
+  --ga-white:      var(--cl-text-primary);
+  --ga-gray:       var(--cl-text-muted);
+  --ga-gray-lt:    var(--cl-text-secondary);
+  --ga-border:     var(--cl-border);
+}
+
+// ================================================================
+//  TEMA 2 — LIGHT
+//  Paleta: branco · cinza claro · azul
+// ================================================================
+.theme-light {
+
+  --cl-theme-id:   'light';
+  --cl-theme-name: 'Light';
+
+  // ── Superfícies ────────────────────────────────────────────────
+  --cl-bg-base:       #F8F9FB;
+  --cl-bg-surface:    #FFFFFF;
+  --cl-bg-elevated:   #FFFFFF;
+  --cl-bg-overlay:    rgba(248, 249, 251, 0.95);
+
+  // ── Texto ──────────────────────────────────────────────────────
+  --cl-text-primary:   #1A1D2E;
+  --cl-text-secondary: #4B5268;
+  --cl-text-muted:     #8A93A8;
+  --cl-text-disabled:  #C2C8D6;
+  --cl-text-inverse:   #FFFFFF;
+
+  // ── Primária (azul) ────────────────────────────────────────────
+  --cl-primary:        #1A3A8F;
+  --cl-primary-hover:  #1430760; // 10% mais escuro
+  --cl-primary-hover:  #143076;
+  --cl-primary-active: #0D2054;
+  --cl-primary-subtle: rgba(26, 58, 143, 0.08);
+  --cl-primary-text:   #FFFFFF;
+
+  // ── Secundária (cinza azulado médio) ───────────────────────────
+  --cl-secondary:        #5B6B8A;
+  --cl-secondary-hover:  #49597A;
+  --cl-secondary-active: #384868;
+  --cl-secondary-subtle: rgba(91, 107, 138, 0.10);
+  --cl-secondary-text:   #FFFFFF;
+
+  // ── Bordas ─────────────────────────────────────────────────────
+  --cl-border:         #D8DCE8;
+  --cl-border-strong:  #B0B8CC;
+  --cl-border-subtle:  #ECEEF4;
+  --cl-divider:        #ECEEF4;
+
+  // ── Sombras ────────────────────────────────────────────────────
+  --cl-shadow-sm:  0 1px 4px rgba(26, 29, 46, 0.08);
+  --cl-shadow-md:  0 4px 16px rgba(26, 29, 46, 0.10);
+  --cl-shadow-lg:  0 12px 40px rgba(26, 29, 46, 0.12);
+  --cl-shadow-glow-primary:   0 0 20px rgba(26, 58, 143, 0.20);
+  --cl-shadow-glow-secondary: 0 0 20px rgba(91, 107, 138, 0.20);
+
+  // ── Estados semânticos ─────────────────────────────────────────
+  --cl-success:        #1E8449;
+  --cl-success-subtle: #E8F8EE;
+  --cl-success-text:   #1E8449;
+  --cl-error:          #C0392B;
+  --cl-error-subtle:   #FDECEA;
+  --cl-error-text:     #C0392B;
+  --cl-warning:        #D35400;
+  --cl-warning-subtle: #FEF0E7;
+  --cl-info:           #1A3A8F;
+  --cl-info-subtle:    #EBF0FB;
+
+  // ── Formulários ────────────────────────────────────────────────
+  --cl-input-bg:           #FFFFFF;
+  --cl-input-bg-focus:     #F0F4FB;
+  --cl-input-border:       #D8DCE8;
+  --cl-input-border-focus: var(--cl-primary);
+  --cl-input-placeholder:  #8A93A8;
+
+  // ── Sidebar ────────────────────────────────────────────────────
+  --cl-sidebar-bg:          #FFFFFF;
+  --cl-sidebar-border:      #ECEEF4;
+  --cl-sidebar-item-hover:  #F0F4FB;
+  --cl-sidebar-item-active: rgba(26, 58, 143, 0.08);
+  --cl-sidebar-text:        #4B5268;
+  --cl-sidebar-text-active: #1A3A8F;
+  --cl-sidebar-icon-active: #1A3A8F;
+
+  // ── Navbar ─────────────────────────────────────────────────────
+  --cl-navbar-bg:     rgba(255, 255, 255, 0.95);
+  --cl-navbar-border: #D8DCE8;
+
+  // ── Hero ───────────────────────────────────────────────────────
+  --cl-hero-gradient:
+    radial-gradient(ellipse at 30% 0%, rgba(26, 58, 143, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(91, 107, 138, 0.06) 0%, transparent 50%),
+    var(--cl-bg-base);
+
+  // ── Scrollbar ──────────────────────────────────────────────────
+  --cl-scrollbar-track: #F0F2F7;
+  --cl-scrollbar-thumb: #B0B8CC;
+  --cl-scrollbar-thumb-hover: #8A93A8;
+
+  // ── Aliases --ga-* ────────────────────────────────────────────
+  --ga-midnight:   var(--cl-bg-base);
+  --ga-navy:       var(--cl-bg-surface);
+  --ga-cobalt:     var(--cl-primary);
+  --ga-cobalt-lt:  var(--cl-primary-hover);
+  --ga-cobalt-dk:  var(--cl-primary-active);
+  --ga-gold:       var(--cl-secondary);
+  --ga-gold-lt:    var(--cl-secondary-hover);
+  --ga-gold-dk:    var(--cl-secondary-active);
+  --ga-white:      var(--cl-text-primary);
+  --ga-gray:       var(--cl-text-muted);
+  --ga-gray-lt:    var(--cl-text-secondary);
+  --ga-border:     var(--cl-border);
+}
+
+// ================================================================
+//  TEMA 3 — DARK
+//  Paleta: preto · cinza · branco
+// ================================================================
+.theme-dark {
+
+  --cl-theme-id:   'dark';
+  --cl-theme-name: 'Dark';
+
+  // ── Superfícies ────────────────────────────────────────────────
+  --cl-bg-base:       #0A0A0A;
+  --cl-bg-surface:    #141414;
+  --cl-bg-elevated:   #1E1E1E;
+  --cl-bg-overlay:    rgba(10, 10, 10, 0.95);
+
+  // ── Texto ──────────────────────────────────────────────────────
+  --cl-text-primary:   #E8E8E8;
+  --cl-text-secondary: #A0A0A0;
+  --cl-text-muted:     #606060;
+  --cl-text-disabled:  #383838;
+  --cl-text-inverse:   #0A0A0A;
+
+  // ── Primária (cinza claro – ação principal) ────────────────────
+  --cl-primary:        #D0D0D0;
+  --cl-primary-hover:  #E8E8E8;
+  --cl-primary-active: #B0B0B0;
+  --cl-primary-subtle: rgba(208, 208, 208, 0.10);
+  --cl-primary-text:   #0A0A0A;
+
+  // ── Secundária (cinza médio – destaques) ───────────────────────
+  --cl-secondary:        #707070;
+  --cl-secondary-hover:  #888888;
+  --cl-secondary-active: #585858;
+  --cl-secondary-subtle: rgba(112, 112, 112, 0.12);
+  --cl-secondary-text:   #E8E8E8;
+
+  // ── Bordas ─────────────────────────────────────────────────────
+  --cl-border:         rgba(255, 255, 255, 0.10);
+  --cl-border-strong:  rgba(255, 255, 255, 0.22);
+  --cl-border-subtle:  rgba(255, 255, 255, 0.05);
+  --cl-divider:        rgba(255, 255, 255, 0.07);
+
+  // ── Sombras ────────────────────────────────────────────────────
+  --cl-shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.60);
+  --cl-shadow-md:  0 8px 24px rgba(0, 0, 0, 0.70);
+  --cl-shadow-lg:  0 20px 60px rgba(0, 0, 0, 0.80);
+  --cl-shadow-glow-primary:   0 0 20px rgba(208, 208, 208, 0.15);
+  --cl-shadow-glow-secondary: 0 0 20px rgba(112, 112, 112, 0.15);
+
+  // ── Estados semânticos ─────────────────────────────────────────
+  --cl-success:        #4CAF50;
+  --cl-success-subtle: rgba(76, 175, 80, 0.12);
+  --cl-success-text:   #81C784;
+  --cl-error:          #F44336;
+  --cl-error-subtle:   rgba(244, 67, 54, 0.12);
+  --cl-error-text:     #E57373;
+  --cl-warning:        #FF9800;
+  --cl-warning-subtle: rgba(255, 152, 0, 0.12);
+  --cl-info:           #90CAF9;
+  --cl-info-subtle:    rgba(144, 202, 249, 0.10);
+
+  // ── Formulários ────────────────────────────────────────────────
+  --cl-input-bg:           rgba(255, 255, 255, 0.04);
+  --cl-input-bg-focus:     rgba(255, 255, 255, 0.07);
+  --cl-input-border:       rgba(255, 255, 255, 0.10);
+  --cl-input-border-focus: var(--cl-primary);
+  --cl-input-placeholder:  var(--cl-text-muted);
+
+  // ── Sidebar ────────────────────────────────────────────────────
+  --cl-sidebar-bg:          #080808;
+  --cl-sidebar-border:      rgba(255, 255, 255, 0.08);
+  --cl-sidebar-item-hover:  rgba(255, 255, 255, 0.05);
+  --cl-sidebar-item-active: rgba(255, 255, 255, 0.10);
+  --cl-sidebar-text:        #606060;
+  --cl-sidebar-text-active: #E8E8E8;
+  --cl-sidebar-icon-active: #D0D0D0;
+
+  // ── Navbar ─────────────────────────────────────────────────────
+  --cl-navbar-bg:     rgba(10, 10, 10, 0.95);
+  --cl-navbar-border: rgba(255, 255, 255, 0.08);
+
+  // ── Hero ───────────────────────────────────────────────────────
+  --cl-hero-gradient:
+    radial-gradient(ellipse at 30% 0%, rgba(208, 208, 208, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(112, 112, 112, 0.05) 0%, transparent 50%),
+    var(--cl-bg-base);
+
+  // ── Scrollbar ──────────────────────────────────────────────────
+  --cl-scrollbar-track: #0A0A0A;
+  --cl-scrollbar-thumb: #2A2A2A;
+  --cl-scrollbar-thumb-hover: #404040;
+
+  // ── Aliases --ga-* ────────────────────────────────────────────
+  --ga-midnight:   var(--cl-bg-base);
+  --ga-navy:       var(--cl-bg-surface);
+  --ga-cobalt:     var(--cl-primary);
+  --ga-cobalt-lt:  var(--cl-primary-hover);
+  --ga-cobalt-dk:  var(--cl-primary-active);
+  --ga-gold:       var(--cl-secondary);
+  --ga-gold-lt:    var(--cl-secondary-hover);
+  --ga-gold-dk:    var(--cl-secondary-active);
+  --ga-white:      var(--cl-text-primary);
+  --ga-gray:       var(--cl-text-muted);
+  --ga-gray-lt:    var(--cl-text-secondary);
+  --ga-border:     var(--cl-border);
+}
+
+// ================================================================
+//  SCROLLBAR GLOBAL (WebKit)
+// ================================================================
+::-webkit-scrollbar       { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--cl-scrollbar-track); }
+::-webkit-scrollbar-thumb {
+  background: var(--cl-scrollbar-thumb);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--cl-scrollbar-thumb-hover); }

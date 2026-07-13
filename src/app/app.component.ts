@@ -15,6 +15,9 @@ import { AppStatusService } from './core/services/app-status.service';
 import { ToastContainerComponent } from './shared/components/toast/toast-container.component';
 import { AppStatusComponent } from './features/app-status/app-status.component';
 
+import { ThemeService }          from './core/theme/theme.service';
+import { CustomizationService }  from './core/customization/customization.service';
+
 /** Rotas que nunca são bloqueadas pelo status da aplicação */
 const OVERRIDE_PATHS = ['/admin-override'];
 
@@ -40,7 +43,10 @@ export class AppComponent implements OnInit {
   private readonly statusSvc  = inject(AppStatusService);
   private readonly injectorObj = inject(Injector);
 
-  readonly currentUrl = toSignal(
+  private _theme         = inject(ThemeService);
+  private _customization = inject(CustomizationService);
+
+readonly currentUrl = toSignal(
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.router.url),
@@ -73,6 +79,8 @@ export class AppComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this._theme.init();
+
     setTimeout(() => {
       runInInjectionContext(this.injectorObj, () => {
         toObservable(this.auth.isLoading).pipe(
@@ -86,8 +94,10 @@ export class AppComponent implements OnInit {
           if (OVERRIDE_PATHS.some(p => url.startsWith(p))) return;
 
           if (!user && url !== '/login') {
+            this._customization.reset();
             this.router.navigate(['/login']);
           } else if (user && url === '/login') {
+            this._customization.loadCustomization();
             this.router.navigate([user.role === 'diretoria' ? '/podium' : '/my-points']);
           }
         });
