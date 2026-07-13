@@ -2,7 +2,7 @@ import {
   Injectable, signal, computed, inject, PLATFORM_ID,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ThemeCacheService } from '../cache/theme-cache.service';
+import { ThemeCacheService } from '../services/theme-cache.service';
 import {
   AppThemeMode,
   THEME_CATALOG,

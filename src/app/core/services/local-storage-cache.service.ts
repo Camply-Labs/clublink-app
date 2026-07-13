@@ -5,7 +5,7 @@ import {
   CacheWriteOptions,
   CacheReadResult,
   CacheKey,
-} from './cache.model';
+} from '../models/cache.model';
 
 /**
  * ============================================================

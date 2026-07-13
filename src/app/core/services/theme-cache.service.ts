@@ -1,6 +1,6 @@
 import { Injectable }               from '@angular/core';
 import { LocalStorageCacheService } from './local-storage-cache.service';
-import { CACHE_KEYS }               from './cache.model';
+import { CACHE_KEYS }               from '../models/cache.model';
 import {
   AppThemeMode,
   UserThemePreference,

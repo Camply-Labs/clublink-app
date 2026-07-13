@@ -1,10 +1,9 @@
 import {
   Injectable, signal, computed, inject, PLATFORM_ID,
 } from '@angular/core';
-import { isPlatformBrowser }     from '@angular/common';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Auth }                  from '@angular/fire/auth';
-import { CustomizationCacheService } from '../cache/customization-cache.service';
+import { CustomizationCacheService } from '../services/customization-cache.service';
 import {
   ClubCustomization,
   ResolvedClubCustomization,
