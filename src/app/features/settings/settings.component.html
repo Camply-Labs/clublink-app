@@ -14,99 +14,224 @@
     </p>
 
     @if (saveSuccess$()) {
-      <div class="st-alert st-alert--cl-success" role="alert">
-        ✅ Configurações salvas com sucesso!
+      <div class="st-alert st-alert--success" role="alert" aria-live="polite">
+        <!-- ícone check circle -->
+        <svg class="st-alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        Configurações salvas com sucesso!
       </div>
     }
     @if (saveError$()) {
-      <div class="st-alert st-alert--error" role="alert">
-        ⚠️ {{ saveError$() }}
+      <div class="st-alert st-alert--error" role="alert" aria-live="assertive">
+        <!-- ícone alert triangle -->
+        <svg class="st-alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        {{ saveError$() }}
       </div>
     }
   </header>
 
+  <!-- ── Layout ─────────────────────────────────────────────────── -->
   <div class="st-layout">
 
     <!-- Navegação lateral das seções -->
     <nav class="st-tabs" aria-label="Seções de configuração">
-      @for (tab of tabs; track tab.id) {
-        <button
-          class="st-tab"
-          [class.st-tab--active]="activeTab$() === tab.id"
-          (click)="setTab(tab.id)"
-          [attr.aria-current]="activeTab$() === tab.id ? 'page' : null"
-        >
-          <span class="st-tab__icon" aria-hidden="true">{{ tab.icon }}</span>
-          <span class="st-tab__label">{{ tab.label }}</span>
-        </button>
-      }
+
+      <!-- Aba: Identidade -->
+      <button class="st-tab" [class.st-tab--active]="activeTab$() === 'identity'"
+        (click)="setTab('identity')" [attr.aria-current]="activeTab$() === 'identity' ? 'page' : null">
+        <svg class="st-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- shield / badge -->
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span class="st-tab__label">Identidade</span>
+      </button>
+
+      <!-- Aba: Contato -->
+      <button class="st-tab" [class.st-tab--active]="activeTab$() === 'contact'"
+        (click)="setTab('contact')" [attr.aria-current]="activeTab$() === 'contact' ? 'page' : null">
+        <svg class="st-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- map pin -->
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span class="st-tab__label">Contato</span>
+      </button>
+
+      <!-- Aba: Redes Sociais -->
+      <button class="st-tab" [class.st-tab--active]="activeTab$() === 'social'"
+        (click)="setTab('social')" [attr.aria-current]="activeTab$() === 'social' ? 'page' : null">
+        <svg class="st-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- share / network -->
+          <circle cx="18" cy="5" r="3"/>
+          <circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <span class="st-tab__label">Redes Sociais</span>
+      </button>
+
+      <!-- Aba: Suporte Técnico -->
+      <button class="st-tab" [class.st-tab--active]="activeTab$() === 'support'"
+        (click)="setTab('support')" [attr.aria-current]="activeTab$() === 'support' ? 'page' : null">
+        <svg class="st-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- tool / wrench -->
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <span class="st-tab__label">Suporte Técnico</span>
+      </button>
+
     </nav>
 
+    <!-- Painel principal -->
     <main class="st-main">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-        <!-- IDENTIDADE -->
+        <!-- ══════════════════════════════════════════
+             SEÇÃO 1 — IDENTIDADE
+             ══════════════════════════════════════════ -->
         @if (activeTab$() === 'identity') {
           <section class="st-section" aria-labelledby="id-heading">
+
             <div class="st-section__head">
-              <h2 id="id-heading" class="st-section__title">🦅 Identidade do Clube</h2>
-              <p class="st-section__desc">Nome e logo exibidos na navegação e rodapé do site.</p>
+              <h2 id="id-heading" class="st-section__title">
+                <!-- fingerprint / identity -->
+                <svg class="st-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/>
+                  <path d="M5 19.5C5.5 18 6 15 6 12c0-3.2 2.4-5.8 5.5-6"/>
+                  <path d="M10 22c.5-2 1-4.5 1-7 0-1.5.5-2.9 1.5-4"/>
+                  <path d="M15 22c-.5-2-1-4.5-1-7 0-1.5.5-2.9 1.5-4"/>
+                  <path d="M20 17c-1.5 0-3-.5-4-1.5"/>
+                  <path d="M22 12a10 10 0 0 1-.4 2.8"/>
+                </svg>
+                Identidade do Clube
+              </h2>
+              <p class="st-section__desc">
+                Nome e logo exibidos na barra de navegação e no rodapé do site.
+              </p>
             </div>
+
             <div formGroupName="identity" class="st-fields">
 
+              <!-- Nome do clube -->
               <div class="st-field">
                 <label for="clubName" class="st-label">
-                  Nome do clube <abbr title="obrigatório" class="st-required">*</abbr>
+                  Nome do clube
+                  <abbr title="obrigatório" class="st-required">*</abbr>
                 </label>
-                <input id="clubName" type="text" formControlName="clubName"
+                <input
+                  id="clubName" type="text" formControlName="clubName"
                   class="st-input" [class.st-input--error]="isInvalid('identity.clubName')"
-                  placeholder="Ex: Garras de Águia" maxlength="80" autocomplete="organization" />
+                  placeholder="Ex: Garras de Águia" maxlength="80" autocomplete="organization"
+                />
                 @if (isInvalid('identity.clubName')) {
                   <p class="st-field-error" role="alert">
-                    @if (ctrl('identity.clubName')?.errors?.['required']) { Obrigatório. }
-                    @else if (ctrl('identity.clubName')?.errors?.['minlength']) { Mínimo 3 caracteres. }
+                    @if (ctrl('identity.clubName')?.errors?.['required']) { O nome do clube é obrigatório. }
+                    @else if (ctrl('identity.clubName')?.errors?.['minlength']) { Mínimo de 3 caracteres. }
                   </p>
                 }
               </div>
 
+              <!-- Logo do clube (base64) -->
               <div class="st-field">
                 <span class="st-label">Logo do clube</span>
-                <div class="st-logo-preview">
+                <p class="st-hint" style="margin-bottom:.75rem">
+                  A imagem é convertida para base64 e salva diretamente no banco.
+                  Máximo: {{ maxLogoKb }} KB.
+                </p>
+
+                <!-- Preview -->
+                <div class="st-logo-preview" aria-label="Preview da logo">
                   @if (logoPreview$()) {
-                    <img [src]="logoPreview$()" alt="Preview da logo" class="st-logo-preview__img" />
+                    <img [src]="logoPreview$()" alt="Logo do clube" class="st-logo-preview__img" />
                   } @else {
-                    <div class="st-logo-preview__empty">
-                      <span aria-hidden="true">🖼️</span><span>Sem logo</span>
+                    <!-- placeholder: image frame -->
+                    <div class="st-logo-preview__empty" aria-label="Sem logo definida">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      <span>Sem logo</span>
+                    </div>
+                  }
+
+                  @if (isConverting$()) {
+                    <div class="st-logo-preview__uploading" aria-live="polite">
+                      <span class="st-spinner" aria-hidden="true"></span>
+                      Convertendo…
                     </div>
                   }
                 </div>
-                <label for="logoFile" class="st-upload-btn">
-                  <span aria-hidden="true">📤</span>
-                  Enviar imagem
-                  <input id="logoFile" type="file"
+
+                <!-- Botão de seleção -->
+                <label for="logoFile" class="st-upload-btn"
+                  [class.st-upload-btn--disabled]="isConverting$()">
+                  <!-- upload cloud -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="16 16 12 12 8 16"/>
+                    <line x1="12" y1="12" x2="12" y2="21"/>
+                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+                  </svg>
+                  {{ isConverting$() ? 'Processando…' : 'Escolher imagem' }}
+                  <input
+                    id="logoFile" type="file"
                     accept="image/png,image/jpeg,image/svg+xml,image/webp"
                     class="st-upload-hidden" (change)="onLogoFileChange($event)"
-                     />
+                    [disabled]="isConverting$()" aria-label="Selecionar arquivo de logo"
+                  />
                 </label>
-                <p class="st-hint">PNG, JPG, SVG ou WebP · Máx. 2 MB</p>
-                <div class="st-field" style="margin-top:.75rem">
-                  <label for="logoUrl" class="st-label st-label--sm">Ou cole a URL da logo</label>
-                  <input id="logoUrl" type="url" formControlName="logoUrl"
-                    class="st-input" placeholder="https://exemplo.com/logo.png" />
-                </div>
+                <p class="st-hint">PNG, JPG, SVG ou WebP · Máx. {{ maxLogoKb }} KB</p>
+
+                <!-- Meta: tamanho + remover -->
+                @if (logoPreview$()) {
+                  <div class="st-logo-meta">
+                    <span class="st-hint">Tamanho em cache: ~{{ logoSizeKb }} KB</span>
+                    <button type="button" class="st-btn-remove" (click)="onRemoveLogo()" aria-label="Remover logo atual">
+                      <!-- x circle -->
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="15" y1="9" x2="9" y2="15"/>
+                        <line x1="9" y1="9" x2="15" y2="15"/>
+                      </svg>
+                      Remover logo
+                    </button>
+                  </div>
+                }
+
+                <input type="hidden" formControlName="logoBase64" />
               </div>
 
             </div>
           </section>
         }
 
-        <!-- CONTATO -->
+        <!-- ══════════════════════════════════════════
+             SEÇÃO 2 — CONTATO & ENDEREÇO
+             ══════════════════════════════════════════ -->
         @if (activeTab$() === 'contact') {
           <section class="st-section" aria-labelledby="contact-heading">
+
             <div class="st-section__head">
-              <h2 id="contact-heading" class="st-section__title">📍 Contato & Endereço</h2>
-              <p class="st-section__desc">Informações da seção de contato e do rodapé do site público.</p>
+              <h2 id="contact-heading" class="st-section__title">
+                <!-- map pin -->
+                <svg class="st-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Contato & Endereço
+              </h2>
+              <p class="st-section__desc">
+                Informações exibidas na seção de contato e no rodapé do site público.
+              </p>
             </div>
+
             <div formGroupName="contact" class="st-fields">
 
               <div class="st-field">
@@ -117,33 +242,56 @@
 
               <div class="st-field">
                 <label for="schedule" class="st-label">Horário das reuniões</label>
-                <input id="schedule" type="text" formControlName="meetingSchedule"
-                  class="st-input" placeholder="Ex: Sábados às 15h" maxlength="60" />
+                <div class="st-input-icon-wrap">
+                  <!-- clock -->
+                  <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  <input id="schedule" type="text" formControlName="meetingSchedule"
+                    class="st-input st-input--icon" placeholder="Ex: Sábados às 15h" maxlength="60" />
+                </div>
               </div>
 
               <div class="st-field">
                 <label for="addr1" class="st-label">Endereço — linha 1</label>
                 <input id="addr1" type="text" formControlName="addressLine1"
-                  class="st-input" placeholder="Ex: Rua das Palmeiras, 123" maxlength="120" />
+                  class="st-input" placeholder="Ex: Rua das Palmeiras, 123 – Centro"
+                  maxlength="120" autocomplete="address-line1" />
               </div>
 
               <div class="st-field">
                 <label for="addr2" class="st-label">Endereço — linha 2</label>
                 <input id="addr2" type="text" formControlName="addressLine2"
-                  class="st-input" placeholder="Ex: São Paulo – SP, CEP 01310-100" maxlength="80" />
+                  class="st-input" placeholder="Ex: São Paulo – SP, CEP 01310-100"
+                  maxlength="80" autocomplete="address-line2" />
               </div>
 
               <div class="st-fields st-fields--row">
                 <div class="st-field">
                   <label for="phone" class="st-label">Telefone / WhatsApp</label>
-                  <input id="phone" type="tel" formControlName="phone"
-                    class="st-input" placeholder="(11) 99999-9999" maxlength="20" />
+                  <div class="st-input-icon-wrap">
+                    <!-- phone -->
+                    <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l1.94-1.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <input id="phone" type="tel" formControlName="phone"
+                      class="st-input st-input--icon" placeholder="(11) 99999-9999"
+                      maxlength="20" autocomplete="tel" />
+                  </div>
                 </div>
                 <div class="st-field">
                   <label for="cemail" class="st-label">E-mail de contato</label>
-                  <input id="cemail" type="email" formControlName="email"
-                    class="st-input" [class.st-input--error]="isInvalid('contact.email')"
-                    placeholder="contato@seuclube.com" maxlength="100" />
+                  <div class="st-input-icon-wrap">
+                    <!-- mail -->
+                    <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <input id="cemail" type="email" formControlName="email"
+                      class="st-input st-input--icon" [class.st-input--error]="isInvalid('contact.email')"
+                      placeholder="contato@seuclube.com" maxlength="100" />
+                  </div>
                   @if (isInvalid('contact.email')) {
                     <p class="st-field-error" role="alert">E-mail inválido.</p>
                   }
@@ -154,91 +302,194 @@
           </section>
         }
 
-        <!-- REDES SOCIAIS -->
+        <!-- ══════════════════════════════════════════
+             SEÇÃO 3 — REDES SOCIAIS
+             ══════════════════════════════════════════ -->
         @if (activeTab$() === 'social') {
           <section class="st-section" aria-labelledby="social-heading">
+
             <div class="st-section__head">
-              <h2 id="social-heading" class="st-section__title">📱 Redes Sociais</h2>
-              <p class="st-section__desc">Campos vazios ocultam o ícone no site.</p>
+              <h2 id="social-heading" class="st-section__title">
+                <!-- share -->
+                <svg class="st-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                Redes Sociais
+              </h2>
+              <p class="st-section__desc">
+                Insira as URLs completas. Campos vazios ocultam o ícone no site.
+              </p>
             </div>
+
             <div formGroupName="social" class="st-fields">
+
+              <!-- Instagram -->
               <div class="st-field">
-                <label for="ig" class="st-label">📸 Instagram</label>
-                <input id="ig" type="url" formControlName="instagram" class="st-input"
-                  placeholder="https://instagram.com/seuclube" maxlength="200" />
+                <label for="ig" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                  Instagram
+                </label>
+                <input id="ig" type="url" formControlName="instagram"
+                  class="st-input" placeholder="https://instagram.com/seuclube" maxlength="200" />
               </div>
+
+              <!-- Facebook -->
               <div class="st-field">
-                <label for="fb" class="st-label">👥 Facebook</label>
-                <input id="fb" type="url" formControlName="facebook" class="st-input"
-                  placeholder="https://facebook.com/seuclube" maxlength="200" />
+                <label for="fb" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                  Facebook
+                </label>
+                <input id="fb" type="url" formControlName="facebook"
+                  class="st-input" placeholder="https://facebook.com/seuclube" maxlength="200" />
               </div>
+
+              <!-- YouTube -->
               <div class="st-field">
-                <label for="yt" class="st-label">▶️ YouTube</label>
-                <input id="yt" type="url" formControlName="youtube" class="st-input"
-                  placeholder="https://youtube.com/@seuclube" maxlength="200" />
+                <label for="yt" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+                    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+                  </svg>
+                  YouTube
+                </label>
+                <input id="yt" type="url" formControlName="youtube"
+                  class="st-input" placeholder="https://youtube.com/@seuclube" maxlength="200" />
               </div>
+
+              <!-- WhatsApp -->
               <div class="st-field">
-                <label for="wa" class="st-label">💬 WhatsApp</label>
-                <input id="wa" type="url" formControlName="whatsapp" class="st-input"
-                  placeholder="https://wa.me/55119..." maxlength="200" />
+                <label for="wa" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                  WhatsApp
+                </label>
+                <input id="wa" type="url" formControlName="whatsapp"
+                  class="st-input" placeholder="https://wa.me/5511999999999" maxlength="200" />
                 <p class="st-hint">Use o formato wa.me para links diretos.</p>
               </div>
+
+              <!-- X / Twitter -->
               <div class="st-field">
-                <label for="tw" class="st-label">🐦 X (Twitter)</label>
-                <input id="tw" type="url" formControlName="twitter" class="st-input"
-                  placeholder="https://x.com/seuclube" maxlength="200" />
+                <label for="tw" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="4" y1="4" x2="20" y2="20"/>
+                    <path d="M4 4l7.5 8.5M20 4l-7.5 8.5M4 20l6-6.5M20 20l-6-6.5"/>
+                  </svg>
+                  X (Twitter)
+                </label>
+                <input id="tw" type="url" formControlName="twitter"
+                  class="st-input" placeholder="https://x.com/seuclube" maxlength="200" />
               </div>
+
+              <!-- TikTok -->
               <div class="st-field">
-                <label for="tt" class="st-label">🎵 TikTok</label>
-                <input id="tt" type="url" formControlName="tiktok" class="st-input"
-                  placeholder="https://tiktok.com/@seuclube" maxlength="200" />
+                <label for="tt" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                  </svg>
+                  TikTok
+                </label>
+                <input id="tt" type="url" formControlName="tiktok"
+                  class="st-input" placeholder="https://tiktok.com/@seuclube" maxlength="200" />
               </div>
+
             </div>
           </section>
         }
 
-        <!-- SUPORTE -->
+        <!-- ══════════════════════════════════════════
+             SEÇÃO 4 — SUPORTE TÉCNICO
+             ══════════════════════════════════════════ -->
         @if (activeTab$() === 'support') {
           <section class="st-section" aria-labelledby="support-heading">
+
             <div class="st-section__head">
-              <h2 id="support-heading" class="st-section__title">🛠️ Suporte Técnico</h2>
-              <p class="st-section__desc">Dados exibidos no rodapé para usuários logados.</p>
+              <h2 id="support-heading" class="st-section__title">
+                <!-- tool / wrench -->
+                <svg class="st-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+                Suporte Técnico
+              </h2>
+              <p class="st-section__desc">
+                Dados de contato técnico exibidos no rodapé para usuários logados.
+              </p>
             </div>
+
             <div formGroupName="support" class="st-fields">
+
               <div class="st-field">
                 <label for="semail" class="st-label">E-mail de suporte</label>
-                <input id="semail" type="email" formControlName="supportEmail"
-                  class="st-input" [class.st-input--error]="isInvalid('support.supportEmail')"
-                  placeholder="suporte@clublink.app" maxlength="100" />
+                <div class="st-input-icon-wrap">
+                  <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  <input id="semail" type="email" formControlName="supportEmail"
+                    class="st-input st-input--icon" [class.st-input--error]="isInvalid('support.supportEmail')"
+                    placeholder="suporte@clublink.app" maxlength="100" />
+                </div>
                 @if (isInvalid('support.supportEmail')) {
                   <p class="st-field-error" role="alert">E-mail inválido.</p>
                 }
               </div>
+
               <div class="st-field">
                 <label for="sphone" class="st-label">Telefone de suporte</label>
-                <input id="sphone" type="tel" formControlName="supportPhone"
-                  class="st-input" placeholder="(11) 3000-0000" maxlength="20" />
+                <div class="st-input-icon-wrap">
+                  <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l1.94-1.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  <input id="sphone" type="tel" formControlName="supportPhone"
+                    class="st-input st-input--icon" placeholder="(11) 3000-0000" maxlength="20" />
+                </div>
               </div>
+
               <div class="st-field">
                 <label for="docs" class="st-label">URL da documentação</label>
-                <input id="docs" type="url" formControlName="docsUrl"
-                  class="st-input" placeholder="https://docs.clublink.app" maxlength="200" />
+                <div class="st-input-icon-wrap">
+                  <!-- book open -->
+                  <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                  </svg>
+                  <input id="docs" type="url" formControlName="docsUrl"
+                    class="st-input st-input--icon" placeholder="https://docs.clublink.app" maxlength="200" />
+                </div>
               </div>
+
             </div>
           </section>
         }
 
-        <!-- Barra de ação -->
+        <!-- ── Barra de ação ─────────────────────────────────────── -->
         <div class="st-action-bar">
           <p class="st-action-bar__hint">
             Alterações entram em vigor imediatamente após salvar.
           </p>
           <button type="submit" class="st-btn st-btn--primary"
-            [disabled]="isSaving$() || form.invalid" [attr.aria-busy]="isSaving$()">
+            [disabled]="isSaving$() || isConverting$() || form.invalid"
+            [attr.aria-busy]="isSaving$()">
             @if (isSaving$()) {
-              <span class="st-spinner st-spinner--sm" aria-hidden="true"></span> Salvando…
+              <span class="st-spinner st-spinner--sm" aria-hidden="true"></span>
+              Salvando…
             } @else {
-              💾 Salvar configurações
+              <!-- save -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                <polyline points="17 21 17 13 7 13 7 21"/>
+                <polyline points="7 3 7 8 15 8"/>
+              </svg>
+              Salvar configurações
             }
           </button>
         </div>

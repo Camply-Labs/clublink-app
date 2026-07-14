@@ -377,5 +377,6 @@ export class ShellComponent {
 
   selectTheme(mode: AppThemeMode): void {
     this.themeService.setMode(mode);
+    setTimeout(() => this.isThemePanelOpen$.set(false), 200);
   }
 }

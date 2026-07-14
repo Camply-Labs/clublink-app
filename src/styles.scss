@@ -59,8 +59,25 @@ img { max-width: 100%; display: block; }
 }
 
 .section-title {
-  font-size: 1.3rem; color: var(--cl-secondary);
-  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 1.3rem;
+  color: var(--cl-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: v.$transition;
+  position: relative;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: v.$transition;
+  }
+
   &::before {
     content: ''; display: inline-block;
     width: 4px; height: 1.3rem; background: var(--cl-secondary); border-radius: 2px;
@@ -78,14 +95,14 @@ img { max-width: 100%; display: block; }
 
 .form-control {
   width: 100%; padding: 0.65rem 0.9rem;
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  background: var(--cl-input-bg); border: 1px solid var(--cl-input-border);
   border-radius: 8px; color: var(--cl-text-primary); font-family: 'Raleway', sans-serif;
   font-size: 0.9rem; transition: var(--transition); outline: none;
   &:focus {
-    border-color: var(--cl-secondary); background: rgba(201,168,76,0.06);
+    border-color: var(--cl-secondary); background: var(--cl-input-bg-focus);
     box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
   }
-  &::placeholder { color: rgba(255,255,255,0.25); }
+  &::placeholder { color: var(--cl-text-muted); }
   option { background: var(--cl-bg-surface); }
 }
 
@@ -116,7 +133,7 @@ img { max-width: 100%; display: block; }
 }
 .btn-secondary {
   background: rgba(255,255,255,0.08); color: var(--cl-text-primary);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid var(--cl-text-primary);
   &:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
 }
 .btn-danger {
@@ -129,7 +146,7 @@ img { max-width: 100%; display: block; }
 
 // ── Card ──────────────────────────────────────────────────────
 .card {
-  background: linear-gradient(145deg, var(--cl-bg-surface), rgba(26,50,85,0.6));
+  background: var(--cl-bg-surface);
   border: 1px solid rgba(201,168,76,0.15); border-radius: var(--radius);
   padding: 1.5rem; box-shadow: var(--shadow-md); transition: var(--transition);
   &:hover { border-color: rgba(201,168,76,0.35); }
@@ -141,7 +158,7 @@ img { max-width: 100%; display: block; }
 
 // ── Tabs ──────────────────────────────────────────────────────
 .tab-bar {
-  display: flex; background: rgba(255,255,255,0.04); border-radius: 10px;
+  display: flex; background: var(--cl-input-border); border-radius: 10px;
   padding: 4px; margin-bottom: 1.5rem; overflow-x: auto; gap: 2px;
 }
 .tab-btn {

@@ -3,11 +3,10 @@
    features/settings/settings.component.scss
 
    Usa exclusivamente tokens --cl-* de themes.scss.
-   Nunca usa cores hardcoded — adapta-se automaticamente
-   ao tema ativo (nightsky / light / dark).
+   Adapta-se automaticamente ao tema ativo (nightsky / light / dark).
    ============================================================ */
 
-// ── Página ─────────────────────────────────────────────────────────────
+/* ── Página ──────────────────────────────────────────────────────── */
 
 .st-page {
   min-height: 100vh;
@@ -16,7 +15,7 @@
   font-family: var(--ga-font-body, 'Inter', system-ui, sans-serif);
 }
 
-// ── Cabeçalho ──────────────────────────────────────────────────────────
+/* ── Cabeçalho ───────────────────────────────────────────────────── */
 
 .st-header {
   padding: 2.5rem 2.5rem 2rem;
@@ -54,7 +53,7 @@
   line-height: 1.6;
 }
 
-// ── Alertas ────────────────────────────────────────────────────────────
+/* ── Alertas ─────────────────────────────────────────────────────── */
 
 .st-alert {
   display: flex;
@@ -67,18 +66,24 @@
   font-weight: 500;
   max-width: 560px;
   animation: stAlertIn 300ms ease forwards;
+}
 
-  &--cl-success {
-    background: var(--cl-success-subtle);
-    color: var(--cl-success-text);
-    border: 1px solid var(--cl-success);
-  }
+.st-alert--success {
+  background: var(--cl-success-subtle);
+  color: var(--cl-success-text);
+  border: 1px solid var(--cl-success);
+}
 
-  &--error {
-    background: var(--cl-error-subtle);
-    color: var(--cl-error-text);
-    border: 1px solid var(--cl-error);
-  }
+.st-alert--error {
+  background: var(--cl-error-subtle);
+  color: var(--cl-error-text);
+  border: 1px solid var(--cl-error);
+}
+
+.st-alert__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 @keyframes stAlertIn {
@@ -86,19 +91,21 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-// ── Layout principal ───────────────────────────────────────────────────
+/* ── Layout principal ────────────────────────────────────────────── */
 
 .st-layout {
   display: grid;
   grid-template-columns: 220px 1fr;
   min-height: calc(100vh - 120px);
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .st-layout {
     grid-template-columns: 1fr;
   }
 }
 
-// ── Abas laterais ──────────────────────────────────────────────────────
+/* ── Abas laterais ───────────────────────────────────────────────── */
 
 .st-tabs {
   display: flex;
@@ -111,8 +118,10 @@
   top: 0;
   height: fit-content;
   min-height: calc(100vh - 120px);
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .st-tabs {
     flex-direction: row;
     flex-wrap: wrap;
     min-height: unset;
@@ -130,7 +139,7 @@
   gap: 0.625rem;
   padding: 0.65rem 0.875rem;
   border-radius: 8px;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   color: var(--cl-text-secondary);
   font-size: 0.85rem;
@@ -139,49 +148,64 @@
   transition: all 200ms ease;
   text-align: left;
   white-space: nowrap;
+  width: 100%;
+}
 
-  &:hover {
-    background: var(--cl-primary-subtle);
-    color: var(--cl-text-primary);
-  }
+.st-tab:hover {
+  background: var(--cl-primary-subtle);
+  color: var(--cl-text-primary);
+}
 
-  &--active {
-    background: var(--cl-primary-subtle);
-    color: var(--cl-primary);
-    font-weight: 700;
-    border: 1px solid var(--cl-primary);
-    border-opacity: 0.3;
-  }
-
-  @media (max-width: 768px) {
-    flex: 1;
-    justify-content: center;
-    min-width: 0;
-  }
+.st-tab--active {
+  background: var(--cl-primary-subtle);
+  color: var(--cl-primary);
+  font-weight: 700;
+  border-color: rgba(26, 58, 143, 0.3);
 }
 
 .st-tab__icon {
-  font-size: 1rem;
+  width: 17px;
+  height: 17px;
   flex-shrink: 0;
+  color: inherit;
+}
 
-  @media (max-width: 480px) {
-    // Em mobile bem pequeno mostra só ícone
-    & + .st-tab__label { display: none; }
+.st-tab__label {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .st-tab {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    width: auto;
   }
 }
 
-// ── Painel principal ───────────────────────────────────────────────────
+@media (max-width: 480px) {
+  .st-tab__label {
+    display: none;
+  }
+  .st-tab__icon {
+    margin: 0;
+  }
+}
+
+/* ── Painel principal ────────────────────────────────────────────── */
 
 .st-main {
   padding: 2rem 2.5rem 4rem;
   max-width: 720px;
+}
 
-  @media (max-width: 900px) {
+@media (max-width: 900px) {
+  .st-main {
     padding: 1.5rem 1.25rem 3rem;
   }
 }
 
-// ── Seção de formulário ────────────────────────────────────────────────
+/* ── Seção ───────────────────────────────────────────────────────── */
 
 .st-section {
   animation: stSectionIn 250ms ease forwards;
@@ -199,11 +223,21 @@
 }
 
 .st-section__title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   font-family: var(--ga-font-display, Georgia, serif);
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--cl-text-primary);
   margin-bottom: 0.4rem;
+}
+
+.st-section__icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: var(--cl-secondary);
 }
 
 .st-section__desc {
@@ -212,23 +246,27 @@
   line-height: 1.6;
 }
 
-// ── Campos ─────────────────────────────────────────────────────────────
+/* ── Campos ──────────────────────────────────────────────────────── */
 
 .st-fields {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
 
-  &--row {
-    flex-direction: row;
-    gap: 1rem;
+.st-fields--row {
+  flex-direction: row;
+  gap: 1rem;
+}
 
-    @media (max-width: 600px) {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+.st-fields--row .st-field {
+  flex: 1;
+}
 
-    .st-field { flex: 1; }
+@media (max-width: 600px) {
+  .st-fields--row {
+    flex-direction: column;
+    gap: 1.5rem;
   }
 }
 
@@ -239,12 +277,17 @@
 }
 
 .st-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.825rem;
   font-weight: 600;
   color: var(--cl-text-secondary);
   letter-spacing: 0.02em;
+}
 
-  &--sm { font-size: 0.78rem; }
+.st-label--sm {
+  font-size: 0.78rem;
 }
 
 .st-required {
@@ -265,27 +308,54 @@
   width: 100%;
   transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
   appearance: none;
+}
 
-  &::placeholder { color: var(--cl-input-placeholder); }
+.st-input::placeholder {
+  color: var(--cl-input-placeholder);
+}
 
-  &:focus {
-    outline: none;
-    border-color: var(--cl-input-border-focus);
-    background: var(--cl-input-bg-focus);
-    box-shadow: 0 0 0 3px var(--cl-primary-subtle);
-  }
+.st-input:focus {
+  outline: none;
+  border-color: var(--cl-input-border-focus);
+  background: var(--cl-input-bg-focus);
+  box-shadow: 0 0 0 3px var(--cl-primary-subtle);
+}
 
-  &--error {
-    border-color: var(--cl-error);
-    background: var(--cl-error-subtle);
+.st-input--error {
+  border-color: var(--cl-error);
+  background: var(--cl-error-subtle);
+}
 
-    &:focus { box-shadow: 0 0 0 3px var(--cl-error-subtle); }
-  }
+.st-input--error:focus {
+  box-shadow: 0 0 0 3px var(--cl-error-subtle);
+}
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+.st-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input com ícone à esquerda */
+
+.st-input-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.st-input-icon {
+  position: absolute;
+  left: 0.875rem;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--cl-text-muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.st-input--icon {
+  padding-left: 2.6rem;
 }
 
 .st-field-error {
@@ -302,7 +372,16 @@
   line-height: 1.5;
 }
 
-// ── Logo preview ────────────────────────────────────────────────────────
+/* ── Ícones de redes sociais nos labels ──────────────────────────── */
+
+.st-social-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--cl-text-muted);
+}
+
+/* ── Logo preview ────────────────────────────────────────────────── */
 
 .st-logo-preview {
   width: 120px;
@@ -317,43 +396,61 @@
   position: relative;
   flex-shrink: 0;
   transition: border-color 200ms ease;
-
-  &:hover { border-color: var(--cl-primary); }
-
-  &__img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 8px;
-  }
-
-  &__empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    color: var(--cl-text-muted);
-    font-size: 0.75rem;
-    text-align: center;
-
-    span:first-child { font-size: 2rem; }
-  }
-
-  &__uploading {
-    position: absolute;
-    inset: 0;
-    background: var(--cl-bg-overlay);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 0.78rem;
-    color: var(--cl-text-secondary);
-    border-radius: 10px;
-  }
 }
 
-// ── Upload ──────────────────────────────────────────────────────────────
+.st-logo-preview:hover {
+  border-color: var(--cl-primary);
+}
+
+.st-logo-preview__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+
+.st-logo-preview__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--cl-text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.st-logo-preview__empty svg {
+  width: 36px;
+  height: 36px;
+  color: var(--cl-text-disabled);
+}
+
+.st-logo-preview__uploading {
+  position: absolute;
+  inset: 0;
+  background: var(--cl-bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--cl-text-secondary);
+  border-radius: 10px;
+}
+
+/* ── Logo meta (tamanho + remover) ──────────────────────────────── */
+
+.st-logo-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+
+/* ── Upload ──────────────────────────────────────────────────────── */
 
 .st-upload-btn {
   display: inline-flex;
@@ -370,12 +467,24 @@
   transition: all 200ms ease;
   width: fit-content;
   margin-top: 0.5rem;
+}
 
-  &:hover {
-    background: var(--cl-primary-subtle);
-    color: var(--cl-primary);
-    border-color: var(--cl-primary);
-  }
+.st-upload-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.st-upload-btn:hover {
+  background: var(--cl-primary-subtle);
+  color: var(--cl-primary);
+  border-color: var(--cl-primary);
+}
+
+.st-upload-btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .st-upload-hidden {
@@ -386,7 +495,7 @@
   overflow: hidden;
 }
 
-// ── Spinner ─────────────────────────────────────────────────────────────
+/* ── Spinner ─────────────────────────────────────────────────────── */
 
 .st-spinner {
   display: inline-block;
@@ -397,18 +506,18 @@
   border-radius: 50%;
   animation: stSpin 650ms linear infinite;
   flex-shrink: 0;
+}
 
-  &--sm {
-    width: 14px;
-    height: 14px;
-  }
+.st-spinner--sm {
+  width: 14px;
+  height: 14px;
 }
 
 @keyframes stSpin {
   to { transform: rotate(360deg); }
 }
 
-// ── Botões ──────────────────────────────────────────────────────────────
+/* ── Botões ──────────────────────────────────────────────────────── */
 
 .st-btn {
   display: inline-flex;
@@ -422,38 +531,64 @@
   transition: all 220ms ease;
   border: 2px solid transparent;
   white-space: nowrap;
-
-  &--primary {
-    background: linear-gradient(135deg, var(--cl-primary), var(--cl-primary-hover));
-    color: var(--cl-primary-text);
-    border-color: var(--cl-primary-hover);
-
-    &:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: var(--cl-shadow-glow-primary);
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-  }
-
-  &--ghost {
-    background: transparent;
-    color: var(--cl-text-secondary);
-    border-color: var(--cl-border-strong);
-
-    &:hover {
-      color: var(--cl-text-primary);
-      border-color: var(--cl-primary);
-      background: var(--cl-primary-subtle);
-    }
-  }
 }
 
-// ── Barra de ação fixa no rodapé ────────────────────────────────────────
+.st-btn--primary {
+  background: linear-gradient(135deg, var(--cl-primary), var(--cl-primary-hover));
+  color: var(--cl-primary-text);
+  border-color: var(--cl-primary-hover);
+}
+
+.st-btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--cl-shadow-glow-primary);
+}
+
+.st-btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.st-btn--ghost {
+  background: transparent;
+  color: var(--cl-text-secondary);
+  border-color: var(--cl-border-strong);
+}
+
+.st-btn--ghost:hover {
+  color: var(--cl-text-primary);
+  border-color: var(--cl-primary);
+  background: var(--cl-primary-subtle);
+}
+
+.st-btn-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--cl-error);
+  background: transparent;
+  color: var(--cl-error);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 180ms ease;
+  white-space: nowrap;
+}
+
+.st-btn-remove svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.st-btn-remove:hover {
+  background: var(--cl-error-subtle);
+}
+
+/* ── Barra de ação ───────────────────────────────────────────────── */
 
 .st-action-bar {
   display: flex;
@@ -464,8 +599,10 @@
   padding-top: 1.5rem;
   border-top: 1px solid var(--cl-border);
   flex-wrap: wrap;
+}
 
-  @media (max-width: 600px) {
+@media (max-width: 600px) {
+  .st-action-bar {
     flex-direction: column;
     align-items: flex-start;
   }

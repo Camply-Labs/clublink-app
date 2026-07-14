@@ -1,7 +1,7 @@
 /* ================================================================
    ClubLink – Sistema de Temas
    shared/styles/themes.scss
-   
+
    Três temas disponíveis, ativados via classe no <html>:
      .theme-nightsky  → padrão (azul-meia-noite + dourado)
      .theme-light     → branco + cinza + azul
@@ -152,7 +152,7 @@
   // ── Superfícies ────────────────────────────────────────────────
   --cl-bg-base:       #F8F9FB;
   --cl-bg-surface:    #FFFFFF;
-  --cl-bg-elevated:   #FFFFFF;
+  --cl-bg-elevated:   #F0F4FB;
   --cl-bg-overlay:    rgba(248, 249, 251, 0.95);
 
   // ── Texto ──────────────────────────────────────────────────────

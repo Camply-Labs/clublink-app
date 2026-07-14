@@ -11,8 +11,8 @@
   flex: 1;
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--cl-text-muted);
+  background: var(--cl-bg-surface);
   color: var(--cl-text-muted);
   font-size: 0.8rem;
   font-weight: 700;
@@ -27,7 +27,7 @@
 // ── Modo simples — upload de imagem ───────────────────────────
 .image-upload-area {
   position: relative;
-  border: 2px dashed rgba(255,255,255,0.15);
+  border: 2px dashed var(--cl-border);
   border-radius: v.$radius;
   padding: 1.5rem;
   text-align: center;
@@ -128,22 +128,22 @@
 
   // ── Toolbar ────────────────────────────────────────────────
   .editor-toolbar {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--cl-bg-surface);
+    border: 1px solid var(--cl-border);
     border-bottom: none;
     border-radius: 8px 8px 0 0;
     padding: 0.4rem 0.5rem;
     opacity: 1;
 
     &::before, &::after {
-      border-color: rgba(255,255,255,0.08);
+      border-color: var(--cl-border);
     }
 
     // Botões da toolbar
     button {
       color: var(--cl-text-primary) !important;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--cl-bg-surface);
+      border: 1px solid var(--cl-border);
       border-radius: 4px;
       margin: 1px;
       min-width: 28px;
@@ -164,7 +164,7 @@
     }
 
     i.separator {
-      border-left: 1px solid rgba(255,255,255,0.1);
+      border-left: 1px solid var(--cl-text-muted);
       border-right: none;
       margin: 0 0.3rem;
     }
@@ -172,8 +172,8 @@
 
   // ── Área de edição (CodeMirror) ───────────────────────────
   .CodeMirror {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--cl-bg-surface);
+    border: 1px solid var(--cl-border);
     border-top: none;
     border-radius: 0 0 8px 8px;
     color: var(--cl-text-primary);
@@ -206,7 +206,7 @@
   .editor-preview,
   .editor-preview-side {
     background: var(--cl-bg-surface);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid var(--cl-border);
     border-radius: 0 0 8px 8px;
     color: var(--cl-text-primary);
     padding: 1rem 1.1rem;

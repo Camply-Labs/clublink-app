@@ -31,7 +31,12 @@ type ModalMode = 'create' | 'edit';
   imports: [FormsModule, ModalComponent, MarkdownEditorComponent, NoticeRepliesComponent, AvatarComponent],
   template: `
     <div class="section-header">
-      <h2 class="section-title">📌 Quadro de Avisos</h2>
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Quadro de Avisos
+      </h2>
       @if (permSvc.can('notices.edit')) {
         <button class="btn btn-primary btn-sm" (click)="openCreate()">
           ➕ Novo Aviso

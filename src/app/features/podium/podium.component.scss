@@ -5,7 +5,7 @@
   width: 100%;
   overflow: hidden;
   border-radius: v.$radius-lg;
-  background: linear-gradient(180deg, #1a3a6e 0%, #0d2548 40%, #081828 100%);
+  background: linear-gradient(180deg, var(--cl-bg-elevated) 0%, var(--cl-bg-surface) 40%, var(--cl-bg-base) 100%);
   border: 1px solid rgba(var(--cl-secondary), 0.2);
   padding: 1.5rem 1rem 0;
   min-height: 520px;
@@ -40,8 +40,8 @@
   padding: 0.6rem 0.8rem;
   border-radius: 10px;
   margin-bottom: 0.5rem;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--cl-bg-elevated);
+  border: 1px solid var(--cl-border);
   transition: v.$transition;
 
   &:hover { background: rgba(var(--cl-secondary), 0.08); }

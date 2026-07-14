@@ -13,7 +13,7 @@
 .notice-card {
   width: 100%;
   max-width: 500px;   // limite para monitores grandes
-  background: linear-gradient(145deg, var(--cl-bg-surface), rgba(26,50,85,0.5));
+  background: var(--cl-bg-surface);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: v.$radius;
   overflow: hidden;
@@ -76,8 +76,8 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--cl-border);
+  background: var(--cl-bg-surface);
   font-size: 0.8rem;
   cursor: pointer;
   transition: v.$transition;
@@ -89,6 +89,8 @@
   &:hover { border-color: rgba(var(--cl-secondary), 0.35); background: rgba(var(--cl-secondary), 0.08); }
   &.danger:hover { border-color: rgba(var(--cl-error), 0.4); background: rgba(var(--cl-error), 0.12); }
   &:disabled { opacity: 0.5; cursor: default; }
+
+  &.danger { color: var(--cl-error); background: rgba(var(--cl-error), 0.05); border-color: rgba(var(--cl-error), 0.2); }
 }
 
 // ── Imagem — proporção real, limitada pela largura do card ─────
@@ -262,7 +264,7 @@
   &:hover    { transform: scale(1.2); }
   &.selected {
     border-color: white;
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+    box-shadow: 0 0 0 2px var(--cl-text-muted);
     transform: scale(1.15);
   }
 }
@@ -278,7 +280,7 @@
   transition: v.$transition;
   padding: 0.5rem 0.65rem;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--cl-text-muted);
   margin-top: 0.25rem;
 
   input[type="checkbox"] { display: none; }
@@ -288,7 +290,7 @@
 
 .toggle-box {
   width: 18px; height: 18px; border-radius: 4px;
-  border: 2px solid rgba(var(--cl-secondary), 0.4);
+  border: 2px solid var(--cl-secondary);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.68rem; font-weight: 900; color: var(--cl-secondary); flex-shrink: 0;
   transition: v.$transition;

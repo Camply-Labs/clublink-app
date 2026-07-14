@@ -17,7 +17,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   right: 0;
   height: $topbar-h;
   z-index: 200;
-  background: rgba(var(--cl-bg-base), 0.92);
+  background: var(--cl-bg-base);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(var(--cl-secondary), 0.1);
@@ -204,7 +204,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   bottom: 0;
   width: $sidebar-w;
   z-index: 150;
-  background: linear-gradient(180deg, var(--cl-bg-surface) 0%, rgba(10,22,40,0.98) 100%);
+  background: var(--cl-bg-surface);
   border-right: 1px solid rgba(var(--cl-secondary), 0.1);
   display: flex;
   flex-direction: column;
