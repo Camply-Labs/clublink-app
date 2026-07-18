@@ -13,7 +13,7 @@ import {
 /**
  * ============================================================
  *  ThemeService
- *  core/theme/theme.service.ts
+ *  core/services/theme.service.ts
  *
  *  Gerencia os três temas da aplicação ClubLink:
  *    'nightsky' → classe .theme-nightsky no <html>

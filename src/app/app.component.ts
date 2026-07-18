@@ -15,7 +15,7 @@ import { AppStatusService } from './core/services/app-status.service';
 import { ToastContainerComponent } from './shared/components/toast/toast-container.component';
 import { AppStatusComponent } from './features/app-status/app-status.component';
 
-import { ThemeService }          from './core/theme/theme.service';
+import { ThemeService }          from './core/services/theme.service';
 import { CustomizationService }  from './core/services/customization.service';
 
 /** Rotas que nunca são bloqueadas pelo status da aplicação */
