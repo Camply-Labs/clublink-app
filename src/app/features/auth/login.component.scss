@@ -6,19 +6,19 @@
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(ellipse at 30% 70%, rgba(v.$gold, 0.12) 0%, transparent 55%),
-    linear-gradient(135deg, v.$navy 0%, #0d1e38 100%);
+    radial-gradient(ellipse at 30% 70%, rgba(var(--cl-secondary), 0.12) 0%, transparent 55%),
+    linear-gradient(135deg, var(--cl-bg-base) 0%, #0d1e38 100%);
   padding: 1.5rem;
 }
 
 .login-card {
-  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
-  border: 1px solid rgba(v.$gold, 0.3);
+  background: var(--cl-bg-elevated);
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
   border-radius: v.$radius-lg;
   padding: 2.5rem 2rem;
   width: 100%;
   max-width: 420px;
-  box-shadow: v.$shadow-lg, 0 0 60px rgba(v.$gold, 0.08);
+  box-shadow: v.$shadow-lg, 0 0 60px rgba(var(--cl-secondary), 0.08);
   text-align: center;
 
   app-clublink-logo { margin: 0 auto 1rem; display: block; }
@@ -26,13 +26,13 @@
 
 .login-title {
   font-size: 1.6rem;
-  color: v.$gold;
+  color: var(--cl-secondary);
   margin-bottom: 0.25rem;
 }
 
 .login-subtitle {
   font-size: 0.8rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-bottom: 2rem;
@@ -40,7 +40,7 @@
 
 .login-hint {
   font-size: 0.72rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 1.2rem;
   line-height: 1.5;
 }
@@ -54,7 +54,7 @@
   align-items: center;
   gap: 0.75rem;
   margin: 1rem 0;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -103,7 +103,7 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 
-  &:hover { color: var(--gold); }
+  &:hover { color: var(--cl-secondary); }
 }
 
 // ── View: Esqueci minha senha ─────────────────────────────────
@@ -120,7 +120,7 @@
 
 .forgot-desc {
   font-size: 0.83rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   line-height: 1.6;
 }
 
@@ -141,7 +141,7 @@
   width: 100%;
   background: none;
   border: none;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   font-family: 'Raleway', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
@@ -151,7 +151,7 @@
   transition: 0.25s ease;
   text-align: center;
 
-  &:hover { color: var(--snow); }
+  &:hover { color: var(--cl-text-primary); }
 }
 
 // ── Tela de sucesso (e-mail enviado) ──────────────────────────
@@ -176,21 +176,21 @@
 
 .reset-success-body {
   font-size: 0.85rem;
-  color: var(--gray-light);
+  color: var(--cl-text-secondary);
   line-height: 1.7;
   margin-bottom: 0.75rem;
 
-  strong { color: var(--snow); }
+  strong { color: var(--cl-text-primary); }
 }
 
 .reset-success-note {
   font-size: 0.75rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 8px;
   padding: 0.65rem 0.85rem;
   line-height: 1.6;
 
-  strong { color: var(--snow); }
+  strong { color: var(--cl-text-primary); }
 }

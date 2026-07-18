@@ -2,7 +2,7 @@
 
 .scoring-desc {
   font-size: 0.83rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-bottom: 1.5rem;
   line-height: 1.6;
 
@@ -35,11 +35,11 @@
   padding: 0.75rem 0.9rem;
   border-radius: v.$radius;
   min-width: 100%;
-  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
+  background: var(--cl-bg-surface);
   border: 1px solid rgba(255,255,255,0.07);
   transition: v.$transition;
 
-  &:hover { border-color: rgba(v.$gold, 0.25); }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.25); }
 
   &.positive { border-left: 3px solid #68d391; }
   &.negative { border-left: 3px solid #fc8181; }
@@ -62,7 +62,7 @@
 .scoring-card-name {
   font-size: 0.88rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -70,7 +70,7 @@
 
 .scoring-card-desc {
   font-size: 0.72rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
@@ -83,9 +83,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: v.$gold;
-  background: rgba(v.$gold, 0.08);
-  border: 1px solid rgba(v.$gold, 0.2);
+  color: var(--cl-secondary);
+  background: rgba(var(--cl-secondary), 0.08);
+  border: 1px solid rgba(var(--cl-secondary), 0.2);
   border-radius: 20px;
   padding: 0.1rem 0.4rem;
   margin-top: 3px;
@@ -121,23 +121,23 @@
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 600;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   transition: v.$transition;
   user-select: none;
 
   input[type="radio"] { display: none; }
-  &:hover { border-color: rgba(v.$gold, 0.3); color: v.$snow; }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.3); color: var(--cl-text-primary); }
 
   &.active {
-    border-color: rgba(v.$gold, 0.45);
-    background: rgba(v.$gold, 0.08);
-    color: v.$snow;
+    border-color: rgba(var(--cl-secondary), 0.45);
+    background: rgba(var(--cl-secondary), 0.08);
+    color: var(--cl-text-primary);
   }
 }
 
 .points-preview {
   font-size: 0.78rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 0.35rem;
 
   strong { font-family: 'Cinzel', serif; font-size: 0.9rem; }

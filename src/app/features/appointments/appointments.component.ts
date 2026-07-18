@@ -30,7 +30,12 @@ type GroupScope = 'unit' | 'all';
   template: `
     <!-- ── Cabeçalho ─────────────────────────────────────────── -->
     <div class="section-header">
-      <h2 class="section-title">Apontamentos</h2>
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5"  x2="12" y2="19"/>
+          <line x1="5"  y1="12" x2="19" y2="12"/>
+        </svg>
+        Apontamentos</h2>
       <div class="apont-header-actions">
         <button class="btn btn-secondary btn-sm" (click)="legendOpen.set(true)">
           📊 Tabela de Pontuações
@@ -80,13 +85,13 @@ type GroupScope = 'unit' | 'all';
         <div class="apont-modal-profile">
           <app-avatar [photoUrl]="t.photoUrl" [name]="t.name" [size]="56" />
           <div>
-            <div style="font-family:'Cinzel',serif;font-weight:700;color:var(--snow);">{{ t.name }}</div>
-            <div style="font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;">{{ t.unit }}</div>
+            <div style="font-family:'Cinzel',serif;font-weight:700;color:var(--cl-text-primary);">{{ t.name }}</div>
+            <div style="font-size:.72rem;color:var(--cl-secondary);text-transform:uppercase;letter-spacing:.08em;">{{ t.unit }}</div>
             <div style="display:flex;align-items:baseline;gap:.3rem;margin-top:4px;">
-              <span style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;color:var(--gold-light);">
+              <span style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;color:var(--cl-secondary-hover);">
                 {{ currentPts(t) }}
               </span>
-              <span style="font-size:.7rem;color:var(--gray-mid);">pontos atuais</span>
+              <span style="font-size:.7rem;color:var(--cl-text-muted);">pontos atuais</span>
             </div>
           </div>
         </div>

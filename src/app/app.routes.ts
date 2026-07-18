@@ -76,6 +76,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/console/console.component').then(m => m.ConsoleComponent),
       },
+      {
+        path: 'settings',
+        canActivate: [permissionGuard('admin.view')],
+        loadComponent: () =>
+          import('./features/settings/settings.component').then(m => m.SettingsComponent),
+      },
       { path: 'password', redirectTo: 'profile', pathMatch: 'full' },
       { path: '',         redirectTo: 'podium',  pathMatch: 'full' },
     ],

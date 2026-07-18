@@ -17,10 +17,10 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   right: 0;
   height: $topbar-h;
   z-index: 200;
-  background: rgba(v.$navy, 0.92);
+  background: var(--cl-bg-base);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(v.$gold, 0.1);
+  border-bottom: 1px solid rgba(var(--cl-secondary), 0.1);
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -34,7 +34,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   border-radius: 8px;
   border: none;
   background: transparent;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -60,7 +60,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   font-family: 'Cinzel', serif;
   font-size: 0.95rem;
   font-weight: 700;
-  color: v.$gold;
+  color: var(--cl-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -70,7 +70,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 
   small {
     font-size: 0.55rem;
-    color: v.$gray-mid;
+    color: var(--cl-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.15em;
     font-weight: 400;
@@ -85,7 +85,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 
 .topbar-avatar-btn {
   background: none;
-  border: 2px solid rgba(v.$gold, 0.3);
+  border: 2px solid rgba(var(--cl-secondary), 0.3);
   border-radius: 50%;
   padding: 2px;
   cursor: pointer;
@@ -93,7 +93,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   align-items: center;
   transition: v.$transition;
 
-  &:hover { border-color: rgba(v.$gold, 0.7); }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.7); }
 }
 
 .user-dropdown {
@@ -101,8 +101,8 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   top: calc(100% + 8px);
   right: 0;
   width: 240px;
-  background: v.$navy-mid;
-  border: 1px solid rgba(v.$gold, 0.2);
+  background: var(--cl-bg-surface);
+  border: 1px solid rgba(var(--cl-secondary), 0.2);
   border-radius: v.$radius;
   box-shadow: v.$shadow-lg;
   overflow: hidden;
@@ -127,7 +127,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 .user-dropdown-name {
   font-size: 0.85rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -135,7 +135,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 
 .user-dropdown-role {
   font-size: 0.7rem;
-  color: v.$gold;
+  color: var(--cl-secondary);
   margin-top: 1px;
 }
 
@@ -152,7 +152,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   padding: 0.7rem 1rem;
   font-size: 0.83rem;
   font-weight: 600;
-  color: v.$gray-light;
+  color: var(--cl-text-secondary);
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -166,7 +166,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 
   &:hover {
     background: rgba(255,255,255,0.05);
-    color: v.$snow;
+    color: var(--cl-text-primary);
     svg { opacity: 1; }
   }
 
@@ -204,8 +204,8 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   bottom: 0;
   width: $sidebar-w;
   z-index: 150;
-  background: linear-gradient(180deg, v.$navy-mid 0%, rgba(10,22,40,0.98) 100%);
-  border-right: 1px solid rgba(v.$gold, 0.1);
+  background: var(--cl-bg-surface);
+  border-right: 1px solid rgba(var(--cl-secondary), 0.1);
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
@@ -214,7 +214,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   overflow-x: hidden;
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(v.$gold, 0.15) transparent;
+  scrollbar-color: rgba(var(--cl-secondary), 0.15) transparent;
 
   &.open { transform: translateX(0); }
 }
@@ -240,7 +240,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   padding: 0 0.75rem;
   margin-bottom: 0.25rem;
 }
@@ -252,7 +252,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   padding: 0.6rem 0.75rem;
   border-radius: 8px;
   text-decoration: none;
-  color: v.$gray-light;
+  color: var(--cl-text-secondary);
   font-size: 0.85rem;
   font-weight: 600;
   transition: v.$transition;
@@ -270,16 +270,16 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 
   &:hover {
     background: rgba(255,255,255,0.05);
-    color: v.$snow;
+    color: var(--cl-text-primary);
     svg { opacity: 1; }
   }
 
   &.active {
-    background: rgba(v.$gold, 0.1);
-    color: v.$gold-light;
+    background: rgba(var(--cl-secondary), 0.1);
+    color: var(--cl-secondary-hover);
     font-weight: 700;
 
-    svg { opacity: 1; color: v.$gold; }
+    svg { opacity: 1; color: var(--cl-secondary); }
 
     // Barra lateral dourada (estilo Firebase)
     &::before {
@@ -289,7 +289,7 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
       top: 20%;
       height: 60%;
       width: 3px;
-      background: v.$gold;
+      background: var(--cl-secondary);
       border-radius: 0 3px 3px 0;
     }
   }
@@ -304,14 +304,14 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
 
 .sidebar-footer-version {
   font-size: 0.65rem;
-  color: rgba(v.$gold, 0.5);
+  color: rgba(var(--cl-secondary), 0.5);
   font-family: 'Cinzel', serif;
   font-weight: 600;
 }
 
 .sidebar-footer-copy {
   font-size: 0.62rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 2px;
 }
 
@@ -349,4 +349,187 @@ $sidebar-w-col: 64px;   // largura colapsada (apenas ícones) — reservado para
   .topbar-brand-name small { display: none; }
   .page-content { padding: 1.25rem 1rem; }
   .sidebar { width: min(#{$sidebar-w}, 85vw); }
+}
+
+// ── Variáveis locais ────────────────────────────────────────────────────
+$sb-width-expanded:  248px;
+$sb-width-collapsed:  64px;
+$sb-transition:      all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+$sb-border-radius:   12px;
+
+// ── Seção de Tema ──────────────────────────────────────────────────────
+
+.sb__theme-section {
+  padding: 0.75rem;
+  border-top: 1px solid var(--cl-sidebar-border);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sb__section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cl-text-muted);
+  padding: 0 0.25rem 0.5rem;
+
+  &--hidden { display: none; }
+}
+
+.sb__theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: $sb-border-radius - 4px;
+  border: 1px solid var(--cl-sidebar-border);
+  background: var(--cl-sidebar-item-hover);
+  color: var(--cl-sidebar-text);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 180ms ease;
+  text-align: left;
+
+  &:hover {
+    border-color: var(--cl-border-strong);
+    color: var(--cl-sidebar-text-active);
+  }
+
+  &--active {
+    border-color: var(--cl-secondary);
+    color: var(--cl-sidebar-text-active);
+  }
+}
+
+.sb__theme-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  transition: transform 200ms ease;
+
+  .sb__theme-btn:hover & { transform: scale(1.1); }
+}
+
+.sb__theme-label {
+  flex: 1;
+}
+
+.sb__theme-arrow {
+  font-size: 0.6rem;
+  color: var(--cl-text-muted);
+  flex-shrink: 0;
+}
+
+// ── Painel de seleção de tema ─────────────────────────────────────────
+
+.sb__theme-panel {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0.75rem;
+  right: 0.75rem;
+  background: var(--cl-bg-elevated);
+  border: 1px solid var(--cl-border);
+  border-radius: $sb-border-radius;
+  box-shadow: var(--cl-shadow-lg);
+  overflow: hidden;
+  animation: sbPanelIn 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 10;
+
+  // Quando colapsado: posiciona à direita do sidebar
+  &--collapsed {
+    left: calc(100% + 8px);
+    bottom: 0;
+    width: 220px;
+    right: auto;
+  }
+}
+
+@keyframes sbPanelIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sb__theme-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--cl-text-secondary);
+  cursor: pointer;
+  font-size: 0.825rem;
+  text-align: left;
+  transition: background 150ms ease, color 150ms ease;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--cl-divider);
+  }
+
+  &:hover {
+    background: var(--cl-primary-subtle);
+    color: var(--cl-text-primary);
+  }
+
+  &--active {
+    background: var(--cl-sidebar-item-active);
+    color: var(--cl-sidebar-text-active);
+    font-weight: 600;
+  }
+}
+
+.sb__theme-option-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--cl-shadow-sm);
+}
+
+.sb__theme-option-swatch-fg {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.sb__theme-option-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.sb__theme-option-name {
+  font-weight: 600;
+  color: var(--cl-text-primary);
+  font-size: 0.825rem;
+  line-height: 1.2;
+}
+
+.sb__theme-option-desc {
+  font-size: 0.72rem;
+  color: var(--cl-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sb__theme-option-check {
+  color: var(--cl-secondary);
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
 }

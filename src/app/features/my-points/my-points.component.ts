@@ -37,10 +37,10 @@ import { HistoryEntry } from '../../core/models';
         [name]="user()?.name ?? ''"
         [size]="90"
       />
-      <div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--snow);margin:1rem 0 .2rem;">
+      <div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--cl-text-primary);margin:1rem 0 .2rem;">
         {{ user()?.name }}
       </div>
-      <div style="font-size:.78rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem;">
+      <div style="font-size:.78rem;color:var(--cl-secondary);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem;">
         {{ user()?.unit }}
       </div>
       <div class="my-points-value">{{ livePoints() }}</div>

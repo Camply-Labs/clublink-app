@@ -7,8 +7,8 @@
 }
 
 .apont-card {
-  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
-  border: 1px solid rgba(v.$gold, 0.15);
+  background: var(--cl-bg-surface);
+  border: 1px solid var(--cl-input-border);
   border-radius: v.$radius;
   padding: 1rem;
   display: flex;
@@ -19,25 +19,25 @@
   transition: v.$transition;
 
   &:hover {
-    border-color: rgba(v.$gold, 0.4);
+    border-color: rgba(var(--cl-secondary), 0.4);
     transform: translateY(-1px);
   }
 
-  .desb-name   { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: v.$snow; }
+  .desb-name   { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: var(--cl-text-primary); }
 
   .desb-unit {
     font-size: 0.72rem;
-    color: v.$gold;
+    color: var(--cl-secondary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    background: rgba(v.$gold, 0.1);
+    background: rgba(var(--cl-secondary), 0.1);
     padding: 0.2rem 0.6rem;
     border-radius: 20px;
-    border: 1px solid rgba(v.$gold, 0.25);
+    border: 1px solid rgba(var(--cl-secondary), 0.25);
   }
 
-  .desb-points       { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; color: v.$gold-light; }
-  .desb-points-label { font-size: 0.68rem; color: v.$gray-mid; text-transform: uppercase; letter-spacing: 0.1em; margin-top: -6px; }
+  .desb-points       { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; color: var(--cl-secondary-hover); }
+  .desb-points-label { font-size: 0.68rem; color: var(--cl-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: -6px; }
 
   .desb-role-badge {
     font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 20px;
@@ -45,7 +45,7 @@
   }
 }
 
-.apont-last { font-size: 0.68rem; color: v.$gray-mid; font-style: italic; }
+.apont-last { font-size: 0.68rem; color: var(--cl-text-muted); font-style: italic; }
 
 // Perfil dentro do modal
 .apont-modal-profile {
@@ -53,20 +53,20 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--cl-input-bg);
+  border: 1px solid var(--cl-input-border);
   border-radius: 10px;
   margin-bottom: 0.5rem;
 
   .profile-name {
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    color: v.$snow;
+    color: var(--cl-text-primary);
   }
 
   .profile-unit {
     font-size: 0.72rem;
-    color: v.$gold;
+    color: var(--cl-secondary);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
@@ -81,16 +81,16 @@
       font-family: 'Cinzel', serif;
       font-size: 1.4rem;
       font-weight: 900;
-      color: v.$gold-light;
+      color: var(--cl-secondary-hover);
     }
 
-    &-label { font-size: 0.7rem; color: v.$gray-mid; }
+    &-label { font-size: 0.7rem; color: var(--cl-text-muted); }
   }
 }
 
 .modal-warning {
-  background: rgba(v.$danger, 0.08);
-  border: 1px solid rgba(v.$danger, 0.25);
+  background: rgba(var(--cl-error), 0.08);
+  border: 1px solid rgba(var(--cl-error), 0.25);
   border-radius: 8px;
   padding: 0.75rem;
   margin-bottom: 1rem;
@@ -105,7 +105,7 @@
 // ── Preview / hint de resultado ───────────────────────────────
 .field-hint {
   font-size: 0.72rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   margin-top: 0.35rem;
   line-height: 1.4;
 }
@@ -119,7 +119,7 @@
 .scoring-checks-title {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 0.5rem;
@@ -138,22 +138,22 @@
   gap: 0.35rem;
   padding: 0.3rem 0.65rem;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--cl-input-border);
+  background: var(--cl-input-bg);
   cursor: pointer;
   transition: 0.25s ease;
   font-size: 0.78rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   user-select: none;
 
   input[type="checkbox"] { display: none; }
 
-  &:hover { border-color: rgba(201,168,76,0.35); color: var(--snow); }
+  &:hover { border-color: rgba(201,168,76,0.35); color: var(--cl-text-primary); }
 
   &.checked {
     border-color: rgba(201,168,76,0.5);
     background: rgba(201,168,76,0.1);
-    color: var(--snow);
+    color: var(--cl-text-primary);
   }
 }
 
@@ -167,13 +167,13 @@
   justify-content: center;
   font-size: 0.6rem;
   font-weight: 900;
-  color: var(--gold);
+  color: var(--cl-secondary);
   flex-shrink: 0;
   transition: 0.25s ease;
 
   .scoring-check.checked & {
-    background: var(--gold);
-    color: var(--navy);
+    background: var(--cl-secondary);
+    color: var(--cl-bg-base);
   }
 }
 
@@ -190,7 +190,7 @@
 // ── Preview de total ──────────────────────────────────────────
 .scoring-total-preview {
   font-size: 0.8rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   background: rgba(255,255,255,0.03);
@@ -225,7 +225,7 @@
 // ── Modal por Grupo ───────────────────────────────────────────
 .group-hint {
   font-size: 0.83rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   line-height: 1.6;
   margin-bottom: 1.25rem;
 }
@@ -243,19 +243,19 @@
   gap: 0.9rem;
   padding: 0.85rem 1rem;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--cl-input-border);
+  background: var(--cl-input-bg);
   cursor: pointer;
   transition: 0.25s ease;
   user-select: none;
 
-  &:hover    { border-color: rgba(201,168,76,0.3); }
-  &.selected { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+  &:hover    { border-color: var(--cl-input-border-focus); }
+  &.selected { border-color: var(--cl-input-border-focus); background: var(--cl-input-bg-focus); }
 }
 
 .scope-icon  { font-size: 1.5rem; flex-shrink: 0; }
-.scope-label { font-size: 0.88rem; font-weight: 700; color: var(--snow); }
-.scope-desc  { font-size: 0.72rem; color: var(--gray-mid); margin-top: 1px; }
+.scope-label { font-size: 0.88rem; font-weight: 700; color: var(--cl-text-primary); }
+.scope-desc  { font-size: 0.72rem; color: var(--cl-text-muted); margin-top: 1px; }
 
 // ── Lista de unidades ─────────────────────────────────────────
 .unit-list {
@@ -270,33 +270,33 @@
   gap: 0.75rem;
   padding: 0.55rem 0.85rem;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--cl-input-border);
+  background: var(--cl-input-bg);
   cursor: pointer;
   transition: 0.25s ease;
   user-select: none;
 
   input[type="radio"] { display: none; }
-  &:hover    { border-color: rgba(201,168,76,0.3); }
-  &.selected { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+  &:hover    { border-color: var(--cl-input-border-focus); }
+  &.selected { border-color: var(--cl-input-border-focus); background: var(--cl-input-bg-focus); }
 }
 
-.unit-name  { flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--snow); }
-.unit-count { font-size: 0.72rem; color: var(--gray-mid); }
+.unit-name  { flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--cl-text-primary); }
+.unit-count { font-size: 0.72rem; color: var(--cl-text-muted); }
 
 // ── Preview dos alvos ─────────────────────────────────────────
 .group-targets-preview {
   margin-top: 1rem;
   padding: 0.75rem;
   border-radius: 8px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--cl-input-bg);
+  border: 1px solid var(--cl-input-border);
 }
 
 .group-targets-label {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--gold);
+  color: var(--cl-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 0.5rem;
@@ -314,10 +314,10 @@
   gap: 0.3rem;
   padding: 0.2rem 0.5rem;
   border-radius: 20px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--cl-input-bg);
+  border: 1px solid var(--cl-input-border);
   font-size: 0.72rem;
-  color: var(--snow);
+  color: var(--cl-text-primary);
   font-weight: 600;
 }
 
@@ -328,11 +328,11 @@
   gap: 0.4rem;
   padding: 0.35rem 0.8rem;
   border-radius: 20px;
-  background: rgba(201,168,76,0.1);
-  border: 1px solid rgba(201,168,76,0.3);
+  background: var(--cl-input-bg);
+  border: 1px solid var(--cl-input-border);
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--gold-light);
+  color: var(--cl-secondary-hover);
   margin-bottom: 0.75rem;
 }
 
@@ -350,7 +350,7 @@
   color: #68d391;
   margin-bottom: 0.5rem;
 }
-.group-result-body  { font-size: 0.85rem; color: var(--gray-light); line-height: 1.6; }
+.group-result-body  { font-size: 0.85rem; color: var(--cl-text-secondary); line-height: 1.6; }
 
 @media (max-width: 768px) {
   .apont-header-actions { width: 100%; justify-content: flex-end; }

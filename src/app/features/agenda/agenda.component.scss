@@ -1,7 +1,34 @@
 @use '../../../styles/variables' as v;
 
 .fc {
-  --fc-page-bg-color: #{v.$gray-mid};
+  --fc-small-font-size: .85em;
+  --fc-page-bg-color: var(--cl-bg-surface);
+  --fc-neutral-bg-color: var(--cl-bg-elevated);
+  --fc-neutral-text-color: var(--cl-text-primary);
+  --fc-border-color: var(--cl-input-border);
+  --fc-button-text-color: var(--cl-text-primary);
+  --fc-button-bg-color: var(--cl-bg-surface);
+  --fc-button-border-color: var(--cl-input-border);
+  --fc-button-hover-bg-color: var(--cl-bg-surface);
+  --fc-button-hover-border-color: var(--cl-input-border);
+  --fc-button-active-bg-color: var(--cl-input-border);
+  --fc-button-active-border-color: var(--cl-input-border);
+  --fc-event-bg-color: var(--cl-secondary);
+  --fc-event-border-color: var(--cl-secondary);
+  --fc-event-text-color: var(--cl-bg-base);
+  --fc-list-event-hover-bg-color: var(--cl-bg-base);
+  --fc-event-selected-overlay-color: rgba(var(--cl-secondary), 0.2);
+  --fc-more-link-bg-color: var(--cl-bg-surface);
+  --fc-more-link-text-color: inherit;
+  --fc-event-resizer-thickness: 8px;
+  --fc-event-resizer-dot-total-width: 8px;
+  --fc-event-resizer-dot-border-width: 1px;
+  --fc-non-business-color: rgba(var(--cl-secondary), 0.08);
+  --fc-bg-event-color: var(--cl-secondary);
+  --fc-bg-event-opacity: 0.3;
+  --fc-highlight-color: rgba(var(--cl-secondary), 0.15);
+  --fc-today-bg-color: rgba(var(--cl-secondary), 0.08);
+  --fc-now-indicator-color: var(--cl-secondary);
 }
 
 
@@ -19,17 +46,17 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 0.9rem;
-  background: rgba(v.$gold, 0.06);
-  border: 1px solid rgba(v.$gold, 0.2);
+  background: rgba(var(--cl-secondary), 0.06);
+  border: 1px solid rgba(var(--cl-secondary), 0.2);
   border-radius: 8px;
   margin-bottom: 0.75rem;
   cursor: pointer;
   font-size: 0.78rem;
-  color: v.$gold;
+  color: var(--cl-secondary);
   font-weight: 600;
   transition: v.$transition;
 
-  &:hover { background: rgba(v.$gold, 0.1); }
+  &:hover { background: rgba(var(--cl-secondary), 0.1); }
 }
 
 .log-toggle { opacity: 0.7; font-size: 0.7rem; }
@@ -53,13 +80,13 @@
   &:last-child { border-bottom: none; }
 }
 
-.log-file { font-size: 0.78rem; font-weight: 600; color: v.$snow; }
-.log-meta { font-size: 0.72rem; color: v.$gray-mid; flex: 1; }
+.log-file { font-size: 0.78rem; font-weight: 600; color: var(--cl-text-primary); }
+.log-meta { font-size: 0.72rem; color: var(--cl-text-muted); flex: 1; }
 .log-hash {
   font-family: monospace;
   font-size: 0.68rem;
-  color: rgba(v.$gold, 0.6);
-  background: rgba(v.$gold, 0.06);
+  color: rgba(var(--cl-secondary), 0.6);
+  background: rgba(var(--cl-secondary), 0.06);
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
   cursor: help;
@@ -71,19 +98,19 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.55rem 0.9rem;
-  background: rgba(v.$gold, 0.08);
-  border: 1px solid rgba(v.$gold, 0.25);
+  background: rgba(var(--cl-secondary), 0.08);
+  border: 1px solid rgba(var(--cl-secondary), 0.25);
   border-radius: 8px;
   margin-bottom: 0.75rem;
   font-size: 0.82rem;
-  color: v.$gold-light;
+  color: var(--cl-secondary-hover);
   font-weight: 600;
 }
 
 // ── Wrapper do calendário ─────────────────────────────────────
 .calendar-wrapper {
-  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
-  border: 1px solid rgba(v.$gold, 0.15);
+  background: var(--cl-bg-surface);
+  border: 1px solid rgba(var(--cl-secondary), 0.15);
   border-radius: v.$radius;
   padding: 1rem;
   overflow: hidden;
@@ -99,14 +126,14 @@
   :host ::ng-deep .calendar-wrapper .fc-toolbar-title {
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
-    color: v.$gold;
+    color: var(--cl-secondary);
   }
 
   // Botões de navegação
   :host ::ng-deep .calendar-wrapper .fc-button {
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.12) !important;
-    color: v.$snow !important;
+    color: var(--cl-text-primary) !important;
     font-family: 'Raleway', sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
@@ -115,15 +142,15 @@
     transition: v.$transition;
 
     &:hover {
-      background: rgba(v.$gold, 0.15) !important;
-      border-color: rgba(v.$gold, 0.4) !important;
-      color: v.$gold !important;
+      background: rgba(var(--cl-secondary), 0.15) !important;
+      border-color: rgba(var(--cl-secondary), 0.4) !important;
+      color: var(--cl-secondary) !important;
     }
 
     &.fc-button-active {
-      background: v.$gold !important;
-      border-color: v.$gold !important;
-      color: v.$navy !important;
+      background: var(--cl-secondary) !important;
+      border-color: var(--cl-secondary) !important;
+      color: var(--cl-bg-base) !important;
     }
   }
 
@@ -134,11 +161,11 @@
   }
 
   :host ::ng-deep .fc-daygrid-day:hover {
-    background: rgba(v.$gold, 0.04) !important;
+    background: rgba(var(--cl-secondary), 0.04) !important;
   }
 
   :host ::ng-deep .fc-day-today {
-    background: rgba(v.$gold, 0.08) !important;
+    background: rgba(var(--cl-secondary), 0.08) !important;
   }
 
   ::ng-deep .fc-event-main {
@@ -149,7 +176,7 @@
     background: rgba(255,255,255,0.03);
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
-    color: v.$gold;
+    color: var(--cl-secondary);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     padding: 0.4rem 0;
@@ -157,17 +184,17 @@
 
   :host ::ng-deep .fc-daygrid-day-number,
   :host ::ng-deep .fc-list-event-title {
-    color: v.$snow;
+    color: var(--cl-text-primary);
     font-size: 0.82rem;
   }
 
   :host ::ng-deep .fc-daygrid-day-number {
-    color: v.$gray-mid;
+    color: var(--cl-text-muted);
     font-family: 'Raleway', sans-serif;
   }
 
   :host ::ng-deep .fc-day-other .fc-daygrid-day-number {
-    color: rgba(v.$gray-mid, 0.4);
+    color: rgba(var(--cl-text-muted), 0.4);
   }
 
   :host ::ng-deep .fc-event {
@@ -184,19 +211,19 @@
   }
 
   :host ::ng-deep .fc-more-link {
-    color: v.$gold;
+    color: var(--cl-secondary);
     font-size: 0.72rem;
     font-weight: 600;
   }
 
   :host ::ng-deep .fc-list-event:hover td {
-    background: rgba(v.$gold, 0.06) !important;
+    background: rgba(var(--cl-secondary), 0.06) !important;
   }
 
   :host ::ng-deep .fc-list-day-cushion {
     background: rgba(255,255,255,0.04) !important;
     font-family: 'Cinzel', serif;
-    color: v.$gold;
+    color: var(--cl-secondary);
     font-size: 0.8rem;
   }
 
@@ -207,12 +234,12 @@
 
   :host ::ng-deep .fc-list-empty {
     background: transparent;
-    color: v.$gray-mid;
+    color: var(--cl-text-muted);
     font-family: 'Raleway', sans-serif;
   }
 
   :host ::ng-deep .fc-now-indicator {
-    border-color: v.$gold;
+    border-color: var(--cl-secondary);
   }
 }
 
@@ -237,7 +264,7 @@
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   margin-bottom: 0.4rem;
 }
 
@@ -245,9 +272,9 @@
   display: inline-block;
   font-size: 0.68rem;
   font-weight: 700;
-  color: v.$gold;
-  background: rgba(v.$gold, 0.1);
-  border: 1px solid rgba(v.$gold, 0.3);
+  color: var(--cl-secondary);
+  background: rgba(var(--cl-secondary), 0.1);
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
   border-radius: 20px;
   padding: 0.1rem 0.5rem;
   margin-bottom: 0.4rem;
@@ -255,13 +282,13 @@
 
 .event-view-dates {
   font-size: 0.8rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-bottom: 0.5rem;
 }
 
 .event-view-desc {
   font-size: 0.82rem;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   line-height: 1.5;
   margin-bottom: 0.5rem;
   white-space: pre-wrap;
@@ -269,13 +296,13 @@
 
 .event-view-location {
   font-size: 0.78rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-bottom: 0.5rem;
 }
 
 .event-view-source {
   font-size: 0.7rem;
-  color: rgba(v.$gray-mid, 0.7);
+  color: rgba(var(--cl-text-muted), 0.7);
   border-top: 1px solid rgba(255,255,255,0.06);
   padding-top: 0.5rem;
   margin-top: 0.5rem;
@@ -320,29 +347,29 @@
   cursor: pointer;
   user-select: none;
   font-size: 0.83rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   transition: v.$transition;
   padding: 0.5rem 0.65rem;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--cl-border);
 
   input[type="checkbox"] { display: none; }
-  &:hover { color: v.$snow; border-color: rgba(255,255,255,0.1); }
-  &.active { color: v.$snow; border-color: rgba(v.$gold, 0.35); background: rgba(v.$gold, 0.06); }
+  &:hover { color: var(--cl-text-primary); border-color: var(--cl-secondary); }
+  &.active { color: var(--cl-text-primary); border-color: rgba(var(--cl-secondary), 0.35); background: rgba(var(--cl-secondary), 0.06); }
 }
 
 .toggle-box {
   width: 18px; height: 18px; border-radius: 4px;
-  border: 2px solid rgba(v.$gold, 0.4);
+  border: 2px solid var(--cl-secondary);
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.68rem; font-weight: 900; color: v.$gold; flex-shrink: 0;
+  font-size: 0.68rem; font-weight: 900; color: var(--cl-secondary); flex-shrink: 0;
   transition: v.$transition;
 
-  .active & { background: v.$gold; color: v.$navy; }
+  .active & { background: var(--cl-secondary); color: var(--cl-bg-base); }
 }
 
-.toggle-label { font-size: 0.83rem; font-weight: 700; color: v.$snow; }
-.toggle-hint  { font-size: 0.7rem; color: v.$gray-mid; margin-top: 1px; }
+.toggle-label { font-size: 0.83rem; font-weight: 700; color: var(--cl-text-primary); }
+.toggle-hint  { font-size: 0.7rem; color: var(--cl-text-muted); margin-top: 1px; }
 
 // ── Responsivo ────────────────────────────────────────────────
 @media (max-width: 768px) {

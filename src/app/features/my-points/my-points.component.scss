@@ -3,29 +3,29 @@
 .my-points-hero {
   text-align: center;
   padding: 2rem 1rem;
-  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
-  border: 1px solid rgba(v.$gold, 0.25);
+  background: linear-gradient(145deg, var(--cl-bg-surface), var(--cl-bg-elevated));
+  border: 1px solid rgba(var(--cl-secondary), 0.25);
   border-radius: v.$radius-lg;
   margin-bottom: 1.5rem;
 
   app-avatar { margin: 0 auto 1rem; }
 }
 
-.my-name      { font-family: 'Cinzel', serif; font-size: 1.2rem; color: v.$snow; margin-bottom: 0.2rem; }
-.my-unit      { font-size: 0.78rem; color: v.$gold; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+.my-name      { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--cl-text-primary); margin-bottom: 0.2rem; }
+.my-unit      { font-size: 0.78rem; color: var(--cl-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
 
 .my-points-value {
   font-family: 'Cinzel', serif;
   font-size: 3.5rem;
   font-weight: 900;
-  color: v.$gold;
+  color: var(--cl-secondary);
   line-height: 1;
-  text-shadow: 0 0 30px rgba(v.$gold, 0.4);
+  text-shadow: 0 0 30px rgba(var(--cl-secondary), 0.4);
 }
 
 .my-points-label {
   font-size: 0.8rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-top: 0.3rem;
@@ -35,13 +35,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(v.$gold, 0.12);
-  border: 1px solid rgba(v.$gold, 0.35);
+  background: rgba(var(--cl-secondary), 0.12);
+  border: 1px solid rgba(var(--cl-secondary), 0.35);
   border-radius: 20px;
   padding: 0.3rem 0.8rem;
   font-size: 0.82rem;
   font-weight: 700;
-  color: v.$gold-light;
+  color: var(--cl-secondary-hover);
   margin-top: 0.75rem;
 }
 
@@ -68,15 +68,15 @@
 }
 
 .history-item-info  { flex: 1; min-width: 0; }
-.history-item-name  { font-weight: 700; color: v.$snow; font-size: 0.83rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.history-item-date  { color: v.$gray-mid; font-size: 0.72rem; }
-.history-item-desc  { color: v.$gray-mid; font-size: 0.72rem; font-style: italic; }
+.history-item-name  { font-weight: 700; color: var(--cl-text-primary); font-size: 0.83rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-item-date  { color: var(--cl-text-muted); font-size: 0.72rem; }
+.history-item-desc  { color: var(--cl-text-muted); font-size: 0.72rem; font-style: italic; }
 
 .history-points-positive { font-family: 'Cinzel', serif; font-weight: 900; color: #68d391; white-space: nowrap; }
 .history-points-negative { font-family: 'Cinzel', serif; font-weight: 900; color: #fc8181; white-space: nowrap; }
-.history-points-reset    { font-family: 'Cinzel', serif; font-weight: 900; color: v.$gold;  white-space: nowrap; }
+.history-points-reset    { font-family: 'Cinzel', serif; font-weight: 900; color: var(--cl-secondary);  white-space: nowrap; }
 
-.climber-pts-label { font-size: 0.65rem; color: v.$gray-mid; text-align: right; }
+.climber-pts-label { font-size: 0.65rem; color: var(--cl-text-muted); text-align: right; }
 
 @media (max-width: 768px) {
   .my-points-value { font-size: 2.8rem; }

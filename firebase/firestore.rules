@@ -1,5 +1,5 @@
 // ============================================================
-//  GARRAS DE ÁGUIA — Regras de Segurança do Cloud Firestore
+//  CLUBLINK — Regras de Segurança do Cloud Firestore
 // ============================================================
 
 rules_version = '2';
@@ -171,9 +171,9 @@ service cloud.firestore {
       allow update, delete: if false;  // logs imutáveis
     }
 
-    // ── catch-all — nega tudo não mapeado acima ───────────────
+		// ── catch-all — nega tudo não mapeado acima ───────────────
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if hasPerm('members.edit');
     }
   }
 }

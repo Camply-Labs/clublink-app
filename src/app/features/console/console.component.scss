@@ -2,13 +2,13 @@
 
 // ── Warning banner ────────────────────────────────────────────
 .console-warning {
-  background: rgba(v.$gold, 0.08);
-  border: 1px solid rgba(v.$gold, 0.3);
-  border-left: 4px solid v.$gold;
+  background: rgba(var(--cl-secondary), 0.08);
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
+  border-left: 4px solid var(--cl-secondary);
   border-radius: v.$radius;
   padding: 0.75rem 1rem;
   font-size: 0.83rem;
-  color: v.$gold-light;
+  color: var(--cl-secondary-hover);
   margin-bottom: 1.5rem;
   line-height: 1.5;
 }
@@ -16,9 +16,9 @@
 .console-version-badge {
   font-family: 'Cinzel', serif;
   font-size: 0.72rem;
-  color: rgba(v.$gold, 0.6);
-  background: rgba(v.$gold, 0.08);
-  border: 1px solid rgba(v.$gold, 0.2);
+  color: rgba(var(--cl-secondary), 0.6);
+  background: rgba(var(--cl-secondary), 0.08);
+  border: 1px solid rgba(var(--cl-secondary), 0.2);
   padding: 0.2rem 0.65rem;
   border-radius: 20px;
   letter-spacing: 0.06em;
@@ -26,8 +26,8 @@
 
 // ── Panel ─────────────────────────────────────────────────────
 .console-panel {
-  background: linear-gradient(145deg, v.$navy-mid, rgba(26,50,85,0.5));
-  border: 1px solid rgba(v.$gold, 0.15);
+  background: var(--cl-bg-surface);
+  border: 1px solid rgba(var(--cl-secondary), 0.15);
   border-radius: v.$radius;
   padding: 1.75rem;
   max-width: 700px;
@@ -37,19 +37,19 @@
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   font-weight: 700;
-  color: v.$gold;
+  color: var(--cl-secondary);
   margin-bottom: 0.6rem;
 }
 
 .panel-desc {
   font-size: 0.83rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 
   code {
-    background: rgba(v.$gold, 0.1);
-    color: v.$gold-light;
+    background: rgba(var(--cl-secondary), 0.1);
+    color: var(--cl-secondary-hover);
     padding: 0.1rem 0.4rem;
     border-radius: 4px;
     font-size: 0.78rem;
@@ -66,7 +66,7 @@
 
 .panel-hint {
   font-size: 0.78rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
 }
 
 // ── Collection cards ──────────────────────────────────────────
@@ -83,19 +83,19 @@
   gap: 0.9rem;
   padding: 0.85rem 1rem;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--cl-input-border);
+  background: var(--cl-input-bg);
   cursor: pointer;
   transition: v.$transition;
   user-select: none;
 
   input[type="checkbox"] { display: none; }
 
-  &:hover { border-color: rgba(v.$gold, 0.3); background: rgba(v.$gold, 0.05); }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.3); background: rgba(var(--cl-secondary), 0.05); }
 
   &.selected {
-    border-color: rgba(v.$gold, 0.45);
-    background: rgba(v.$gold, 0.08);
+    border-color: rgba(var(--cl-secondary), 0.45);
+    background: rgba(var(--cl-secondary), 0.08);
   }
 }
 
@@ -106,12 +106,12 @@
 .collection-card-label {
   font-size: 0.88rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
 }
 
 .collection-card-desc {
   font-size: 0.72rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 1px;
 }
 
@@ -119,20 +119,20 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  border: 2px solid rgba(v.$gold, 0.4);
+  border: 2px solid rgba(var(--cl-secondary), 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.72rem;
   font-weight: 900;
-  color: v.$gold;
+  color: var(--cl-secondary);
   flex-shrink: 0;
   transition: v.$transition;
 
   .collection-card.selected & {
-    background: v.$gold;
-    color: v.$navy;
-    border-color: v.$gold;
+    background: var(--cl-secondary);
+    color: var(--cl-bg-base);
+    border-color: var(--cl-secondary);
   }
 }
 
@@ -152,26 +152,26 @@
   justify-content: center;
   gap: 0.4rem;
 
-  &:hover { border-color: rgba(v.$gold, 0.4); background: rgba(v.$gold, 0.04); }
+  &:hover { border-color: rgba(var(--cl-secondary), 0.4); background: rgba(var(--cl-secondary), 0.04); }
 
   &.has-file {
-    border-color: rgba(v.$gold, 0.5);
-    background: rgba(v.$gold, 0.06);
+    border-color: rgba(var(--cl-secondary), 0.5);
+    background: rgba(var(--cl-secondary), 0.06);
     border-style: solid;
   }
 
   &.has-error {
-    border-color: rgba(v.$danger, 0.5);
-    background: rgba(v.$danger, 0.05);
+    border-color: rgba(var(--cl-error), 0.5);
+    background: rgba(var(--cl-error), 0.05);
     border-style: solid;
   }
 }
 
 .upload-icon  { font-size: 2.5rem; opacity: 0.5; }
-.upload-label { font-size: 0.88rem; font-weight: 600; color: v.$snow; }
-.upload-hint  { font-size: 0.73rem; color: v.$gray-mid; }
-.upload-file-name { font-size: 0.9rem; font-weight: 700; color: v.$gold; }
-.upload-file-size { font-size: 0.73rem; color: v.$gray-mid; }
+.upload-label { font-size: 0.88rem; font-weight: 600; color: var(--cl-text-primary); }
+.upload-hint  { font-size: 0.73rem; color: var(--cl-text-muted); }
+.upload-file-name { font-size: 0.9rem; font-weight: 700; color: var(--cl-secondary); }
+.upload-file-size { font-size: 0.73rem; color: var(--cl-text-muted); }
 
 // ── Import preview ────────────────────────────────────────────
 .import-preview {
@@ -185,7 +185,7 @@
 .preview-title {
   font-size: 0.78rem;
   font-weight: 700;
-  color: v.$gold;
+  color: var(--cl-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
@@ -205,7 +205,7 @@
 
 .preview-label {
   font-size: 0.68rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -213,10 +213,10 @@
 .preview-value {
   font-size: 0.82rem;
   font-weight: 600;
-  color: v.$snow;
+  color: var(--cl-text-primary);
 }
 
-.preview-count { color: v.$gold-light; }
+.preview-count { color: var(--cl-secondary-hover); }
 
 // ── Import scope ──────────────────────────────────────────────
 .import-scope { margin: 1.25rem 0 0.75rem; }
@@ -224,7 +224,7 @@
 .import-scope-title {
   font-size: 0.78rem;
   font-weight: 700;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
@@ -259,26 +259,26 @@
 }
 
 .result-partial {
-  background: rgba(v.$gold, 0.08);
-  border: 1px solid rgba(v.$gold, 0.3);
+  background: rgba(var(--cl-secondary), 0.08);
+  border: 1px solid rgba(var(--cl-secondary), 0.3);
 }
 
 .result-title {
   font-size: 0.88rem;
   font-weight: 700;
-  color: v.$snow;
+  color: var(--cl-text-primary);
   margin-bottom: 0.3rem;
 }
 
 .result-detail {
   font-size: 0.8rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   line-height: 1.5;
 }
 
 .result-field {
   font-size: 0.75rem;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   margin-top: 0.3rem;
 
   code {
@@ -339,12 +339,12 @@
 
 .current-status-since {
   font-size: 0.72rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   margin-top: 2px;
 }
 
 .current-status-eta   { text-align: right; flex-shrink: 0; }
-.current-eta-label    { font-size: 0.68rem; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.08em; }
+.current-eta-label    { font-size: 0.68rem; color: var(--cl-text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .current-eta-value    { font-size: 0.85rem; font-weight: 700; margin-top: 2px; }
 
 .status-form-divider {
@@ -396,14 +396,14 @@
   gap: 0.5rem;
   cursor: pointer;
   font-size: 0.83rem;
-  color: var(--gray-mid);
+  color: var(--cl-text-muted);
   user-select: none;
   transition: 0.25s ease;
 
   input[type="checkbox"] { display: none; }
-  &:hover { color: var(--snow); }
+  &:hover { color: var(--cl-text-primary); }
 
-  &.active { color: var(--snow); font-weight: 600; }
+  &.active { color: var(--cl-text-primary); font-weight: 600; }
 }
 
 .eta-toggle-box {

@@ -31,7 +31,12 @@ type ModalMode = 'create' | 'edit';
   imports: [FormsModule, ModalComponent, MarkdownEditorComponent, NoticeRepliesComponent, AvatarComponent],
   template: `
     <div class="section-header">
-      <h2 class="section-title">📌 Quadro de Avisos</h2>
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Quadro de Avisos
+      </h2>
       @if (permSvc.can('notices.edit')) {
         <button class="btn btn-primary btn-sm" (click)="openCreate()">
           ➕ Novo Aviso
@@ -193,10 +198,10 @@ type ModalMode = 'create' | 'edit';
     <!-- ── Modal: Confirmar exclusão ────────────────────────── -->
     <app-modal title="🗑 Remover Aviso" [open]="deleteModalOpen()"
                (closed)="deleteModalOpen.set(false)">
-      <p style="color:var(--gray-light);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem;">
+      <p style="color:var(--cl-text-secondary);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem;">
         Tem certeza que deseja remover o aviso
-        <strong style="color:var(--snow);">"{{ deleteTarget()?.title }}"</strong>?<br/>
-        <span style="color:var(--gray-mid);font-size:.8rem;">Esta ação não pode ser desfeita.</span>
+        <strong style="color:var(--cl-text-primary);">"{{ deleteTarget()?.title }}"</strong>?<br/>
+        <span style="color:var(--cl-text-muted);font-size:.8rem;">Esta ação não pode ser desfeita.</span>
       </p>
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="deleteModalOpen.set(false)">Cancelar</button>

@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
+import { CustomizationService }  from '../../../core/services/customization.service';
 
 @Component({
   selector: 'app-club-logo',
@@ -9,9 +10,10 @@ import { Component, input } from '@angular/core';
     }
   `,
   template: `
-    <img class="club-logo" src="img/club-logo.png" alt="Logo do Clube" [style.width.px]="size()" [style.height.px]="size()" />
+    <img class="club-logo" [src]="_customization.getValueOrDefault('logoUrl')" alt="Logo do Clube" [style.width.px]="size()" [style.height.px]="size()" />
   `,
 })
 export class ClubLogoComponent {
   readonly size = input<number>(42);
+  readonly _customization = inject(CustomizationService);
 }

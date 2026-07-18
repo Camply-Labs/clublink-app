@@ -15,13 +15,13 @@
 }
 
 .modal-box {
-  background: linear-gradient(145deg, v.$navy-mid, v.$navy-light);
-  border: 1px solid rgba(v.$gold, 0.35);
+  background: linear-gradient(145deg, var(--cl-bg-surface), var(--cl-bg-elevated));
+  border: 1px solid rgba(var(--cl-secondary), 0.35);
   border-radius: v.$radius-lg;
   padding: 2rem;
   width: 100%;
   max-width: 480px;
-  box-shadow: v.$shadow-lg, 0 0 60px rgba(v.$gold, 0.1);
+  box-shadow: v.$shadow-lg, 0 0 60px rgba(var(--cl-secondary), 0.1);
   animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1);
   max-height: 90vh;
   overflow-y: auto;
@@ -36,7 +36,7 @@
 
 .modal-title {
   font-size: 1.1rem;
-  color: v.$gold;
+  color: var(--cl-secondary);
   font-family: 'Cinzel', serif;
   font-weight: 700;
 }
@@ -44,7 +44,7 @@
 .modal-close {
   background: transparent;
   border: none;
-  color: v.$gray-mid;
+  color: var(--cl-text-muted);
   font-size: 1.4rem;
   cursor: pointer;
   padding: 2px 6px;
@@ -52,7 +52,7 @@
   transition: v.$transition;
   line-height: 1;
 
-  &:hover { color: v.$danger; background: rgba(v.$danger, 0.1); }
+  &:hover { color: var(--cl-error); background: rgba(var(--cl-error), 0.1); }
 }
 
 ::ng-deep .modal-footer {
