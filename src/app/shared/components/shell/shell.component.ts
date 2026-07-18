@@ -318,7 +318,7 @@ import { CustomizationService }  from '../../../core/services/customization.serv
       <!-- Footer compacto no sidebar -->
       <div class="sidebar-footer">
         <div class="sidebar-footer-version">v{{ version() }}</div>
-        <div class="sidebar-footer-copy">© {{ year }} Garras de Águia</div>
+        <div class="sidebar-footer-copy">Copyright © {{ year }} Camply Labs.</div>
       </div>
     </aside>
 
