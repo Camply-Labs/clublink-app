@@ -322,6 +322,6 @@ Nenhum componente, service ou guard precisa ser alterado.
 
 ## 📄 Versão
 
-**v1.0.0-beta.2** · Angular 19 · Firebase · FullCalendar 6
+**v1.0.0-beta.4** · Angular 19 · Firebase · FullCalendar 6
 
 *ClubLink* 🦅
