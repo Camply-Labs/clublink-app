@@ -16,7 +16,7 @@ import { ToastContainerComponent } from './shared/components/toast/toast-contain
 import { AppStatusComponent } from './features/app-status/app-status.component';
 
 import { ThemeService }          from './core/theme/theme.service';
-import { CustomizationService }  from './core/customization/customization.service';
+import { CustomizationService }  from './core/services/customization.service';
 
 /** Rotas que nunca são bloqueadas pelo status da aplicação */
 const OVERRIDE_PATHS = ['/admin-override'];
@@ -80,6 +80,7 @@ readonly currentUrl = toSignal(
 
   ngOnInit(): void {
     this._theme.init();
+    this._customization.loadCustomization();
 
     setTimeout(() => {
       runInInjectionContext(this.injectorObj, () => {
@@ -94,10 +95,8 @@ readonly currentUrl = toSignal(
           if (OVERRIDE_PATHS.some(p => url.startsWith(p))) return;
 
           if (!user && url !== '/login') {
-            this._customization.reset();
             this.router.navigate(['/login']);
           } else if (user && url === '/login') {
-            this._customization.loadCustomization();
             this.router.navigate([user.role === 'diretoria' ? '/podium' : '/my-points']);
           }
         });

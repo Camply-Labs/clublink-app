@@ -1,15 +1,15 @@
 import {
   Injectable, signal, computed, inject, PLATFORM_ID,
 } from '@angular/core';
-import { isPlatformBrowser }     from '@angular/common';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Auth }                  from '@angular/fire/auth';
-import { CustomizationCacheService } from '../cache/customization-cache.service';
+import { CustomizationCacheService } from './customization-cache.service';
 import {
   ClubCustomization,
   ResolvedClubCustomization,
   DEFAULT_CLUB_CUSTOMIZATION,
 } from '../../shared/models/app-config.model';
+import { StringHelper } from '../../shared/helpers/string.helper';
 
 /**
  * ============================================================
@@ -35,7 +35,6 @@ export class CustomizationService {
   private _firestore  = inject(Firestore);
   private _auth       = inject(Auth);
   private _cache      = inject(CustomizationCacheService);
-  private _platformId = inject(PLATFORM_ID);
 
   // ── Signals ───────────────────────────────────────────────────────────────
 
@@ -52,6 +51,42 @@ export class CustomizationService {
   readonly error$     = signal<string | null>(null);
 
   // ── Público ───────────────────────────────────────────────────────────────
+
+  getValueOrDefault<K extends keyof ResolvedClubCustomization>(
+    atributo: K
+  ): ResolvedClubCustomization[K] {
+      const valor = this.customization$()[atributo];
+
+      if (valor === null || valor === undefined) {
+          return DEFAULT_CLUB_CUSTOMIZATION[atributo];
+      }
+
+      if (typeof valor === "string" && StringHelper.isNullOrEmpty(valor)) {
+          return DEFAULT_CLUB_CUSTOMIZATION[atributo];
+      }
+
+      return valor;
+  }
+
+  haveSocialLinks(): boolean {
+    const social = this.getValueOrDefault('social');
+    return !!(social.instagram || social.facebook || social.youtube || social.whatsapp || social.twitter || social.tiktok);
+  }
+
+  loadCustomization(): void {
+    if(this._cache.isCached()) {
+      this.loadFromCache();
+    }
+    else {
+      this.loadFromFirestore();
+    }
+  }
+
+  loadFromDefaults(): void {
+    if(!this._cache.isCached()) {
+      this._data.set({ ...DEFAULT_CLUB_CUSTOMIZATION });
+    }
+  }
 
   /** Carrega do cache (sem Firestore). Chame no AppComponent.ngOnInit(). */
   loadFromCache(): void {
@@ -72,7 +107,7 @@ export class CustomizationService {
     } catch (err) {
       console.error('[ClubLink] Erro ao carregar customização:', err);
       this.error$.set('Não foi possível carregar as configurações do clube.');
-      this.loadFromCache();
+      this.loadFromDefaults();
     } finally {
       this.isLoading$.set(false);
     }

@@ -142,7 +142,7 @@
               <div class="st-field">
                 <span class="st-label">Logo do clube</span>
                 <p class="st-hint" style="margin-bottom:.75rem">
-                  A imagem é convertida para base64 e salva diretamente no banco.
+                  A imagem deve ter fundo transparente para melhor exibição.
                   Máximo: {{ maxLogoKb }} KB.
                 </p>
 
@@ -235,13 +235,22 @@
             <div formGroupName="contact" class="st-fields">
 
               <div class="st-field">
-                <label for="churchName" class="st-label">Igreja / Sede</label>
+                <label for="churchName" class="st-label">Igreja / Sede
+                  <abbr title="obrigatório" class="st-required">*</abbr>
+                </label>
                 <input id="churchName" type="text" formControlName="churchName"
                   class="st-input" placeholder="Ex: IASD Central de São Paulo" maxlength="100" />
+                @if (isInvalid('contact.churchName')) {
+                  <p class="st-field-error" role="alert">
+                    @if (ctrl('contact.churchName')?.errors?.['required']) { A igreja é obrigatória. }
+                  </p>
+                }
               </div>
 
               <div class="st-field">
-                <label for="schedule" class="st-label">Horário das reuniões</label>
+                <label for="schedule" class="st-label">Horário das reuniões
+                  <abbr title="obrigatório" class="st-required">*</abbr>
+                </label>
                 <div class="st-input-icon-wrap">
                   <!-- clock -->
                   <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -251,25 +260,46 @@
                   <input id="schedule" type="text" formControlName="meetingSchedule"
                     class="st-input st-input--icon" placeholder="Ex: Sábados às 15h" maxlength="60" />
                 </div>
+                @if (isInvalid('contact.meetingSchedule')) {
+                  <p class="st-field-error" role="alert">
+                    @if (ctrl('contact.meetingSchedule')?.errors?.['required']) { O horário das reuniões é obrigatório. }
+                  </p>
+                }
               </div>
 
               <div class="st-field">
-                <label for="addr1" class="st-label">Endereço — linha 1</label>
+                <label for="addr1" class="st-label">Endereço — linha 1
+                  <abbr title="obrigatório" class="st-required">*</abbr>
+                </label>
                 <input id="addr1" type="text" formControlName="addressLine1"
                   class="st-input" placeholder="Ex: Rua das Palmeiras, 123 – Centro"
                   maxlength="120" autocomplete="address-line1" />
+                @if (isInvalid('contact.addressLine1')) {
+                  <p class="st-field-error" role="alert">
+                    @if (ctrl('contact.addressLine1')?.errors?.['required']) { O endereço é obrigatório. }
+                  </p>
+                }
               </div>
 
               <div class="st-field">
-                <label for="addr2" class="st-label">Endereço — linha 2</label>
+                <label for="addr2" class="st-label">Endereço — linha 2
+                  <abbr title="obrigatório" class="st-required">*</abbr>
+                </label>
                 <input id="addr2" type="text" formControlName="addressLine2"
                   class="st-input" placeholder="Ex: São Paulo – SP, CEP 01310-100"
                   maxlength="80" autocomplete="address-line2" />
+                @if (isInvalid('contact.addressLine2')) {
+                  <p class="st-field-error" role="alert">
+                    @if (ctrl('contact.addressLine2')?.errors?.['required']) { O endereço é obrigatório. }
+                  </p>
+                }
               </div>
 
               <div class="st-fields st-fields--row">
                 <div class="st-field">
-                  <label for="phone" class="st-label">Telefone / WhatsApp</label>
+                  <label for="phone" class="st-label">Telefone / WhatsApp
+                    <abbr title="obrigatório" class="st-required">*</abbr>
+                  </label>
                   <div class="st-input-icon-wrap">
                     <!-- phone -->
                     <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -278,10 +308,18 @@
                     <input id="phone" type="tel" formControlName="phone"
                       class="st-input st-input--icon" placeholder="(11) 99999-9999"
                       maxlength="20" autocomplete="tel" />
+                    @if (isInvalid('contact.phone')) {
+                      <p class="st-field-error" role="alert">
+                        @if (ctrl('contact.addressLine1')?.errors?.['required']) { O endereço é obrigatório. }
+                      </p>
+                    }
                   </div>
                 </div>
+
                 <div class="st-field">
-                  <label for="cemail" class="st-label">E-mail de contato</label>
+                  <label for="cemail" class="st-label">E-mail de contato
+                    <abbr title="obrigatório" class="st-required">*</abbr>
+                  </label>
                   <div class="st-input-icon-wrap">
                     <!-- mail -->
                     <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -328,15 +366,52 @@
               <!-- Instagram -->
               <div class="st-field">
                 <label for="ig" class="st-label">
-                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
                   </svg>
                   Instagram
                 </label>
                 <input id="ig" type="url" formControlName="instagram"
                   class="st-input" placeholder="https://instagram.com/seuclube" maxlength="200" />
+              </div>
+
+              <!-- WhatsApp -->
+              <div class="st-field">
+                <label for="wa" class="st-label">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.122 1.522 5.859L.057 23.569a.5.5 0 0 0 .611.628l5.9-1.545A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.519-5.188-1.42l-.372-.22-3.854 1.01 1.032-3.767-.242-.389A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                  </svg>
+                  WhatsApp
+                </label>
+                <input id="wa" type="url" formControlName="whatsapp"
+                  class="st-input" placeholder="https://wa.me/5511999999999" maxlength="200" />
+                <p class="st-hint">Use o formato wa.me para links diretos.</p>
+              </div>
+
+              <!-- TikTok -->
+              <div class="st-field">
+                <label for="tt" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                  </svg>
+                  TikTok
+                </label>
+                <input id="tt" type="url" formControlName="tiktok"
+                  class="st-input" placeholder="https://tiktok.com/@seuclube" maxlength="200" />
+              </div>
+
+              <!-- X / Twitter -->
+              <div class="st-field">
+                <label for="tw" class="st-label">
+                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="4" y1="4" x2="20" y2="20"/>
+                    <path d="M4 4l7.5 8.5M20 4l-7.5 8.5M4 20l6-6.5M20 20l-6-6.5"/>
+                  </svg>
+                  X (Twitter)
+                </label>
+                <input id="tw" type="url" formControlName="twitter"
+                  class="st-input" placeholder="https://x.com/seuclube" maxlength="200" />
               </div>
 
               <!-- Facebook -->
@@ -363,45 +438,6 @@
                 <input id="yt" type="url" formControlName="youtube"
                   class="st-input" placeholder="https://youtube.com/@seuclube" maxlength="200" />
               </div>
-
-              <!-- WhatsApp -->
-              <div class="st-field">
-                <label for="wa" class="st-label">
-                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                  </svg>
-                  WhatsApp
-                </label>
-                <input id="wa" type="url" formControlName="whatsapp"
-                  class="st-input" placeholder="https://wa.me/5511999999999" maxlength="200" />
-                <p class="st-hint">Use o formato wa.me para links diretos.</p>
-              </div>
-
-              <!-- X / Twitter -->
-              <div class="st-field">
-                <label for="tw" class="st-label">
-                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <line x1="4" y1="4" x2="20" y2="20"/>
-                    <path d="M4 4l7.5 8.5M20 4l-7.5 8.5M4 20l6-6.5M20 20l-6-6.5"/>
-                  </svg>
-                  X (Twitter)
-                </label>
-                <input id="tw" type="url" formControlName="twitter"
-                  class="st-input" placeholder="https://x.com/seuclube" maxlength="200" />
-              </div>
-
-              <!-- TikTok -->
-              <div class="st-field">
-                <label for="tt" class="st-label">
-                  <svg class="st-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
-                  </svg>
-                  TikTok
-                </label>
-                <input id="tt" type="url" formControlName="tiktok"
-                  class="st-input" placeholder="https://tiktok.com/@seuclube" maxlength="200" />
-              </div>
-
             </div>
           </section>
         }
@@ -444,13 +480,20 @@
               </div>
 
               <div class="st-field">
-                <label for="sphone" class="st-label">Telefone de suporte</label>
+                <label for="sphone" class="st-label">Telefone de suporte
+                  <abbr title="obrigatório" class="st-required">*</abbr>
+                </label>
                 <div class="st-input-icon-wrap">
                   <svg class="st-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l1.94-1.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                   </svg>
                   <input id="sphone" type="tel" formControlName="supportPhone"
                     class="st-input st-input--icon" placeholder="(11) 3000-0000" maxlength="20" />
+                  @if (isInvalid('support.supportPhone')) {
+                    <p class="st-field-error" role="alert">
+                      @if (ctrl('support.supportPhone')?.errors?.['required']) { O telefone de suporte é obrigatório. }
+                    </p>
+                  }
                 </div>
               </div>
 

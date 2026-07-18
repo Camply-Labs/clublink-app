@@ -91,7 +91,14 @@ export interface ContactInfo {
   email?:           string;
 }
 
-export const DEFAULT_CONTACT_INFO: Readonly<ContactInfo> = {};
+export const DEFAULT_CONTACT_INFO: Readonly<ContactInfo> = {
+  meetingSchedule: 'Sábados às 15h e Domingos às 9h',
+  churchName:      'Igreja Adventista do Sétimo Dia',
+  addressLine1:    'Rua Exemplo, 123',
+  addressLine2:    'Bairro, Cidade – UF, CEP 00000-000',
+  phone:           '(11) 99999-9999',
+  email:           'contato@clublink.app'
+};
 
 // ── Suporte técnico ───────────────────────────────────────────────────────
 
@@ -129,8 +136,8 @@ export interface ResolvedClubCustomization {
 }
 
 export const DEFAULT_CLUB_CUSTOMIZATION: Readonly<ResolvedClubCustomization> = {
-  clubName:  'Meu Clube de Desbravadores',
-  logoUrl:   '',
+  clubName:  'ClubLink',
+  logoUrl:   '/img/clublink-logo.svg',
   social:    { ...DEFAULT_SOCIAL_LINKS },
   contact:   { ...DEFAULT_CONTACT_INFO },
   support:   { ...DEFAULT_SUPPORT_INFO },

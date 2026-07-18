@@ -15,6 +15,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { environment } from '../../../../environments/environment';
 import { AppThemeMode, THEME_CATALOG } from '../../models/app-config.model';
 import { ThemeService } from '../../../core/services/theme.service';
+import { CustomizationService }  from '../../../core/services/customization.service';
 
 @Component({
   selector: 'app-shell',
@@ -48,8 +49,8 @@ import { ThemeService } from '../../../core/services/theme.service';
       <a class="topbar-brand" routerLink="/podium">
         <app-club-logo [size]="42" />
         <span class="topbar-brand-name">
-          Garras de Águia
-          <small>Desbravadores</small>
+          {{ _customization.getValueOrDefault('clubName') }}
+          <small>Clube de Desbravadores</small>
         </span>
       </a>
 
@@ -347,6 +348,8 @@ export class ShellComponent {
   readonly currentTheme$   = this.themeService.currentTheme$;
   readonly isCollapsed$      = signal(false);
   readonly isThemePanelOpen$ = signal(false);
+
+  readonly _customization = inject(CustomizationService);
 
   /** Fecha o dropdown de usuário ao clicar em qualquer lugar fora */
   @HostListener('document:click', ['$event'])

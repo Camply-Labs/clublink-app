@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { CommonModule }          from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CustomizationService }  from '../../core/customization/customization.service';
+import { CustomizationService }  from '../../core/services/customization.service';
 import { ClubCustomization }     from '../../shared/models/app-config.model';
 
 /**
@@ -79,12 +79,12 @@ export class SettingsComponent implements OnInit {
         logoBase64: [''],
       }),
       contact: this._fb.group({
-        meetingSchedule: ['', Validators.maxLength(60)],
-        churchName:      ['', Validators.maxLength(100)],
-        addressLine1:    ['', Validators.maxLength(120)],
-        addressLine2:    ['', Validators.maxLength(80)],
-        phone:           ['', Validators.maxLength(20)],
-        email:           ['', [Validators.email, Validators.maxLength(100)]],
+        meetingSchedule: ['', [Validators.required, Validators.maxLength(60)]],
+        churchName:      ['', [Validators.required, Validators.maxLength(100)]],
+        addressLine1:    ['', [Validators.required, Validators.maxLength(120)]],
+        addressLine2:    ['', [Validators.required, Validators.maxLength(80)]],
+        phone:           ['', [Validators.required, Validators.maxLength(20)]],
+        email:           ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
       }),
       social: this._fb.group({
         instagram: ['', Validators.maxLength(200)],
@@ -96,7 +96,7 @@ export class SettingsComponent implements OnInit {
       }),
       support: this._fb.group({
         supportEmail: ['', [Validators.email, Validators.maxLength(100)]],
-        supportPhone: ['', Validators.maxLength(20)],
+        supportPhone: ['', [Validators.required, Validators.maxLength(20)]],
         docsUrl:      ['', Validators.maxLength(200)],
       }),
     });
@@ -239,10 +239,11 @@ export class SettingsComponent implements OnInit {
 
   // ── Utilitários privados ──────────────────────────────────────────────────
 
-  /** Remove entradas vazias/nulas antes de enviar ao Firestore */
+  /** Seta null em entradas vazias */
   private _clean<T extends Record<string, unknown>>(obj: T): Partial<T> {
     return Object.fromEntries(
-      Object.entries(obj).filter(([, v]) => v !== '' && v != null)
+      Object.entries(obj)
+        .map(([k, v]) => [k, (v === '' || v === null || v === undefined) ? '' : v])
     ) as Partial<T>;
   }
 }
