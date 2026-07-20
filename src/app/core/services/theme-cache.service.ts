@@ -20,7 +20,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class ThemeCacheService {
 
-  private readonly SCHEMA = '2'; // v2 — suporta nightsky
+  private readonly SCHEMA = '1';
 
   constructor(private _cache: LocalStorageCacheService) {}
 

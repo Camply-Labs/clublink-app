@@ -21,7 +21,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class CustomizationCacheService {
 
-  private readonly SCHEMA_VERSION = '3';
+  private readonly SCHEMA_VERSION = '1';
   private readonly TTL_MS = 0; // sem expiração — dura a sessão
 
   constructor(private _cache: LocalStorageCacheService) {}
