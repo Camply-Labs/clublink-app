@@ -1,56 +1,16 @@
 {
   "indexes": [
     {
-      "collectionGroup": "history",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "timestamp",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "users",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "googleUid",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "events",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "start",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "events",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "source",
+          "fieldPath": "isPrivate",
           "order": "ASCENDING"
         },
         {
           "fieldPath": "start",
           "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "import_log",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "importedAt",
-          "order": "DESCENDING"
         }
       ]
     },
@@ -61,6 +21,28 @@
         {
           "fieldPath": "pinned",
           "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "notifications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "channels",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "environment",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "target.type",
+          "order": "ASCENDING"
         },
         {
           "fieldPath": "createdAt",

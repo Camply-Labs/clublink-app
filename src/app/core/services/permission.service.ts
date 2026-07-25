@@ -15,7 +15,7 @@ export class PermissionService {
   /** Verdadeiro se o usuário atual é admin (acesso irrestrito) */
   readonly isAdmin = computed(() => {
     const u = this.auth.currentUser();
-    return u?.role === 'diretoria' && u.isAdmin === true;
+    return u?.role === 'admin';
   });
 
   readonly isDirector = computed(() =>
@@ -27,7 +27,7 @@ export class PermissionService {
     const u = this.auth.currentUser();
     if (!u) return false;
     if (u.role === 'desbravador') return false;
-    if (u.isAdmin) return true;                         // admin → tudo liberado
+    if (u.role === 'admin') return true;                         // admin → tudo liberado
     return (u.permissions ?? []).includes(key);
   }
 

@@ -4,6 +4,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
@@ -27,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideMessaging(() => getMessaging()),
 
     { provide: IUserRepository,    useClass: FirebaseUserRepository },
     { provide: IHistoryRepository, useClass: FirebaseHistoryRepository },

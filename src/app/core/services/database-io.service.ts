@@ -33,7 +33,6 @@ export interface ExportedUser {
   points:         number;
   photoUrl:       string;
   googleUid?:     string;
-  isAdmin?:       boolean;
   permissions?:   string[];
   createdAt?:     string | null;  // ISO string
   createdBy?:     string;
@@ -119,7 +118,6 @@ export class DatabaseIOService {
         points:        (data['points']        as number)   ?? 0,
         photoUrl:      (data['photoUrl']      as string)   ?? '',
         googleUid:     (data['googleUid']     as string)   ?? undefined,
-        isAdmin:       (data['isAdmin']       as boolean)  ?? false,
         permissions:   (data['permissions']   as string[]) ?? [],
         createdAt:     this.tsToIso(data['createdAt']),
         createdBy:     (data['createdBy']     as string)   ?? '',

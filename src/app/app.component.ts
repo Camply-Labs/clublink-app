@@ -79,6 +79,14 @@ readonly currentUrl = toSignal(
   });
 
   ngOnInit(): void {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data?.type === 'NAVIGATE') {
+          this.router.navigateByUrl(event.data.route);
+        }
+      });
+    }
+
     this._theme.init();
     this._customization.loadCustomization();
 
@@ -95,9 +103,9 @@ readonly currentUrl = toSignal(
           if (OVERRIDE_PATHS.some(p => url.startsWith(p))) return;
 
           if (!user && url !== '/login') {
-            this.router.navigate(['/login']);
+            this.router.navigateByUrl('/login');
           } else if (user && url === '/login') {
-            this.router.navigate([user.role === 'diretoria' ? '/podium' : '/my-points']);
+            this.router.navigateByUrl(user.role === 'diretoria' ? '/podium' : '/my-points');
           }
         });
       });

@@ -17,8 +17,8 @@ service cloud.firestore {
     // hasPerm: admin bypassa qualquer verificação de permissão individual
     function hasPerm(perm) {
       return isAuth()
-        && me().role == 'diretoria'
-        && (me().isAdmin == true
+        && me().role == 'admin'
+        && (me().role == 'admin'
             || (me().get('permissions', []) is list
                 && perm in me().get('permissions', [])));
     }
@@ -30,7 +30,13 @@ service cloud.firestore {
 
     // ── app_config ───────────────────────────────────────────
     // Leitura pública — necessário para exibir tela de status antes do login
-    match /app_config/{docId} {
+    match /app_config/status {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /app_config/customization {
       allow read: if true;
       allow create, update: if isAdmin()
         && request.resource.data.keys().hasAll(['status', 'since', 'updatedBy'])
@@ -171,9 +177,25 @@ service cloud.firestore {
       allow update, delete: if false;  // logs imutáveis
     }
 
-		// ── catch-all — nega tudo não mapeado acima ───────────────
+    // ── notifications ────────────────────────────────────────
+    // Publicado exclusivamente por serviço externo.
+    // O Angular apenas lê — nunca escreve nesta coleção.
+    match /notifications/{notifId} {
+      allow read: if isAuth();
+
+      allow update: if isAuth()
+        && request.resource.data.diff(resource.data)
+             .affectedKeys()
+             .hasOnly(['readBy'])
+             || hasPerm('notification.edit');
+
+      allow create: if hasPerm('notification.create');
+      allow delete: if hasPerm('notification.delete');
+    }
+
+    // ── catch-all — nega tudo não mapeado acima ───────────────
     match /{document=**} {
-      allow read, write: if hasPerm('members.edit');
+      allow read, write: if hasPerm('admin');
     }
   }
 }

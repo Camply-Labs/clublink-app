@@ -208,7 +208,7 @@ export class AdminOverrideComponent implements OnInit {
   ngOnInit(): void {
     // Se o usuário já está logado como admin, pula direto para o painel
     const user = this.authSvc.currentUser();
-    if (user?.role === 'diretoria' && user?.isAdmin) {
+    if (user?.role === 'admin') {
       this.prefillForm();
       this.step.set('panel');
     }
@@ -237,7 +237,7 @@ export class AdminOverrideComponent implements OnInit {
       }
 
       const data = snap.data() as Record<string, unknown>;
-      if (data['role'] !== 'diretoria' || data['isAdmin'] !== true) {
+      if (data['role'] !== 'admin') {
         await signOut(this.firebaseAuth);
         this.loginError.set('Acesso negado. Apenas administradores podem usar esta rota.');
         return;
@@ -253,7 +253,6 @@ export class AdminOverrideComponent implements OnInit {
         role:          'diretoria',
         points:        0,
         photoUrl:      (data['photoUrl']    as string) ?? '',
-        isAdmin:       true,
         permissions:   [],
       });
 

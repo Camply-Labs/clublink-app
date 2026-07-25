@@ -41,7 +41,6 @@ function docToUser(data: Record<string, unknown>, uid: string): User {
     photoUrl:      (data['photoUrl']      as string)          ?? '',
     birth:         (data['birth']          as string)          ?? undefined,
     googleUid:     (data['googleUid']     as string)          ?? undefined,
-    isAdmin:       (data['isAdmin']       as boolean)         ?? false,
     permissions:   (data['permissions']   as PermissionKey[]) ?? [],
     createdBy:     (data['createdBy']     as string)          ?? '',
     lastUpdatedBy: (data['lastUpdatedBy'] as string)          ?? '',
@@ -95,7 +94,6 @@ export class FirebaseUserRepository implements IUserRepository {
         points:      payload.points,
         photoUrl:    payload.photoUrl,
         birth:       payload.birth        ?? null,
-        isAdmin:     payload.isAdmin     ?? false,
         permissions: payload.permissions ?? [],
         createdAt:   serverTimestamp(),
         createdBy:   this.auth.currentUser?.uid ?? '',
@@ -120,7 +118,6 @@ export class FirebaseUserRepository implements IUserRepository {
       position:    payload.position,
       photoUrl:    payload.photoUrl,
       birth:       payload.birth       ?? null,
-      isAdmin:     payload.isAdmin     ?? false,
       permissions: payload.permissions ?? [],
       lastUpdate:  serverTimestamp(),
     });

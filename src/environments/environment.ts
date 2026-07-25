@@ -10,6 +10,11 @@ import { version } from "packageJson";
 export const environment = {
   production: false,
   version: version,
+  pushNotifications: {
+    active: false,
+    implementation: 'firebase',
+    swFile: '/firebase/firebase-messaging-sw.js',
+  },
   firebase: {
     apiKey:            'FIREBASE_API_KEY',
     authDomain:        'FIREBASE_AUTH_DOMAIN',
@@ -17,5 +22,6 @@ export const environment = {
     storageBucket:     'FIREBASE_STORAGE_BUCKET',
     messagingSenderId: 'FIREBASE_MESSAGING_SENDER_ID',
     appId:             'FIREBASE_APP_ID',
+    vapidKey:          'FIREBASE_VAPID_ID'
   },
 };

@@ -10,6 +10,7 @@
 /src/environments/environment.prod.ts
 /src/environments/environment.staging.ts
 /src/environments/environment.development.ts
+/public/pushNotifications/firebase/firebase-environments.js
 
 # Node
 /node_modules

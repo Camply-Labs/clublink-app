@@ -35,9 +35,9 @@ import { AvatarComponent } from '../../shared/components/avatar/avatar.component
           <div class="profile-position">{{ user()?.position }}</div>
         }
         <div class="profile-email">{{ user()?.email }}</div>
-        <div class="profile-role-badge" [class.is-admin]="user()?.isAdmin">
+        <div class="profile-role-badge" [class.is-admin]="user()?.role === 'admin'">
           @if (user()?.role === 'diretoria') {
-            {{ user()?.isAdmin ? '⭐ Administrador' : '👑 Diretoria' }}
+            {{ user()?.role === 'admin' ? '⭐ Administrador' : '👑 Diretoria' }}
           } @else {
             🦅 Desbravador
           }

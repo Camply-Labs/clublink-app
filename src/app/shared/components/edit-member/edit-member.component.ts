@@ -132,7 +132,7 @@ export class EditMemberComponent {
         unit:        u.unit,
         position:    u.position ?? '',
         birth:       u.birth    ?? '',
-        isAdmin:     u.isAdmin  ?? false,
+        isAdmin:     u.role === 'admin',
         permissions: [...(u.permissions ?? [])],
       };
       this.photoPreview.set(null);
@@ -170,7 +170,7 @@ export class EditMemberComponent {
         position:    this.form.position.trim(),
         photoUrl:    this.photoBase64 || u.photoUrl,
         birth:       this.form.birth || undefined,
-        isAdmin:     u.role === 'diretoria' ? this.form.isAdmin     : undefined,
+        role:        this.form.isAdmin ? 'admin' : u.role,
         permissions: u.role === 'diretoria' ? this.form.permissions : undefined,
       };
       await this.userSvc.updateProfile(u.uid, payload);

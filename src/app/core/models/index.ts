@@ -2,7 +2,7 @@
 //  MODELOS DE DOMÍNIO
 // ============================================================
 
-export type UserRole = 'desbravador' | 'diretoria';
+export type UserRole = 'desbravador' | 'diretoria' | 'admin';
 
 // ── Permissões granulares (apenas diretoria) ─────────────────
 export type PermissionKey =
@@ -45,7 +45,6 @@ export interface User {
   /** Data de nascimento ISO string (YYYY-MM-DD) */
   birth?:         string;
   googleUid?:     string;
-  isAdmin?:       boolean;
   permissions?:   PermissionKey[];
   createdAt?:     Date;
   createdBy?:     string;
@@ -81,7 +80,6 @@ export interface CreateUserPayload {
   points:       number;
   photoUrl:     string;
   birth?:       string;
-  isAdmin?:     boolean;
   permissions?: PermissionKey[];
 }
 
@@ -89,9 +87,9 @@ export interface UpdateProfilePayload {
   name:         string;
   unit:         string;
   position:     string;
+  role:         UserRole;
   photoUrl:     string;
   birth?:       string;
-  isAdmin?:     boolean;
   permissions?: PermissionKey[];
 }
 

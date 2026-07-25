@@ -16,13 +16,14 @@ import { environment } from '../../../../environments/environment';
 import { AppThemeMode, THEME_CATALOG } from '../../models/app-config.model';
 import { ThemeService } from '../../../core/services/theme.service';
 import { CustomizationService }  from '../../../core/services/customization.service';
+import { NotificationBellComponent } from '../notification-bell/notification-bell.component';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: 'shell.component.scss',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ClubLogoComponent, AvatarComponent, FooterComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ClubLogoComponent, AvatarComponent, FooterComponent, NotificationBellComponent],
   template: `
     <!-- ═══════════════════════════════════════════════════════
          TOPBAR
@@ -53,6 +54,9 @@ import { CustomizationService }  from '../../../core/services/customization.serv
           <small>Clube de Desbravadores</small>
         </span>
       </a>
+
+      <!-- Sino de notificações -->
+      <app-notification-bell />
 
       <!-- Avatar do usuário (abre dropdown de conta) -->
       <div class="topbar-user">
@@ -339,7 +343,7 @@ export class ShellComponent {
   readonly themeService  = inject(ThemeService);
 
   readonly user       = this.auth.currentUser;
-  readonly isDirector = computed(() => this.auth.currentUser()?.role === 'diretoria');
+  readonly isDirector = computed(() => this.auth.currentUser()?.role === 'diretoria' || this.auth.currentUser()?.role === 'admin');
   readonly sidebarOpen  = signal(false);
   readonly userMenuOpen = signal(false);
   readonly year = new Date().getFullYear();

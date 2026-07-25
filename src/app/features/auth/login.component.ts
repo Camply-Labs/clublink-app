@@ -5,6 +5,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take } from 'rxjs';
 import { Auth, sendPasswordResetEmail } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth.service';
+import { FcmService } from '../../core/services/fcm.service';
 import { ToastService } from '../../core/services/toast.service';
 import { ClubLinkLogoComponent } from '../../shared/components/clublink-logo/clublink-logo.component';
 
@@ -150,6 +151,7 @@ type View = 'login' | 'forgot';
 export class LoginComponent {
   private readonly firebaseAuth = inject(Auth);
   private readonly auth         = inject(AuthService);
+  private readonly fcm          = inject(FcmService);
   private readonly router       = inject(Router);
   private readonly toast        = inject(ToastService);
 
@@ -261,8 +263,13 @@ export class LoginComponent {
   }
 
   private navigateByRole(): void {
-    const role = this.auth.currentUser()?.role;
-    this.router.navigate([role === 'diretoria' ? '/podium' : '/my-points']);
+    const user = this.auth.currentUser();
+    if (user) {
+      // Registra token FCM e inicia listener de push em foreground
+      this.fcm.registerToken(user.uid);
+      this.fcm.startForegroundListener(user.uid);
+    }
+    this.router.navigate([user?.role !== 'desbravador' ? '/podium' : '/my-points']);
   }
 
   private friendlyError(err: { code?: string }): string {

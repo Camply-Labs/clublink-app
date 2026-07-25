@@ -24,7 +24,7 @@ export class UserService {
 
   getDirectors(): User[] {
     return this.users()
-      .filter(u => u.role === 'diretoria')
+      .filter(u => u.role === 'diretoria' || u.role === 'admin')
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 

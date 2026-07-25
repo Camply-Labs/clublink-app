@@ -91,7 +91,7 @@ export class AppStatusService {
     if (s.status === 'production') return false;
     // Admins não são bloqueados — podem ver a app mesmo em manutenção
     const user = this.auth.currentUser();
-    return !(user?.role === 'diretoria' && user?.isAdmin === true);
+    return !(user?.role === 'admin');
   }
 
   private tsToIso(v: unknown): string | null {

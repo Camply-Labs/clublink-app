@@ -53,6 +53,12 @@ export class AuthService {
     );
   }
 
+  getToken(): Promise<string | null> {
+    const user = this.auth.currentUser;
+    if (!user) return Promise.resolve(null);
+    return user.getIdToken();
+  }
+
   // ── Login com Google ────────────────────────────────────────
   async loginWithGoogle(): Promise<'ok' | 'not-registered'> {
     const provider = new GoogleAuthProvider();

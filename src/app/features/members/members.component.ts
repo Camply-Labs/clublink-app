@@ -67,7 +67,7 @@ type Tab = 'pathfinders' | 'directors';
             <div class="desb-points-label">pontos</div>
           } @else {
             <div class="desb-role-badge badge-diretoria">
-              {{ u.isAdmin ? '⭐ Admin' : 'Diretoria' }}
+              {{ u.role === 'admin' ? '⭐ Admin' : 'Diretoria' }}
             </div>
           }
 

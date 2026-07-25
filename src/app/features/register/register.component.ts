@@ -184,11 +184,10 @@ export class RegisterComponent {
         position:    position.trim(),
         email:       email.trim(),
         password,
-        role:        this.role(),
+        role:        this.form.isAdmin ? 'admin' : this.role(),
         birth:       this.form.birth || undefined,
         points:      this.role() === 'desbravador' ? Math.max(0, Number(points) || 0) : 0,
         photoUrl:    this.photoBase64,
-        isAdmin:     this.role() === 'diretoria' ? this.form.isAdmin : false,
         permissions: this.role() === 'diretoria' ? this.form.permissions : [],
       });
       this.toast.success(`${this.role() === 'diretoria' ? 'Diretoria' : 'Desbravador'} ${name.trim()} cadastrado!`);
