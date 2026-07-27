@@ -16,11 +16,14 @@ import {
   query,
   orderBy,
   where,
-  updateDoc,
+  setDoc,
+  serverTimestamp,
+  collectionGroup
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { AppNotification } from '../models/notification.model';
 import { environment } from '../../../environments/environment';
+import { combineLatest } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
@@ -55,30 +58,35 @@ export class NotificationService {
   }
 
   private startListeners(uid: string): void {
-    // ── Stream de notificações (PROD apenas) ─────────────────
     const targetList = this.auth.currentUser()?.role === 'desbravador' ? ['GLOBAL', 'DESBRAVADOR'] : ['GLOBAL', 'DESBRAVADOR', 'DIRETORIA'];
+
     const notifStream$ = collectionData(
       query(
         collection(this.firestore, 'notifications'),
         where('environment', '==', environment.production ? 'PROD' : 'DEV'),
         where('target.type', 'in', targetList),
         where('channels', 'array-contains', 'IN_APP'),
-        orderBy('createdAt', 'desc'),
+        orderBy('createdAt', 'desc')
       )
     );
 
-    notifStream$
+    const readsStream$ = collectionData(
+      query(
+        collectionGroup(this.firestore, 'readBy'),
+        where('userUid', '==', uid)
+      )
+    );
+
+    combineLatest([notifStream$, readsStream$])
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(notifs => {
-        const rawNotifs = notifs as AppNotification[];
+      .subscribe(([notifs, reads]) => {
+        const rawNotifs = notifs as unknown as AppNotification[];
 
         this.notifications.set(rawNotifs);
 
         this.readIds.set(
           new Set(
-            rawNotifs
-              .filter(notification => notification.readBy?.[uid])
-              .map(notification => notification.id)
+            (reads as unknown as { notificationId: string }[]).map(read => read.notificationId)
           )
         );
       });
@@ -89,16 +97,19 @@ export class NotificationService {
    * Cria o documento em users/{uid}/notification_reads/{notifId}.
    */
   async markAsRead(notifId: string): Promise<void> {
+    if(this.isRead(notifId)) return;
+
     const uid = this.auth.currentUser()?.uid;
     if (!uid) return;
 
-    const ref = doc(this.firestore, 'notifications', notifId);
-
-    updateDoc(ref, {
-      [`readBy.${uid}`]: {
-        readAt: new Date().toISOString()
+    await setDoc(
+      doc(this.firestore, 'notifications', notifId, 'readBy', uid),
+      {
+        notificationId: notifId,
+        userUid: uid,
+        readAt: serverTimestamp()
       }
-    });
+    );
 
     this.readIds.update(set => {
       set.add(notifId);
